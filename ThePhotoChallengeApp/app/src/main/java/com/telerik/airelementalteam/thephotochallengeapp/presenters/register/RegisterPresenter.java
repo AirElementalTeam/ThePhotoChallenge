@@ -21,15 +21,22 @@ public class RegisterPresenter {
     }
 
     public void attemptRegistration(String email, String name, String password, String confirmPassword){
+        System.out.println("Inside attemptRegistration method of RegisterPresenter");
         boolean validResult = validator.validateRegister(email, name, password, confirmPassword);
-        if(!validator.validateRegister(email, name, password, confirmPassword)){
+        System.out.println("After validator back in attemptRegistration. VALIDATOR RESULT: ----> " + validResult);
+        if(!validResult){
             return;
         }
         firebase.openConnection(activity);
-        if(firebase.registerUser(email, password)){
+        System.out.println("After opened connection to Firebase");
+        boolean result = firebase.registerUser(email, password);
+        System.out.println("Back in RegisterPresenter -> registerUser returned " + result);
+        if(result) {
+            System.out.println("Success" + result);
             onSuccesRegistration();
         }
         else {
+            System.out.println("Fail" + result);
             validator.TerribleError();
         }
     }

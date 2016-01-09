@@ -44,8 +44,10 @@ public class FirebaseConnection {
     }
 
     public boolean registerUser(String email, String password){
+        System.out.println("Inside registerUser method in FirebaseConnection class");
         refDB.createUser(email, password,
                 new Firebase.ValueResultHandler<Map<String, Object>>() {
+
                     @Override
                     public void onSuccess(Map<String, Object> stringObjectMap) {
                         System.out.println("Successfully created user account with uid: " + stringObjectMap.get("uid"));
@@ -54,10 +56,12 @@ public class FirebaseConnection {
 
                     @Override
                     public void onError(FirebaseError firebaseError) {
+                        System.out.println("Inside onError method when registering user to Firebase");
                         boolResult = false;
 
                     }
                 });
+        System.out.println("Before exiting registerUser method in FirebaseConnection class the boolResult to return is ---->  " + boolResult);
         return boolResult;
     }
 
