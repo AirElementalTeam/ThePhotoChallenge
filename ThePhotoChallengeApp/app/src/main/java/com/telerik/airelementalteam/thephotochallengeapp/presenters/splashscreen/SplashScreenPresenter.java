@@ -12,11 +12,11 @@ public class SplashScreenPresenter implements IPresenter {
 
     public SplashScreenPresenter(Activity activity){
         this.activity = activity;
-        firebase = new FirebaseConnection(activity);
+        firebase = new FirebaseConnection();
     }
 
     public boolean isAuthUser(){
-        firebase.openConnection(activity);
+        firebase.openConnection();
         if(!firebase.authUser()){
             return false;
         }

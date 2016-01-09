@@ -16,13 +16,13 @@ public class LoginPresenter implements IPresenter {
 
     public LoginPresenter(Activity activity){
         this.activity = activity;
-        this.firebase = new FirebaseConnection(this.activity);
+        this.firebase = new FirebaseConnection();
         validator = new Validator(this.activity);
     }
 
     public boolean succesfullLogin(String email, String password) {
         validator.validateLogin(email, password);
-        firebase.openConnection(activity);
+        firebase.openConnection();
         if(firebase.loginUser(email, password)){
             return true;
         }

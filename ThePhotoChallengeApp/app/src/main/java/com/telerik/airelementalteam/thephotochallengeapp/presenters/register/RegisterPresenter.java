@@ -20,7 +20,7 @@ public class RegisterPresenter implements IOnTaskFinishedListener {
 
     public RegisterPresenter(Activity activity){
         this.activity = activity;
-        this.firebase = new FirebaseConnection(this.activity);
+        this.firebase = new FirebaseConnection();
         this.validator = new Validator(this.activity);
     }
 
@@ -34,7 +34,7 @@ public class RegisterPresenter implements IOnTaskFinishedListener {
 
         progressDialog = ProgressDialog.show(activity, "Singing up...", null);
         progressDialog.show();
-        firebase.openConnection(activity);
+        firebase.openConnection();
         System.out.println("After opened connection to Firebase");
         firebase.registerUser(email, password, this);
     }
@@ -46,7 +46,6 @@ public class RegisterPresenter implements IOnTaskFinishedListener {
         Intent intent = new Intent(context, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
-        //android.util.AndroidRuntimeException: Calling startActivity() from outside of an Activity  context requires the FLAG_ACTIVITY_NEW_TASK flag. Is this really what you want?
     }
 
     @Override

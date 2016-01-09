@@ -16,7 +16,7 @@ public class HomePresenter implements IPresenter{
 
     public HomePresenter(Activity activity){
         this.activity = activity;
-        this.firebase = new FirebaseConnection(this.activity);
+        this.firebase = new FirebaseConnection();
         validator = new Validator(this.activity);
     }
 

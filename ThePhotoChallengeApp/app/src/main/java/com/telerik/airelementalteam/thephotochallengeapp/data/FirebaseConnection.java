@@ -25,9 +25,8 @@ public class FirebaseConnection {
     private boolean boolResult;
     private AsyncTaskInteractor interactor;
 
-    public FirebaseConnection(Activity activity) {
-        this.activity = activity;
-        Firebase.setAndroidContext(activity);
+    public FirebaseConnection() {
+        //Firebase.setAndroidContext(activity);
         this.refDB = new Firebase(firebaseConnection);
         this.refUsers = new Firebase(usersConnection);
         this.refChallanges = new Firebase(challengesConnection);
@@ -37,8 +36,8 @@ public class FirebaseConnection {
     }
 
 
-    public FirebaseConnection openConnection(Activity activity){
-        return new FirebaseConnection(activity);
+    public FirebaseConnection openConnection(){
+        return new FirebaseConnection();
     }
 
     public void registerUser(String email, String password, IOnTaskFinishedListener listener){
