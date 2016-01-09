@@ -37,9 +37,12 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
+
+                presenter.attemptLogin(email, password);
+
                 progressDialog = ProgressDialog.show(LoginActivity.this, "Authenticating...", null);
                 progressDialog.show();
-               // if(presenter.succesfullLogin(email, password)){
+               // if(presenter.attemptLogin(email, password)){
                     successLogin();
                // }
                 progressDialog.cancel();
