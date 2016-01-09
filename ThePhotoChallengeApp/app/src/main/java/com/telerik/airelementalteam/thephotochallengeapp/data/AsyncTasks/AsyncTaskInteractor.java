@@ -1,5 +1,6 @@
 package com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
@@ -30,6 +31,17 @@ public class AsyncTaskInteractor {
     }
 
     public void asyncLoginUser(Firebase refDB, final IOnTaskFinishedListener listener, String email, String password){
+        refDB.authWithPassword(email, password, new Firebase.AuthResultHandler() {
+            @Override
+            public void onAuthenticated(AuthData authData) {
+                listener.onSuccess();
+            }
 
+            @Override
+            public void onAuthenticationError(FirebaseError firebaseError) {
+
+                listener.onError();
+            }
+        });
     }
 }

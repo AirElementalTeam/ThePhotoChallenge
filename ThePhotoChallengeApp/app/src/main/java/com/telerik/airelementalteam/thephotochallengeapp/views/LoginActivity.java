@@ -39,9 +39,9 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordInput.getText().toString();
                 progressDialog = ProgressDialog.show(LoginActivity.this, "Authenticating...", null);
                 progressDialog.show();
-                if(presenter.succesfullLogin(email, password)){
+               // if(presenter.succesfullLogin(email, password)){
                     successLogin();
-                }
+               // }
                 progressDialog.cancel();
             }
         });

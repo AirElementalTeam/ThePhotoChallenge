@@ -46,20 +46,8 @@ public class FirebaseConnection {
         System.out.println("Before exiting registerUser method in FirebaseConnection class");
     }
 
-    public boolean loginUser(String email, String password){
-
-        refDB.authWithPassword(email, password, new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                boolResult = true;
-            }
-
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                boolResult = false;
-            }
-        });
-        return boolResult;
+    public void loginUser(String email, String password, IOnTaskFinishedListener listener){
+        interactor.asyncLoginUser(refDB, listener, email, password);
     }
 
     public boolean authUser(){
