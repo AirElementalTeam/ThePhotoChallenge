@@ -5,9 +5,9 @@ import com.firebase.client.FirebaseError;
 
 import java.util.Map;
 
-public class AsyncRegisterInteractor {
+public class AsyncTaskInteractor {
 
-    public void asyncRegisterUser(Firebase refDB, final IOnRegisterFinishedListener listener, String email, String password){
+    public void asyncRegisterUser(Firebase refDB, final IOnTaskFinishedListener listener, String email, String password){
         System.out.println("Inside asyncRegisterUser in AsyncRegisterInteractor");
         refDB.createUser(email, password,
                 new Firebase.ValueResultHandler<Map<String, Object>>() {
@@ -21,10 +21,15 @@ public class AsyncRegisterInteractor {
                     @Override
                     public void onError(FirebaseError firebaseError) {
                         listener.onError();
+                        //check if the error is that this email is already taken
                         System.out.println("Inside onError method when registering user to Firebase");
 
                     }
                 });
         System.out.println("Before exiting asyncRegisterUser in AsyncRegisterInteractor");
+    }
+
+    public void asyncLoginUser(Firebase refDB, final IOnTaskFinishedListener listener, String email, String password){
+
     }
 }

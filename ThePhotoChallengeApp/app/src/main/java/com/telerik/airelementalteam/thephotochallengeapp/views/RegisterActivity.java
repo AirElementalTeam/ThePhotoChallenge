@@ -1,5 +1,6 @@
 package com.telerik.airelementalteam.thephotochallengeapp.views;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     @InjectView(R.id.link_login)TextView loginLink;
 
     private RegisterPresenter presenter;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String confirmPassword = passConfirmText.getText().toString();
 
                 System.out.println("Email: " + email + "; Name: " + name + "; Pass: " + password + "; confirmPass: " + confirmPassword);
+
                 presenter.attemptRegistration(email, name, password, confirmPassword);
             }
         });

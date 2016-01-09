@@ -1,18 +1,12 @@
 package com.telerik.airelementalteam.thephotochallengeapp.data;
 
 import android.app.Activity;
-import android.app.Application;
-import android.content.Context;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.telerik.airelementalteam.thephotochallengeapp.R;
-import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncRegisterInteractor;
-import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnRegisterFinishedListener;
-import com.telerik.airelementalteam.thephotochallengeapp.models.User;
-
-import java.util.Map;
+import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncTaskInteractor;
+import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
 
 public class FirebaseConnection {
     final String firebaseConnection = "https://thephotobag.firebaseio.com";
@@ -29,7 +23,7 @@ public class FirebaseConnection {
 
     private Activity activity;
     private boolean boolResult;
-    private AsyncRegisterInteractor interactor;
+    private AsyncTaskInteractor interactor;
 
     public FirebaseConnection(Activity activity) {
         this.activity = activity;
@@ -39,7 +33,7 @@ public class FirebaseConnection {
         this.refChallanges = new Firebase(challengesConnection);
         this.refPhotos = new Firebase(photosConnection);
         this.refThemes = new Firebase(themesConnection);
-        this.interactor = new AsyncRegisterInteractor();
+        this.interactor = new AsyncTaskInteractor();
     }
 
 
@@ -47,7 +41,7 @@ public class FirebaseConnection {
         return new FirebaseConnection(activity);
     }
 
-    public void registerUser(String email, String password, IOnRegisterFinishedListener listener){
+    public void registerUser(String email, String password, IOnTaskFinishedListener listener){
         System.out.println("Inside registerUser method in FirebaseConnection class");
         interactor.asyncRegisterUser(refDB, listener, email, password);
         System.out.println("Before exiting registerUser method in FirebaseConnection class");
