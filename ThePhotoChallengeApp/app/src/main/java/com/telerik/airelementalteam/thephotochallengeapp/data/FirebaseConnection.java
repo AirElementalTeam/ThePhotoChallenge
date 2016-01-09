@@ -8,6 +8,8 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.telerik.airelementalteam.thephotochallengeapp.R;
+import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncRegisterInteractor;
+import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnRegisterFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.models.User;
 
 import java.util.Map;
@@ -27,7 +29,8 @@ public class FirebaseConnection {
 
     private Activity activity;
     private boolean boolResult;
-    
+    private AsyncRegisterInteractor interactor;
+
     public FirebaseConnection(Activity activity) {
         this.activity = activity;
         Firebase.setAndroidContext(activity);
@@ -36,6 +39,7 @@ public class FirebaseConnection {
         this.refChallanges = new Firebase(challengesConnection);
         this.refPhotos = new Firebase(photosConnection);
         this.refThemes = new Firebase(themesConnection);
+        this.interactor = new AsyncRegisterInteractor();
     }
 
 
@@ -43,26 +47,10 @@ public class FirebaseConnection {
         return new FirebaseConnection(activity);
     }
 
-    public boolean registerUser(String email, String password){
+    public void registerUser(String email, String password, IOnRegisterFinishedListener listener){
         System.out.println("Inside registerUser method in FirebaseConnection class");
-        refDB.createUser(email, password,
-                new Firebase.ValueResultHandler<Map<String, Object>>() {
-
-                    @Override
-                    public void onSuccess(Map<String, Object> stringObjectMap) {
-                        System.out.println("Successfully created user account with uid: " + stringObjectMap.get("uid"));
-                        boolResult = true;
-                    }
-
-                    @Override
-                    public void onError(FirebaseError firebaseError) {
-                        System.out.println("Inside onError method when registering user to Firebase");
-                        boolResult = false;
-
-                    }
-                });
-        System.out.println("Before exiting registerUser method in FirebaseConnection class the boolResult to return is ---->  " + boolResult);
-        return boolResult;
+        interactor.asyncRegisterUser(refDB, listener, email, password);
+        System.out.println("Before exiting registerUser method in FirebaseConnection class");
     }
 
     public boolean loginUser(String email, String password){
