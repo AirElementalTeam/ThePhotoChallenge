@@ -1,14 +1,13 @@
-package com.telerik.airelementalteam.thephotochallengeapp.data;
+package com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks;
 
 import android.app.Application;
 
 import com.firebase.client.Firebase;
 
-public class ThePhotoChallangeApp extends Application {
+public class ThePhotoChallengeApp extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
         Firebase.setAndroidContext(this);
     }
-
 }

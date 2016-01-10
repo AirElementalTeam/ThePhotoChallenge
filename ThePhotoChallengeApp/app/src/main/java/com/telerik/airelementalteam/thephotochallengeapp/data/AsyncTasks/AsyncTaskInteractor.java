@@ -39,7 +39,6 @@ public class AsyncTaskInteractor {
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
-
                 listener.onError();
             }
         });

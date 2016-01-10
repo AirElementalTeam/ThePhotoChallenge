@@ -16,7 +16,7 @@ public class Validator {
     final String MISMATCH_PASS_MSG = "Those two password sure don't look the same to me.";
     final String INVALID_PASS_MSG = "Passwords should between 4 and 10 alphanumeric characters. Sorry, try again.";
     final String TERRIBLE_ERROR_TITLE = "Oh no!";
-    final String TERRIBLE_ERROE_MSG = "Some terrible error happened... We are very sorry! Try again.";
+    final String TERRIBLE_ERROR_MSG = "Some terrible error happened... We are very sorry! Try again.";
 
     private Activity activity;
     private MessageDialog errorMessage;
@@ -107,7 +107,7 @@ public class Validator {
 
     public void TerribleError(){
         errorMessage.setTitle(TERRIBLE_ERROR_TITLE);
-        errorMessage.setMessage(TERRIBLE_ERROE_MSG);
+        errorMessage.setMessage(TERRIBLE_ERROR_MSG);
         errorMessage.show();
         return;
     }

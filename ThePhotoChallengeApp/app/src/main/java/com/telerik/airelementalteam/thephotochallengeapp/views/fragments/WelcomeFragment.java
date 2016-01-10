@@ -1,4 +1,4 @@
-package com.telerik.airelementalteam.thephotochallengeapp.views;
+package com.telerik.airelementalteam.thephotochallengeapp.views.fragments;
 
 import android.content.Context;
 import android.net.Uri;

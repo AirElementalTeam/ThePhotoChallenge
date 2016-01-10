@@ -39,15 +39,6 @@ public class LoginPresenter implements IOnTaskFinishedListener {
 
     }
 
-//    @Override
- //   public void bind(Object object, Activity activity) {
-
-//    }
-
- //   @Override
- //   public void go(Activity activity) {
-
-
     @Override
     public void onSuccess() {
         progressDialog.hide();

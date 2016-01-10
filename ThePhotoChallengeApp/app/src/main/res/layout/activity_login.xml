@@ -11,7 +11,7 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:src="@drawable/camera_icon"
+        android:src="@drawable/contact_icon"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/img_small_height"
         android:layout_centerHorizontal="true" />
