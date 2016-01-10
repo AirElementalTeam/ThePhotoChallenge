@@ -27,8 +27,18 @@ public class LoginPresenter implements IOnTaskFinishedListener {
 
     public void attemptLogin(String email, String password) {
         validator.validateLogin(email, password);
+
+        progressDialog = ProgressDialog.show(activity, "Authenticating...", null);
+        progressDialog.show();
         firebase.openConnection();
         firebase.loginUser(email, password, this);
+
+
+;
+        // if(presenter.attemptLogin(email, password)){
+        //     successLogin();
+        // }
+        // progressDialog.cancel();
     }
 
 //    @Override
@@ -48,7 +58,7 @@ public class LoginPresenter implements IOnTaskFinishedListener {
 
     @Override
     public void onSuccess() {
-        //progressDialog.hide();
+        progressDialog.hide();
         Context context = activity.getApplicationContext();
         Intent intent = new Intent(context, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -57,7 +67,7 @@ public class LoginPresenter implements IOnTaskFinishedListener {
 
     @Override
     public void onError() {
-       // progressDialog.hide();
+        progressDialog.hide();
         validator.TerribleError();
     }
 }
