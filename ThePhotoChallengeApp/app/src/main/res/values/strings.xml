@@ -20,4 +20,12 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="create_challenge">Create Challenge</string>
+    <string name="friends">Friends</string>
+    <string name="favs">Favourites</string>
+    <string name="challenges">Challenges</string>
+    <string name="search_challenges">Search Challenges</string>
+    <string name="share">Share</string>
+    <string name="weekly_ranking">Weekly Ranking</string>
+    <string name="browse">Browse</string>
 </resources>
