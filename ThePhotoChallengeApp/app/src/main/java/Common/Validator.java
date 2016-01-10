@@ -36,19 +36,20 @@ public class Validator {
         errorMessage.show();
     }
 
-    public void validateLogin(String email, String password){
+    public boolean validateLogin(String email, String password){
         if(email.isEmpty()){
             errorMessage.setTitle(INVALID_EMAIL_TITLE);
             errorMessage.setMessage(EMPTY_EMAIL_MSG);
             errorMessage.show();
-            return;
+            return false;
         }
         if(password.isEmpty()){
             errorMessage.setTitle(INVALID_PASS_TITLE);
             errorMessage.setMessage(EMPTY_PASS_MSG);
             errorMessage.show();
-            return;
+            return false;
         }
+        return true;
     }
 
     public boolean validateRegister(String email, String name, String password, String passwordConfirm){

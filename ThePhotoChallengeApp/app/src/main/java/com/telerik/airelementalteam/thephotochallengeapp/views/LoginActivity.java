@@ -23,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
     @InjectView(R.id.link_signup) TextView linkSignUp;
 
     private LoginPresenter presenter;
-    //private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +39,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 presenter.attemptLogin(email, password);
 
-                //progressDialog = ProgressDialog.show(LoginActivity.this, "Authenticating...", null);
-               // progressDialog.show();
-               // if(presenter.attemptLogin(email, password)){
-               //     successLogin();
-               // }
-               // progressDialog.cancel();
             }
         });
 
@@ -57,9 +50,4 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
-   // public void successLogin(){
-   //     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-   //     startActivity(intent);
-   // }
 }

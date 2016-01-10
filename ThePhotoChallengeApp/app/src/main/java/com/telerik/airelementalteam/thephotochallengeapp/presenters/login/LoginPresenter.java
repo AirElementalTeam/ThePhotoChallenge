@@ -26,19 +26,17 @@ public class LoginPresenter implements IOnTaskFinishedListener {
     }
 
     public void attemptLogin(String email, String password) {
-        validator.validateLogin(email, password);
+        boolean validResult = validator.validateLogin(email, password);
+        if(!validResult)
+        {
+            return;
+        }
 
         progressDialog = ProgressDialog.show(activity, "Authenticating...", null);
         progressDialog.show();
         firebase.openConnection();
         firebase.loginUser(email, password, this);
 
-
-;
-        // if(presenter.attemptLogin(email, password)){
-        //     successLogin();
-        // }
-        // progressDialog.cancel();
     }
 
 //    @Override
@@ -49,12 +47,6 @@ public class LoginPresenter implements IOnTaskFinishedListener {
  //   @Override
  //   public void go(Activity activity) {
 
- //   }
-
- //   @Override
- //   public void onSucceed(){
-
- //   }
 
     @Override
     public void onSuccess() {
@@ -68,6 +60,6 @@ public class LoginPresenter implements IOnTaskFinishedListener {
     @Override
     public void onError() {
         progressDialog.hide();
-        validator.TerribleError();
+        validator.invalidCredentials();
     }
 }

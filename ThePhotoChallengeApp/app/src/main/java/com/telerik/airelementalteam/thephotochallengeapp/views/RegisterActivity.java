@@ -26,12 +26,12 @@ public class RegisterActivity extends AppCompatActivity {
     @InjectView(R.id.link_login)TextView loginLink;
 
     private RegisterPresenter presenter;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         ButterKnife.inject(this);
         presenter = new RegisterPresenter(this);
 
