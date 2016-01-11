@@ -6,11 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
+import com.telerik.airelementalteam.thephotochallengeapp.data.DatabaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseConnection;
 import Common.Validator;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.IPresenter;
 import com.telerik.airelementalteam.thephotochallengeapp.views.HomeActivity;
 import com.telerik.airelementalteam.thephotochallengeapp.views.RegisterActivity;
+
+import java.util.Arrays;
 
 public class LoginPresenter implements IOnTaskFinishedListener {
     private Activity activity;
@@ -18,11 +21,13 @@ public class LoginPresenter implements IOnTaskFinishedListener {
     private FirebaseConnection firebase;
 
     private ProgressDialog progressDialog;
+    DatabaseAdapter helper;
 
     public LoginPresenter(Activity activity){
         this.activity = activity;
         this.firebase = new FirebaseConnection();
         validator = new Validator(this.activity);
+        helper = new DatabaseAdapter(this.activity);
     }
 
     public void attemptLogin(String email, String password) {
@@ -36,6 +41,14 @@ public class LoginPresenter implements IOnTaskFinishedListener {
         progressDialog.show();
         firebase.openConnection();
         firebase.loginUser(email, password, this);
+
+        helper.openDB();
+        String[] names = helper.getAllNames();
+
+        if(!(Arrays.asList(names).contains(email)))
+        {
+            long id = helper.insertData(email, password);
+        }
 
     }
 

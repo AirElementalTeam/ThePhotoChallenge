@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/text_input_top_bottom_margin"
             android:layout_marginBottom="@dimen/text_input_top_bottom_margin">
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/emailInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:layout_marginTop="@dimen/text_input_top_bottom_margin"
             android:layout_marginBottom="@dimen/text_input_top_bottom_margin"
             android:layout_below="@+id/emailLayout">
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/passInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
