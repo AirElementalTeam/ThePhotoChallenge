@@ -6,8 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
-import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseConnection;
-import com.telerik.airelementalteam.thephotochallengeapp.views.HomeActivity;
+import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.views.LoginActivity;
 
 import Common.Validator;
@@ -15,13 +14,13 @@ import Common.Validator;
 public class RegisterPresenter implements IOnTaskFinishedListener {
     private Activity activity;
     private Validator validator;
-    private FirebaseConnection firebase;
+    private FirebaseAdapter firebase;
 
     private ProgressDialog progressDialog;
 
     public RegisterPresenter(Activity activity){
         this.activity = activity;
-        this.firebase = new FirebaseConnection();
+        this.firebase = new FirebaseAdapter();
         this.validator = new Validator(this.activity);
     }
 

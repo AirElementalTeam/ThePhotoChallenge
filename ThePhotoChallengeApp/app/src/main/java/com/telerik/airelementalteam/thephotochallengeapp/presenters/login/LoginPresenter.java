@@ -7,18 +7,18 @@ import android.content.Intent;
 
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.DatabaseAdapter;
-import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseConnection;
+
 import Common.Validator;
-import com.telerik.airelementalteam.thephotochallengeapp.presenters.IPresenter;
+
+import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.views.HomeActivity;
-import com.telerik.airelementalteam.thephotochallengeapp.views.RegisterActivity;
 
 import java.util.Arrays;
 
 public class LoginPresenter implements IOnTaskFinishedListener {
     private Activity activity;
     private Validator validator;
-    private FirebaseConnection firebase;
+    private FirebaseAdapter firebase;
     private DatabaseAdapter SQLite;
 
     private ProgressDialog progressDialog;
@@ -26,7 +26,7 @@ public class LoginPresenter implements IOnTaskFinishedListener {
 
     public LoginPresenter(Activity activity){
         this.activity = activity;
-        this.firebase = new FirebaseConnection();
+        this.firebase = new FirebaseAdapter();
         validator = new Validator(this.activity);
         SQLite = new DatabaseAdapter(this.activity);
     }

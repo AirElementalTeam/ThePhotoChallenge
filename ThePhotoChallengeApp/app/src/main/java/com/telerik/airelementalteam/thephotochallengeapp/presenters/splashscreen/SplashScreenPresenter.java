@@ -2,17 +2,17 @@ package com.telerik.airelementalteam.thephotochallengeapp.presenters.splashscree
 
 import android.app.Activity;
 
-import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseConnection;
+import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.IPresenter;
 
 public class SplashScreenPresenter implements IPresenter {
     private Activity activity;
-    private FirebaseConnection firebase;
+    private FirebaseAdapter firebase;
 
 
     public SplashScreenPresenter(Activity activity){
         this.activity = activity;
-        firebase = new FirebaseConnection();
+        firebase = new FirebaseAdapter();
     }
 
     public boolean isAuthUser(){
