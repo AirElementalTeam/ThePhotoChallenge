@@ -28,7 +28,6 @@ public class AsyncTaskInteractor {
                         System.out.println("error code is ----> "+firebaseError.getCode());
                         System.out.println(firebaseError.getMessage());
                         System.out.println(firebaseError.getDetails());
-                        System.out.println("EMAIL IS ------> "+email);
                         switch (firebaseError.getCode()){
                             case FirebaseError.INVALID_EMAIL:
                                 System.out.println("INVALID_EMAIL");
@@ -48,9 +47,6 @@ public class AsyncTaskInteractor {
 
                         }
                         listener.onError();
-                        //check if the error is that this email is already taken
-                        System.out.println("Inside onError method when registering user to Firebase");
-
                     }
                 });
     }

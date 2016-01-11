@@ -22,11 +22,8 @@ public class FirebaseConnection {
     private Firebase refPhotos;
     private Firebase refThemes;
 
-    private Activity activity;
-    private boolean boolResult;
+    //private Activity activity;
     private AsyncTaskInteractor interactor;
-
-    private String userUID;
 
     public FirebaseConnection() {
         this.refDB = new Firebase(firebaseConnection);
@@ -61,32 +58,7 @@ public class FirebaseConnection {
         }
     }
 
-    public String getUserUID(String email, String password){
-        refDB.authWithPassword(email, password,
-                new Firebase.AuthResultHandler() {
-                    @Override
-                    public void onAuthenticated(AuthData authData) {
-                        userUID = authData.getUid();
-                    }
-
-                    @Override
-                    public void onAuthenticationError(FirebaseError firebaseError) {
-                        //no such case :D
-
-                    }
-                });
-        return userUID;
-    }
-
     public void logoutUser(){
         refDB.unauth();
-    }
-
-    // adding data to database
-    public void addUser(String name, String email, String password){
-        String uid = this.getUserUID(email, password);
-        User userToAdd = new User(uid, name, email);
-        Firebase refNewUser = refUsers.child(uid);
-        refNewUser.setValue(userToAdd);
     }
 }
