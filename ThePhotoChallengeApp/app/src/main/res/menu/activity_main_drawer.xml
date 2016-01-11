@@ -19,19 +19,21 @@
             android:id="@+id/nav_friends"
             android:icon="@drawable/ic_action_balloon"
             android:title="@string/friends" />
+        <item
+            android:id="@+id/nav_browse"
+            android:icon="@drawable/ic_browse"
+            android:title="@string/browse" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_ranking"
-                android:icon="@drawable/ic_action_achievement"
-                android:title="@string/weekly_ranking" />
-            <item
-                android:id="@+id/nav_browse"
-                android:icon="@drawable/ic_browse"
-                android:title="@string/browse" />
-        </menu>
-    </item>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_ranking"
+            android:icon="@drawable/ic_action_achievement"
+            android:title="@string/weekly_ranking" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_action_gear"
+            android:title="@string/action_settings"/>
+    </group>
 
 </menu>

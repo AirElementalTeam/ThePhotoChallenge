@@ -1,5 +1,6 @@
 package com.telerik.airelementalteam.thephotochallengeapp.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -18,6 +19,11 @@ public class User {
         this.uid = uid;
         this.name = name;
         this.email = email;
+        this.challangesIDs = new ArrayList<>();
+        this.challangesByUserIDs = new ArrayList<>();
+        this.photosIDs = new ArrayList<>();
+        this.favouritePhotosIDs = new ArrayList<>();
+        this.friendsIDs = new ArrayList<>();
     }
 
     public String getUid(){

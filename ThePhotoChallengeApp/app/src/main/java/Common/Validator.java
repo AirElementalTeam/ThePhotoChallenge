@@ -53,13 +53,11 @@ public class Validator {
     }
 
     public boolean validateRegister(String email, String name, String password, String passwordConfirm){
-        System.out.println("Inside Validator validateRegister method");
         if(!password.equals(passwordConfirm)){
             System.out.println("Inside IF PASSWORDS ARE NOT EQUAL");
             errorMessage.setTitle(INVALID_PASS_TITLE);
             errorMessage.setMessage(MISMATCH_PASS_MSG);
             errorMessage.show();
-            System.out.println("After showing message dialog for PASS MISMATCH? Is it returning false after this?");
             return false;
         }
 
@@ -68,7 +66,6 @@ public class Validator {
             errorMessage.setTitle(INVALID_EMAIL_TITLE);
             errorMessage.setMessage(EMPTY_EMAIL_MSG);
             errorMessage.show();
-            System.out.println("After showing message dialog for EMPTY MAIL? Is it returning false as it should?");
             return false;
         }
 
@@ -77,7 +74,6 @@ public class Validator {
             errorMessage.setTitle(INVALID_EMAIL_TITLE);
             errorMessage.setMessage(INVALID_EMAIL_MSG);
             errorMessage.show();
-            System.out.println("After showing message dialog for INVALID EMAIL ADDRESS? Is it returning false as it should?");
             return false;
         }
 
@@ -87,7 +83,6 @@ public class Validator {
             errorMessage.setTitle(INVALID_PASS_TITLE);
             errorMessage.setMessage(INVALID_PASS_MSG);
             errorMessage.show();
-            System.out.println("After showing message dialog for INVALID PASS LENGTH? Is it returning false as it should?");
             return false;
         }
 
@@ -96,11 +91,9 @@ public class Validator {
             errorMessage.setTitle(INVALID_NAME_TITLE);
             errorMessage.setMessage(EMPTY_NAME_MSG);
             errorMessage.show();
-            System.out.println("After showing message dialog for EMPTY NAME? Is it returning false as it should?");
             return false;
         }
         else {
-            System.out.println("INSIDE ELSE STATEMENT IN VALIDATE REGISTER ---> YOU SHOULD NOT BE HERE");
             return true;
         }
     }

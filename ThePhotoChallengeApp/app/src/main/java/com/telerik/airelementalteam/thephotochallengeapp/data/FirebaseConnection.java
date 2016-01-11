@@ -7,6 +7,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncTaskInteractor;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
+import com.telerik.airelementalteam.thephotochallengeapp.models.User;
 
 public class FirebaseConnection {
     final String firebaseConnection = "https://thephotobag.firebaseio.com";
@@ -25,8 +26,9 @@ public class FirebaseConnection {
     private boolean boolResult;
     private AsyncTaskInteractor interactor;
 
+    private String userUID;
+
     public FirebaseConnection() {
-        //Firebase.setAndroidContext(activity);
         this.refDB = new Firebase(firebaseConnection);
         this.refUsers = new Firebase(usersConnection);
         this.refChallanges = new Firebase(challengesConnection);
@@ -35,15 +37,13 @@ public class FirebaseConnection {
         this.interactor = new AsyncTaskInteractor();
     }
 
-
     public FirebaseConnection openConnection(){
         return new FirebaseConnection();
     }
 
-    public void registerUser(String email, String password, IOnTaskFinishedListener listener){
-        System.out.println("Inside registerUser method in FirebaseConnection class");
-        interactor.asyncRegisterUser(refDB, listener, email, password);
-        System.out.println("Before exiting registerUser method in FirebaseConnection class");
+    // authentication methods
+    public void registerUser(String name, String email, String password, IOnTaskFinishedListener listener){
+        interactor.asyncRegisterUser(refDB, refUsers, listener, name, email, password);
     }
 
     public void loginUser(String email, String password, IOnTaskFinishedListener listener){
@@ -61,7 +61,32 @@ public class FirebaseConnection {
         }
     }
 
+    public String getUserUID(String email, String password){
+        refDB.authWithPassword(email, password,
+                new Firebase.AuthResultHandler() {
+                    @Override
+                    public void onAuthenticated(AuthData authData) {
+                        userUID = authData.getUid();
+                    }
+
+                    @Override
+                    public void onAuthenticationError(FirebaseError firebaseError) {
+                        //no such case :D
+
+                    }
+                });
+        return userUID;
+    }
+
     public void logoutUser(){
         refDB.unauth();
+    }
+
+    // adding data to database
+    public void addUser(String name, String email, String password){
+        String uid = this.getUserUID(email, password);
+        User userToAdd = new User(uid, name, email);
+        Firebase refNewUser = refUsers.child(uid);
+        refNewUser.setValue(userToAdd);
     }
 }
