@@ -19,15 +19,16 @@ public class LoginPresenter implements IOnTaskFinishedListener {
     private Activity activity;
     private Validator validator;
     private FirebaseConnection firebase;
+    private DatabaseAdapter SQLite;
 
     private ProgressDialog progressDialog;
-    DatabaseAdapter helper;
+
 
     public LoginPresenter(Activity activity){
         this.activity = activity;
         this.firebase = new FirebaseConnection();
         validator = new Validator(this.activity);
-        helper = new DatabaseAdapter(this.activity);
+        SQLite = new DatabaseAdapter(this.activity);
     }
 
     public void attemptLogin(String email, String password) {
@@ -42,12 +43,12 @@ public class LoginPresenter implements IOnTaskFinishedListener {
         firebase.openConnection();
         firebase.loginUser(email, password, this);
 
-        helper.openDB();
-        String[] names = helper.getAllNames();
+        SQLite.openDB();
+        String[] names = SQLite.getAllNames();
 
         if(!(Arrays.asList(names).contains(email)))
         {
-            long id = helper.insertData(email, password);
+            long id = SQLite.insertData(email, password);
         }
 
     }

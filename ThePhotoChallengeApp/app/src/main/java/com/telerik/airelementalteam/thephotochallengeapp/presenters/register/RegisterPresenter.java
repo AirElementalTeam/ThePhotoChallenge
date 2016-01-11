@@ -17,10 +17,6 @@ public class RegisterPresenter implements IOnTaskFinishedListener {
     private Validator validator;
     private FirebaseConnection firebase;
 
-    private String userEmail;
-    private String userName;
-    private String userPassword;
-
     private ProgressDialog progressDialog;
 
     public RegisterPresenter(Activity activity){
@@ -34,9 +30,6 @@ public class RegisterPresenter implements IOnTaskFinishedListener {
         if(!validResult){
             return;
         }
-        this.userEmail = email;
-        this.userName = name;
-        this.userPassword = password;
 
         progressDialog = ProgressDialog.show(activity, "Singing up...", null);
         progressDialog.show();

@@ -19,6 +19,8 @@ import android.view.MenuItem;
 import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.BlankFragment;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.ChallengesFragment;
+import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.CreateChallengeFragment;
+import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.FriendsFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,6 +33,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ChallengesFragment fragment = new ChallengesFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainer, fragment);
+        transaction.commit();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -83,7 +90,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_createChallenge) {
-            BlankFragment fragment = new BlankFragment();
+            CreateChallengeFragment fragment = new CreateChallengeFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
             transaction.commit();
@@ -97,6 +104,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_favourites) {
 
         } else if (id == R.id.nav_friends) {
+            FriendsFragment fragment = new FriendsFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainer, fragment);
+            transaction.commit();
 
         } else if (id == R.id.nav_ranking) {
 

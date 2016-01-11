@@ -28,4 +28,9 @@
     <string name="share">Share</string>
     <string name="weekly_ranking">Weekly Ranking</string>
     <string name="browse">Browse</string>
+    <string name="title_hint">Title</string>
+    <string name="theme_hint">Theme</string>
+    <string name="private_radio">private</string>
+    <string name="public_radio">public</string>
+    <string name="image_button_create">image_button_create</string>
 </resources>
