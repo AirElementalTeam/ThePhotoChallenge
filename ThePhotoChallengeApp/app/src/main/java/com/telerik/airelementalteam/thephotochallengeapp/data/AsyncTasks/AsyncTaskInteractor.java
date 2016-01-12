@@ -28,6 +28,7 @@ public class AsyncTaskInteractor {
                         System.out.println("error code is ----> "+firebaseError.getCode());
                         System.out.println(firebaseError.getMessage());
                         System.out.println(firebaseError.getDetails());
+                        //TODO: find a way to return proper response when you get some specific error code!
                         switch (firebaseError.getCode()){
                             case FirebaseError.INVALID_EMAIL:
                                 System.out.println("INVALID_EMAIL");
