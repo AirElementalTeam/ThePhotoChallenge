@@ -26,7 +26,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void run() {
                 if (presenter.isAuthUser()) {
                     //user is logged in
-                    Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+                    Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {

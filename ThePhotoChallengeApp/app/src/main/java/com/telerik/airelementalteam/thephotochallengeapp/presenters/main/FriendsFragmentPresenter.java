@@ -34,15 +34,11 @@ public class FriendsFragmentPresenter {
         this.listAdapter = new FirebaseListAdapter<User>(this.activity, User.class, android.R.layout.two_line_list_item, firebase.currentUserFriends()) {
             @Override
             protected void populateView(View convertView, User model) {
-                System.out.println("getCount ----> "+listAdapter.getCount());
-                System.out.println("toString ----> "+ listAdapter.toString());
                 ((TextView) convertView.findViewById(android.R.id.text1)).setText(model.getName());
                 ((TextView) convertView.findViewById(android.R.id.text2)).setText(model.getEmail());
             }
         };
 
-        System.out.println("getCount ----> "+listAdapter.getCount());
-        System.out.println("toString ----> "+ listAdapter.toString());
         if(listAdapter.getCount() == 0) {
             noFriends.setText("You don't have any friends. Try searching for some!");
         }

@@ -34,6 +34,9 @@
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_action_gear"
             android:title="@string/action_settings"/>
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_action_mustache"
+            android:title="@string/logout"/>
     </group>
-
 </menu>

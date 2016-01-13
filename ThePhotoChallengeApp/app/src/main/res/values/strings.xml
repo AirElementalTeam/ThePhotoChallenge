@@ -33,4 +33,5 @@
     <string name="private_radio">private</string>
     <string name="public_radio">public</string>
     <string name="image_button_create">image_button_create</string>
+    <string name="logout">Logout</string>
 </resources>

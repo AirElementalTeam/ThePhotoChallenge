@@ -14,7 +14,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.data.DatabaseAdapter;
 import Common.Validator;
 
 import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
-import com.telerik.airelementalteam.thephotochallengeapp.views.HomeActivity;
+import com.telerik.airelementalteam.thephotochallengeapp.views.MainActivity;
 
 import java.util.Arrays;
 
@@ -67,7 +67,7 @@ public class LoginPresenter implements IOnTaskFinishedListener {
     public void onSuccess() {
         progressDialog.hide();
         Context context = activity.getApplicationContext();
-        Intent intent = new Intent(context, HomeActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
