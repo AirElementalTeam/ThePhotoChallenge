@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     @InjectView(R.id.link_signup) TextView linkSignUp;
 
     private LoginPresenter presenter;
-    DatabaseAdapter SQLite;
+    //DatabaseAdapter SQLite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +36,7 @@ public class LoginActivity extends AppCompatActivity {
 
         presenter = new LoginPresenter(this);
 
-        SQLite = new DatabaseAdapter(this);
-        SQLite.openDB();
-
-        String[] names = SQLite.getAllNames();
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_item, names);
-        emailInput.setAdapter(adapter);
+        presenter.emailAutocomplete(emailInput);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <RelativeLayout
+        android:id="@+id/friend_item_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_header_height"
+        android:background="@drawable/background"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="@dimen/profile_pic_width_height"
+            android:layout_height="@dimen/profile_pic_width_height"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_contact_icon"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/friend_item_name"
+        android:text="Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/friend_item_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/button_top_bottom_margin"
+        android:textSize="@dimen/friend_item_name_text_size" />
+
+    <TextView
+        android:id="@+id/friend_item_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/friend_item_name"
+        android:layout_centerHorizontal="true"
+        android:text="name@abv.bg"/>
+
+</RelativeLayout>

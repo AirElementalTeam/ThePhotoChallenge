@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
+import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.DatabaseAdapter;
 
@@ -27,8 +30,15 @@ public class LoginPresenter implements IOnTaskFinishedListener {
     public LoginPresenter(Activity activity){
         this.activity = activity;
         this.firebase = new FirebaseAdapter();
+        this.SQLite = new DatabaseAdapter(this.activity);
         validator = new Validator(this.activity);
-        SQLite = new DatabaseAdapter(this.activity);
+    }
+
+    public void emailAutocomplete(AutoCompleteTextView autoCompleteView) {
+        this.SQLite.openDB();
+        String[] names = this.SQLite.getAllNames();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(activity, R.layout.list_item, names);
+        autoCompleteView.setAdapter(adapter);
     }
 
     public void attemptLogin(String email, String password) {

@@ -1,14 +1,24 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     tools:context=".views.fragments.FriendsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true" />
 
-</FrameLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="@dimen/img_small_height"
+        android:layout_height="@dimen/img_small_height"
+        android:src="@drawable/find_person_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="@dimen/button_top_bottom_margin"
+        android:layout_marginEnd="@dimen/button_top_bottom_margin" />
+
+</RelativeLayout>

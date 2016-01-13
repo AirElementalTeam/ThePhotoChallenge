@@ -84,4 +84,6 @@ public class DatabaseAdapter extends SQLiteOpenHelper {
             return new String[] {};
         }
     }
+
+    //TODO: Add closing method
 }

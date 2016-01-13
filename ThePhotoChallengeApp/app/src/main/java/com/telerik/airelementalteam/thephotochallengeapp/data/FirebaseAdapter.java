@@ -35,6 +35,8 @@ public class FirebaseAdapter {
             return new FirebaseAdapter();
         }
 
+
+
         // authentication methods
         public void registerUser(String name, String email, String password, IOnTaskFinishedListener listener){
             interactor.asyncRegisterUser(refDB, refUsers, listener, name, email, password);
@@ -58,4 +60,6 @@ public class FirebaseAdapter {
         public void logoutUser(){
             refDB.unauth();
         }
+
+    //TODO: add closing method .goOffline();
     }
