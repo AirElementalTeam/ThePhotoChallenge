@@ -85,5 +85,7 @@ public class DatabaseAdapter extends SQLiteOpenHelper {
         }
     }
 
-    //TODO: Add closing method
+    public void close() {
+        this.db.close();
+    }
 }

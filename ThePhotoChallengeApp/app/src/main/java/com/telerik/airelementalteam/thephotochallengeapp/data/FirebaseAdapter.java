@@ -61,5 +61,7 @@ public class FirebaseAdapter {
             refDB.unauth();
         }
 
-    //TODO: add closing method .goOffline();
+        public void closeConnection() {
+            refDB.goOffline();
+        }
     }
