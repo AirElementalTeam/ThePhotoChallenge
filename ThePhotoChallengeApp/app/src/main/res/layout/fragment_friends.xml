@@ -9,13 +9,11 @@
         android:id="@+id/no_friends_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="You don't have any friends. Try searching for some!"/>
+        android:layout_centerInParent="true" />
 
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:id="@android:id/list"
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true" />

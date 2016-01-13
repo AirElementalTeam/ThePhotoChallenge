@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.FriendsFragmentPresenter;
@@ -26,7 +27,8 @@ public class FriendsFragment extends ListFragment {
         presenter = new FriendsFragmentPresenter(this.getActivity());
         View view =  inflater.inflate(R.layout.fragment_friends, container, false);
         ListView friendsList = (ListView) view.findViewById(android.R.id.list);
-        presenter.populateFriendList(friendsList);
+        TextView noFriends = (TextView) view.findViewById(R.id.no_friends_id);
+        presenter.populateFriendList(friendsList, noFriends);
 
         CircleImageView findFriendsButton = (CircleImageView) view.findViewById(R.id.find_friends_button);
         findFriendsButton.setOnClickListener(new View.OnClickListener() {
