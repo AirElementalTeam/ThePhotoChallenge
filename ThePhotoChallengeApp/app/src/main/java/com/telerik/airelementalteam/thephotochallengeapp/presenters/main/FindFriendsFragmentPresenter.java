@@ -2,6 +2,7 @@ package com.telerik.airelementalteam.thephotochallengeapp.presenters.main;
 
 import android.app.Activity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class FindFriendsFragmentPresenter {
                 ((TextView) convertView.findViewById(R.id.list_user_email)).setText(model.getEmail());
             }
         };
+
         listView.setAdapter(listAdapter);
     }
 

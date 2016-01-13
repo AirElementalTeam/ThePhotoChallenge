@@ -32,12 +32,12 @@
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse" />
 
         <ImageButton
-            android:id="@+id/btn_search"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
+            android:id="@+id/btn_notification"
+            android:layout_width="60dp"
+            android:clickable="true"
+            android:layout_height="match_parent"
             android:src="@drawable/ic_action_bell"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentEnd="true"/>
 
 
 
