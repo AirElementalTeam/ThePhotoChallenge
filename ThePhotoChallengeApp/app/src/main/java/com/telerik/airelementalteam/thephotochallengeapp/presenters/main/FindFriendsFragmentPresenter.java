@@ -22,11 +22,11 @@ public class FindFriendsFragmentPresenter {
     }
 
     public void populateFriendList(ListView listView) {
-        this.listAdapter = new FirebaseListAdapter<User>(this.activity, User.class, android.R.layout.two_line_list_item, firebase.getRefUsers()) {
+        this.listAdapter = new FirebaseListAdapter<User>(this.activity, User.class, R.layout.user_list_item, firebase.getRefUsers()) {
             @Override
             protected void populateView(View convertView, User model) {
-                ((TextView) convertView.findViewById(android.R.id.text1)).setText(model.getName());
-                ((TextView) convertView.findViewById(android.R.id.text2)).setText(model.getEmail());
+                ((TextView) convertView.findViewById(R.id.list_user_name)).setText(model.getName());
+                ((TextView) convertView.findViewById(R.id.list_user_email)).setText(model.getEmail());
             }
         };
         listView.setAdapter(listAdapter);
