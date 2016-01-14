@@ -1,17 +1,21 @@
 package com.telerik.airelementalteam.thephotochallengeapp.models;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class User {
     private String uid;
     private String name;
     private String email;
-    private List<String> challangesIDs;
-    private List<String> challangesByUserIDs;
-    private List<String> photosIDs;
-    private List<String> favouritePhotosIDs;
-    private List<String> friendsIDs;
+    private HashMap<String, Object> challengesIDs;
+    private HashMap<String, Object> challengesByUserIDs;
+    private HashMap<String, Object> photosIDs;
+    private HashMap<String, Object> favouritePhotosIDs;
+    private HashMap<String, Object> friendsIDs;
+    private HashMap<String, Object>friendRequestSend;
+    private HashMap<String, Object> friendRequestReceived;
 
     public User(){}
 
@@ -19,11 +23,13 @@ public class User {
         this.uid = uid;
         this.name = name;
         this.email = email;
-        this.challangesIDs = new ArrayList<>();
-        this.challangesByUserIDs = new ArrayList<>();
-        this.photosIDs = new ArrayList<>();
-        this.favouritePhotosIDs = new ArrayList<>();
-        this.friendsIDs = new ArrayList<>();
+        this.challengesIDs = new HashMap<>();
+        this.challengesByUserIDs = new HashMap<>();
+        this.photosIDs = new HashMap<>();
+        this.favouritePhotosIDs = new HashMap<>();
+        this.friendsIDs = new HashMap<>();
+        this.friendRequestSend = new HashMap<>();
+        this.friendRequestReceived = new HashMap<>();
     }
 
     public String getUid(){
@@ -50,43 +56,59 @@ public class User {
         this.email = email;
     }
 
-    public List<String> getChallangesIDs(){
-        return this.challangesIDs;
+    public HashMap<String, Object> getChallangesIDs(){
+        return this.challengesIDs;
     }
 
-    public void setChallangesIDs(List<String> challangesIDs) {
-        this.challangesIDs = challangesIDs;
+    public void setChallangesIDs(HashMap<String, Object> challangesIDs) {
+        this.challengesIDs = challangesIDs;
     }
 
-    public List<String> getChallangesByUserIDs(){
-        return this.challangesByUserIDs;
+    public HashMap<String, Object> getChallangesByUserIDs(){
+        return this.challengesByUserIDs;
     }
 
-    public void setChallangesByUserIDs(List<String> challangesByUserIDs) {
-        this.challangesByUserIDs = challangesByUserIDs;
+    public void setChallangesByUserIDs(HashMap<String, Object> challangesByUserIDs) {
+        this.challengesByUserIDs = challangesByUserIDs;
     }
 
-    public List<String> getPhotosIDs(){
+    public HashMap<String, Object> getPhotosIDs(){
         return this.photosIDs;
     }
 
-    public void setPhotosIDs(List<String> photosIDs) {
+    public void setPhotosIDs(HashMap<String, Object> photosIDs) {
         this.photosIDs = photosIDs;
     }
 
-    public List<String> getFavouritePhotosIDs(){
+    public HashMap<String, Object> getFavouritePhotosIDs(){
         return this.favouritePhotosIDs;
     }
 
-    public void setFavouritePhotosIDs(List<String> favouritePhotosIDs) {
+    public void setFavouritePhotosIDs(HashMap<String, Object> favouritePhotosIDs) {
         this.favouritePhotosIDs = favouritePhotosIDs;
     }
 
-    public List<String> getFriendsIDs(){
+    public HashMap<String, Object> getFriendsIDs(){
         return this.friendsIDs;
     }
 
-    public void setFriendsIDs(List<String> friendsIDs) {
+    public void setFriendsIDs(HashMap<String, Object> friendsIDs) {
         this.friendsIDs = friendsIDs;
+    }
+
+    public HashMap<String, Object> getFrinedRequestSend() {
+        return friendRequestSend;
+    }
+
+    public void setFrinedRequestSend(HashMap<String, Object> friendRequestSend) {
+        this.friendRequestSend = friendRequestSend;
+    }
+
+    public HashMap<String, Object> getFriendRequestRecieved() {
+        return friendRequestReceived;
+    }
+
+    public void setFriendRequestRecieved(HashMap<String, Object> friendRequestRecieved) {
+        this.friendRequestReceived = friendRequestRecieved;
     }
 }

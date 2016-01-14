@@ -36,4 +36,5 @@
     <string name="logout">Logout</string>
     <string name="no_friend_text">Add as friend to see more about this user</string>
     <string name="add_friend">ADD FRIEND</string>
+    <string name="uid">uid</string>
 </resources>

@@ -30,8 +30,6 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         presenter = new UserPresenter(this.getActivity());
         View view = inflater.inflate(R.layout.fragment_user, container, false);
-        //some code to set the email correctly
-        //email = "zazu@lionking.com";
         TextView nameText = (TextView) view.findViewById(R.id.friend_item_name);
         System.out.println(name);
         System.out.println(email);

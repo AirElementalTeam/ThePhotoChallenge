@@ -2,6 +2,7 @@ package com.telerik.airelementalteam.thephotochallengeapp.data;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
+import com.firebase.client.Query;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncTaskInteractor;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
 
@@ -22,7 +23,6 @@ public class FirebaseAdapter {
     private Firebase refPhotos;
     private Firebase refThemes;
 
-    //private Activity activity;
     private AsyncTaskInteractor interactor;
 
     public FirebaseAdapter() {
@@ -96,11 +96,7 @@ public class FirebaseAdapter {
         refDB.unauth();
     }
 
-    public void closeConnection() {
-        refDB.goOffline();
+    public void sendAndReceiveFriendRequest(IOnTaskFinishedListener listener, Query fromUser, Query toUser) {
+        interactor.asyncSendAndReceiveFriendRequest(this, listener, fromUser, toUser);
     }
-
-
-
-
 }
