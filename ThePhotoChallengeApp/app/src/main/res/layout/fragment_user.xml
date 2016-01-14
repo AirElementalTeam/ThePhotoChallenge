@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:background="@color/colorBackground">
 
     <RelativeLayout
         android:id="@+id/friend_item_header"
@@ -37,5 +37,22 @@
         android:layout_below="@+id/friend_item_name"
         android:layout_centerHorizontal="true"
         android:text="name@abv.bg"/>
+
+    <TextView
+        android:id="@+id/private_user_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/no_friend_text"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/add_friend_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/button_top_bottom_margin"
+        android:layout_marginBottom="@dimen/button_top_bottom_margin"
+        android:text="@string/add_friend"
+        android:textColor="@color/colorPrimaryDark" />
 
 </RelativeLayout>

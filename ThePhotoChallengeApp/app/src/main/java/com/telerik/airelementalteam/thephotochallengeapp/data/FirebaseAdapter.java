@@ -9,6 +9,7 @@ public class FirebaseAdapter {
 
     final String firebaseConnection = "https://thephotobag.firebaseio.com";
     final String usersConnection = firebaseConnection + "/Users";
+    final String usersByEmailConnection = firebaseConnection + "/UsersByEmail";
     final String challengesConnection = firebaseConnection + "/Challanges";
     final String photosConnection = firebaseConnection + "/Photos";
     final String themesConnection = firebaseConnection + "/Themes";
@@ -16,6 +17,7 @@ public class FirebaseAdapter {
 
     private Firebase refDB;
     private Firebase refUsers;
+    private Firebase refUsersByEmail;
     private Firebase refChallanges;
     private Firebase refPhotos;
     private Firebase refThemes;
@@ -26,6 +28,7 @@ public class FirebaseAdapter {
     public FirebaseAdapter() {
         this.refDB = new Firebase(firebaseConnection);
         this.refUsers = new Firebase(usersConnection);
+        this.refUsersByEmail = new Firebase(usersByEmailConnection);
         this.refChallanges = new Firebase(challengesConnection);
         this.refPhotos = new Firebase(photosConnection);
         this.refThemes = new Firebase(themesConnection);
@@ -44,13 +47,29 @@ public class FirebaseAdapter {
         return refUsers;
     }
 
+    public Firebase getRefUsersByEmail() {
+        return refUsersByEmail;
+    }
+
+    public Firebase getRefChallanges() {
+        return refChallanges;
+    }
+
+    public Firebase getRefPhotos() {
+        return refPhotos;
+    }
+
+    public Firebase getRefThemes() {
+        return refThemes;
+    }
+
     // authentication methods
     public void registerUser(String name, String email, String password, IOnTaskFinishedListener listener){
-        interactor.asyncRegisterUser(refDB, refUsers, listener, name, email, password);
+        interactor.asyncRegisterUser(this, listener, name, email, password);
     }
 
     public void loginUser(String email, String password, IOnTaskFinishedListener listener){
-        interactor.asyncLoginUser(refDB, listener, email, password);
+        interactor.asyncLoginUser(this, listener, email, password);
     }
 
     public boolean authUser() {
@@ -80,6 +99,8 @@ public class FirebaseAdapter {
     public void closeConnection() {
         refDB.goOffline();
     }
+
+
 
 
 }

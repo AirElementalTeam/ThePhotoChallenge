@@ -39,8 +39,5 @@
             android:src="@drawable/ic_action_bell"
             android:layout_alignParentEnd="true"/>
 
-
-
-
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

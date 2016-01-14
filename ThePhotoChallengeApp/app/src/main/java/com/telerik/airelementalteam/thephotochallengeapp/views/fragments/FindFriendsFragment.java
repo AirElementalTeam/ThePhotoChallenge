@@ -28,6 +28,8 @@ public class FindFriendsFragment extends Fragment {
         presenter.populateFriendList(userList);
 
         return view;
+
+
     }
 
     @Override

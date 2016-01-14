@@ -3,14 +3,23 @@ package com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.models.User;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import Common.Converter;
+
 public class AsyncTaskInteractor {
 
-    public void asyncRegisterUser(final Firebase refDB, final Firebase refUsers, final IOnTaskFinishedListener listener, final String name, final String email, final String password){
+    Converter converter = new Converter();
+
+    public void asyncRegisterUser(FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final String name, final String email, final String password){
+        firebase.openConnection();
+        Firebase refDB = firebase.getRefDB();
+        final Firebase refUsersByEmail = firebase.getRefUsersByEmail();
+        final Firebase refUsers = firebase.getRefUsers();
         refDB.createUser(email, password,
                 new Firebase.ValueResultHandler<Map<String, Object>>() {
 
@@ -18,6 +27,8 @@ public class AsyncTaskInteractor {
                     public void onSuccess(Map<String, Object> stringObjectMap) {
                         User newUser = new User(stringObjectMap.get("uid").toString(), name, email);
                         Firebase refUser = refUsers.child(newUser.getUid());
+                        Firebase refMail = refUsersByEmail.child(converter.escapeEmail(newUser.getEmail()));
+                        refMail.setValue(newUser.getUid());
                         refUser.setValue(newUser);
                         listener.onSuccess();
                         System.out.println("Successfully created user account with uid: " + stringObjectMap.get("uid"));
@@ -52,7 +63,8 @@ public class AsyncTaskInteractor {
                 });
     }
 
-    public void asyncLoginUser(Firebase refDB, final IOnTaskFinishedListener listener, String email, String password){
+    public void asyncLoginUser(FirebaseAdapter firebase, final IOnTaskFinishedListener listener, String email, String password){
+        Firebase refDB = firebase.getRefDB();
         refDB.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {

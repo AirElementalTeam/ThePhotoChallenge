@@ -25,6 +25,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.Favouri
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.FriendsFragment;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.RankingFragment;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SettingsFragment;
+import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.UserFragment;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -78,6 +79,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this);
+                UserFragment fragment = new UserFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer, fragment);
+                transaction.commit();
 
             }
         });
@@ -92,29 +97,6 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
-    //this creates the tree dots in the right of the action bar
-    //@Override
-    //public boolean onCreateOptionsMenu(Menu menu) {
-    //    // Inflate the menu; this adds items to the action bar if it is present.
-    //    getMenuInflater().inflate(R.menu.main, menu);
-    //    return true;
-    //}
-
-    //@Override
-    //public boolean onOptionsItemSelected(MenuItem item) {
-    //    // Handle action bar item clicks here. The action bar will
-    //    // automatically handle clicks on the Home/Up button, so long
-    //    // as you specify a parent activity in AndroidManifest.xml.
-    //    int id = item.getItemId();
-    //
-    //    //noinspection SimplifiableIfStatement
-    //    if (id == R.id.action_settings) {
-    //        return true;
-    //    }
-    //
-    //    return super.onOptionsItemSelected(item);
-    //}
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -177,7 +159,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         toggle.syncState();
     }
 

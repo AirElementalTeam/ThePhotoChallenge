@@ -34,4 +34,6 @@
     <string name="public_radio">public</string>
     <string name="image_button_create">image_button_create</string>
     <string name="logout">Logout</string>
+    <string name="no_friend_text">Add as friend to see more about this user</string>
+    <string name="add_friend">ADD FRIEND</string>
 </resources>
