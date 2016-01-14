@@ -2,18 +2,20 @@ package com.telerik.airelementalteam.thephotochallengeapp.presenters.user;
 
 import android.app.Activity;
 
-import com.firebase.client.Query;
 import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 
-import Common.Validator;
+import Common.Converter;
+
 
 public class UserPresenter {
     private Activity activity;
     private FirebaseAdapter firebase;
+    private Converter converter;
 
     public UserPresenter(Activity activity){
         this.activity = activity;
         this.firebase = new FirebaseAdapter();
+        this.converter = new Converter();
     }
 
     public void sendFriendRequest(String email) {
