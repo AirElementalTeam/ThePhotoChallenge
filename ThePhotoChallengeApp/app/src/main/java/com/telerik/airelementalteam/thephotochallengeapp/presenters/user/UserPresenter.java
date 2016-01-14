@@ -1,6 +1,7 @@
 package com.telerik.airelementalteam.thephotochallengeapp.presenters.user;
 
 import android.app.Activity;
+import android.support.v4.app.NotificationCompat;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -24,7 +25,9 @@ public class UserPresenter implements IOnTaskFinishedListener {
     private Converter converter;
 
     private String currentUserUID;
-    private String otherUserUID;
+    //private String otherUserUID;
+
+
 
     public UserPresenter(Activity activity){
         this.activity = activity;
@@ -48,6 +51,7 @@ public class UserPresenter implements IOnTaskFinishedListener {
 
     @Override
     public void onSuccess() {
+
 
     }
 

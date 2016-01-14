@@ -10,6 +10,7 @@ import com.firebase.client.ValueEventListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.models.User;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.MainPresenter;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.user.UserPresenter;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -116,11 +117,12 @@ public class AsyncTaskInteractor {
                 if(currentRequestsSend == null) {
                     currentRequestsSend = new HashMap<>();
                 }
+                String fromUserName = currentUser.getName();
                 currentRequestsSend.put(toUserUID, true);
                 currentUser.setFrinedRequestSend(currentRequestsSend);
                 Firebase user = usersRef.child(currentUser.getUid());
                 user.child("friendRequestsSend").updateChildren(currentRequestsSend);
-                asyncReceiveFriendRequest(usersRef, listener, toUserRef, fromUserUID);
+                asyncReceiveFriendRequest(usersRef, listener, toUserRef, fromUserUID, fromUserName);
             }
 
             @Override
@@ -131,7 +133,7 @@ public class AsyncTaskInteractor {
         });
     }
 
-    public void asyncReceiveFriendRequest(final Firebase UsersRef, final IOnTaskFinishedListener listener, Query toUserRef, final String fromUserUID) {
+    public void asyncReceiveFriendRequest(final Firebase UsersRef, final IOnTaskFinishedListener listener, Query toUserRef, final String fromUserUID, final String fromUserName) {
         toUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -144,6 +146,10 @@ public class AsyncTaskInteractor {
                 toUser.setFriendRequestRecieved(requestsReceived);
                 Firebase user = UsersRef.child(toUser.getUid());
                 user.child("friendRequestsReceived").updateChildren(requestsReceived);
+
+                //UserPresenter presenter = (UserPresenter) listener;
+                //presenter.setFriendRequestFromUserName(fromUserName);
+
                 listener.onSuccess();
             }
 
@@ -163,9 +169,6 @@ public class AsyncTaskInteractor {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class); //boom
 
-                //Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "friendRequestsReceived" (class com.telerik.airelementalteam.thephotochallengeapp.models.User), not marked as ignorable (10 known properties: , "friendsIDs", "frinedRequestSend", "challangesByUserIDs", "name", "challangesIDs", "favouritePhotosIDs", "uid", "photosIDs", "friendRequestRecieved", "email"])
-                //at [Source: java.io.StringReader@9002d1; line: 1, column: 114] (through reference chain: com.telerik.airelementalteam.thephotochallengeapp.models.User["friendRequestsReceived"])
-
                 String name = user.getName();
                 String email = user.getEmail();
                 MainPresenter presenter = (MainPresenter) listener;
@@ -182,8 +185,8 @@ public class AsyncTaskInteractor {
         });
     }
 
-    public void listenForFriendRequest(FirebaseAdapter firebase, final IOnTaskFinishedListener listener) {
-        Firebase usersRef = firebase.getRefUsers();
+    public void listenForFriendRequest(FirebaseAdapter firebase, final IOnChildrenListener listener) {
+        final Firebase usersRef = firebase.getRefUsers();
         String currentUserUID = firebase.currentUserUID();
         String path = usersRef.toString() + "/" + currentUserUID + "/" + "friendRequestsReceived";
         System.out.println(path);
@@ -192,7 +195,29 @@ public class AsyncTaskInteractor {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 System.out.println("On child added");
+
+                //find user
+                System.out.println(usersRef.child(dataSnapshot.getKey()).child("name").getKey());
+                usersRef.child(dataSnapshot.getKey()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        System.out.println(dataSnapshot.getValue());
+                        System.out.println("----------------------------------------->>>");
+                        MainPresenter presenter = (MainPresenter) listener;
+                        presenter.setFriendRequestFromUserName(dataSnapshot.getValue().toString());
+                        listener.childAdded();
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+
+
+                //listener.childAdded();
                 //System.out.println(dataSnapshot.getValue());
+
 
             }
 

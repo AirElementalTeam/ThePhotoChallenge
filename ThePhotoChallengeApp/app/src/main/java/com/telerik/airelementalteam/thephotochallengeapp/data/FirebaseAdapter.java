@@ -4,6 +4,7 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncTaskInteractor;
+import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnChildrenListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
 
 public class FirebaseAdapter {
@@ -104,7 +105,7 @@ public class FirebaseAdapter {
         interactor.asyncSendAndReceiveFriendRequest(this, listener, fromUser, toUser);
     }
 
-    public void listenForChanges(IOnTaskFinishedListener listener) {
+    public void listenForChanges(IOnChildrenListener listener) {
         interactor.listenForFriendRequest(this, listener);
     }
 }
