@@ -3,9 +3,8 @@ package com.telerik.airelementalteam.thephotochallengeapp.presenters.splashscree
 import android.app.Activity;
 
 import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
-import com.telerik.airelementalteam.thephotochallengeapp.presenters.IPresenter;
 
-public class SplashScreenPresenter implements IPresenter {
+public class SplashScreenPresenter {
     private Activity activity;
     private FirebaseAdapter firebase;
 
@@ -16,20 +15,13 @@ public class SplashScreenPresenter implements IPresenter {
     }
 
     public boolean isAuthUser(){
-        firebase.openConnection();
         if(!firebase.authUser()){
             return false;
         }
         return true;
     }
 
-    @Override
-    public void bind(Object object, Activity activity) {
 
-    }
 
-    @Override
-    public void go(Activity activityTo) {
 
-    }
 }

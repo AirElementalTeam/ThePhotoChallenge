@@ -1,10 +1,14 @@
 package com.telerik.airelementalteam.thephotochallengeapp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
     private String uid;
     private String name;
@@ -95,6 +99,7 @@ public class User {
     public void setFriendsIDs(HashMap<String, Object> friendsIDs) {
         this.friendsIDs = friendsIDs;
     }
+
 
     public HashMap<String, Object> getFrinedRequestSend() {
         return friendRequestSend;

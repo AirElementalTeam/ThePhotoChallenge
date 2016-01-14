@@ -1,6 +1,7 @@
 package com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -8,6 +9,7 @@ import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.models.User;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.MainPresenter;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -110,7 +112,6 @@ public class AsyncTaskInteractor {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User currentUser = dataSnapshot.getValue(User.class);
-                //names and mails are disappearing here
                 HashMap<String, Object> currentRequestsSend = currentUser.getFrinedRequestSend();
                 if(currentRequestsSend == null) {
                     currentRequestsSend = new HashMap<>();
@@ -154,5 +155,71 @@ public class AsyncTaskInteractor {
 
     }
 
+    public void asyncGetUserNameAndMail(FirebaseAdapter firebase, final IOnTaskFinishedListener listener) {
+        Firebase RefUsers = firebase.getRefUsers();
+        Query userRef = RefUsers.child(firebase.currentUserUID());
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class); //boom
 
+                //Caused by: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException: Unrecognized field "friendRequestsReceived" (class com.telerik.airelementalteam.thephotochallengeapp.models.User), not marked as ignorable (10 known properties: , "friendsIDs", "frinedRequestSend", "challangesByUserIDs", "name", "challangesIDs", "favouritePhotosIDs", "uid", "photosIDs", "friendRequestRecieved", "email"])
+                //at [Source: java.io.StringReader@9002d1; line: 1, column: 114] (through reference chain: com.telerik.airelementalteam.thephotochallengeapp.models.User["friendRequestsReceived"])
+
+                String name = user.getName();
+                String email = user.getEmail();
+                MainPresenter presenter = (MainPresenter) listener;
+                presenter.setCurrentUserName(name);
+                presenter.setCurrentUserEmail(email);
+
+                listener.onSuccess();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                listener.onError();
+            }
+        });
+    }
+
+    public void listenForFriendRequest(FirebaseAdapter firebase, final IOnTaskFinishedListener listener) {
+        Firebase usersRef = firebase.getRefUsers();
+        String currentUserUID = firebase.currentUserUID();
+        String path = usersRef.toString() + "/" + currentUserUID + "/" + "friendRequestsReceived";
+        System.out.println(path);
+        Firebase receivedFriendRequests = new Firebase(path);
+        receivedFriendRequests.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                System.out.println("On child added");
+                //System.out.println(dataSnapshot.getValue());
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    private Query getCurrentUser(FirebaseAdapter firebase){
+        Firebase RefUsers = firebase.getRefUsers();
+        return RefUsers.child(firebase.currentUserUID());
+    }
 }

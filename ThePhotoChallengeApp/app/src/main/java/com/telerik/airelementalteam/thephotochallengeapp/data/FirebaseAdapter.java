@@ -83,6 +83,10 @@ public class FirebaseAdapter {
         }
     }
 
+    public void currentUserNameAndMail(IOnTaskFinishedListener listener){
+        interactor.asyncGetUserNameAndMail(this, listener);
+    }
+
     public String currentUserUID() {
         return refDB.getAuth().getUid();
     }
@@ -98,5 +102,9 @@ public class FirebaseAdapter {
 
     public void sendAndReceiveFriendRequest(IOnTaskFinishedListener listener, Query fromUser, Query toUser) {
         interactor.asyncSendAndReceiveFriendRequest(this, listener, fromUser, toUser);
+    }
+
+    public void listenForChanges(IOnTaskFinishedListener listener) {
+        interactor.listenForFriendRequest(this, listener);
     }
 }
