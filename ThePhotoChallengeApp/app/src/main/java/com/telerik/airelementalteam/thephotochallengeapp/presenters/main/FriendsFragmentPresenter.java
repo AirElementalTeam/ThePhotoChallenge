@@ -35,29 +35,12 @@ public class FriendsFragmentPresenter {
 
     public void populateFriendList(ListView listView, final TextView noFriends) {
 
-        //TODO: fix the bug - current user ref gets only uid-s, we need users
-        this.listAdapter = new FirebaseListAdapter<User>(this.activity, User.class, R.layout.user_list_item, firebase.getRefUsers()) {
+        //TODO: fix
+        this.listAdapter = new FirebaseListAdapter<User>(this.activity, User.class, R.layout.user_list_item, firebase.refFriends()) {
             @Override
             protected void populateView(final View convertView, final User model) {
-                Query userFriends = firebase.getRefUsers().child(firebase.currentUserUID()).child(Constants.FRIENDS).orderByKey();
-                userFriends.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.hasChild(model.getUid())) {
-                            ((TextView) convertView.findViewById(R.id.list_user_name)).setText(model.getName());
-                            ((TextView) convertView.findViewById(R.id.list_user_email)).setText(model.getEmail());
-                            noFriends.setVisibility(View.GONE);
-                        } else {
-                            //convertView = activity.getLayoutInflater().inflate(R.layout.row_null, null);
-                            convertView.setVisibility(View.GONE);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                });
+                ((TextView) convertView.findViewById(R.id.list_user_name)).setText(model.getName());
+                ((TextView) convertView.findViewById(R.id.list_user_email)).setText(model.getEmail());
             }
         };
         listView.setAdapter(listAdapter);

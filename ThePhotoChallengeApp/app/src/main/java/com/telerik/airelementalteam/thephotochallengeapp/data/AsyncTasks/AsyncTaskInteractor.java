@@ -299,26 +299,50 @@ public class AsyncTaskInteractor {
         return RefUsers.child(firebase.currentUserUID());
     }
 
-    public void asyncMakeFriends(FirebaseAdapter firebase, IOnTaskFinishedListener listener, String userUID, String otherUID) {
-        Firebase RefUsers = firebase.getRefUsers();
-        String pathToOtherUserFriends = RefUsers.toString() + Constants.SLASH + otherUID + Constants.SLASH + Constants.FRIENDS;
-        String pathToOtherUserSendRequests = RefUsers.toString() + Constants.SLASH + otherUID + Constants.SLASH + Constants.FRIEND_REQUESTS_SEND;
-        String pathToAuthUserFriends = RefUsers.toString() + Constants.SLASH + userUID + Constants.SLASH + Constants.FRIENDS;
-        String pathToAuthUserReceivedRequests = RefUsers.toString() + Constants.SLASH + userUID + Constants.SLASH + Constants.FRIEND_REQUESTS_RECEIVED;
+    public void asyncMakeFriends(FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final String userUID, final String otherUID) {
 
-        Firebase RefAuthFriends = new Firebase(pathToAuthUserFriends);
-        RefAuthFriends.child(otherUID).setValue(true);
-        Firebase RefOtherFriends = new Firebase(pathToOtherUserFriends);
-        RefOtherFriends.child(userUID).setValue(true);
-        Firebase RefAuthUserReceivedRequests = new Firebase(pathToAuthUserReceivedRequests);
-        RefAuthUserReceivedRequests.child(otherUID).setValue(null);
-        Firebase RefOtherUserSendRequests = new Firebase(pathToOtherUserSendRequests);
-        RefOtherUserSendRequests.child(userUID).setValue(null);
+        Firebase ref = firebase.getRefDB();
+        final Firebase RefUsers = firebase.getRefUsers();
 
-        UserPresenter presenter = (UserPresenter) listener;
-        presenter.setFriends(true);
-        presenter.setFriendRequestSend(false);
-        listener.onSuccess();
+        final String pathToOtherUserFriends = ref.toString() + Constants.SLASH + Constants.FRIENDS + Constants.SLASH + otherUID + "-" + Constants.FRIENDS;
+        final String pathToOtherUserSendRequests = RefUsers.toString() + Constants.SLASH + otherUID + Constants.SLASH + Constants.FRIEND_REQUESTS_SEND;
+        final String pathToAuthUserFriends = ref.toString() + Constants.SLASH + Constants.FRIENDS + Constants.SLASH + userUID + "-" + Constants.FRIENDS;
+        final String pathToAuthUserReceivedRequests = RefUsers.toString() + Constants.SLASH + userUID + Constants.SLASH + Constants.FRIEND_REQUESTS_RECEIVED;
 
+        RefUsers.child(userUID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                final User user = dataSnapshot.getValue(User.class);
+                RefUsers.child(otherUID).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        User otherUser = dataSnapshot.getValue(User.class);
+
+                        Firebase RefAuthFriends = new Firebase(pathToAuthUserFriends);
+                        RefAuthFriends.child(otherUID).setValue(otherUser);
+                        Firebase RefOtherFriends = new Firebase(pathToOtherUserFriends);
+                        RefOtherFriends.child(userUID).setValue(user);
+                        Firebase RefAuthUserReceivedRequests = new Firebase(pathToAuthUserReceivedRequests);
+                        RefAuthUserReceivedRequests.child(otherUID).setValue(null);
+                        Firebase RefOtherUserSendRequests = new Firebase(pathToOtherUserSendRequests);
+                        RefOtherUserSendRequests.child(userUID).setValue(null);
+                        UserPresenter presenter = (UserPresenter) listener;
+                        presenter.setFriends(true);
+                        presenter.setFriendRequestSend(false);
+                        listener.onSuccess();
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 }

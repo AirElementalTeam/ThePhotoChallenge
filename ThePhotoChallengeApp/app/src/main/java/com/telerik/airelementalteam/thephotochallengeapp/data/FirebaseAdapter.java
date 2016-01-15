@@ -117,4 +117,8 @@ public class FirebaseAdapter {
         String authUID = this.currentUserUID();
         interactor.asyncMakeFriends(this, listener, authUID, uid);
     }
+
+    public Firebase refFriends() {
+        return new Firebase(firebaseConnection + Constants.SLASH + Constants.FRIENDS + Constants.SLASH + currentUserUID() + "-" + Constants.FRIENDS);
+    }
 }
