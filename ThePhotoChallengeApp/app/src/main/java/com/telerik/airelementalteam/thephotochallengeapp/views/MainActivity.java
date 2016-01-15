@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
             transaction.commit();
+
         } else if((extra != null) && extra.equals("notificationFriendRequest")){
             UserFragment fragment = new UserFragment();
             fragment.setFriendRequestRecieved(false);
@@ -211,5 +212,12 @@ public class MainActivity extends AppCompatActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         toggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.getNameAndMail();
+
     }
 }

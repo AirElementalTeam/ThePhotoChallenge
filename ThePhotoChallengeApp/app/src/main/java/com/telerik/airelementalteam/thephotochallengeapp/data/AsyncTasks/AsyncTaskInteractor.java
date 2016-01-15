@@ -190,7 +190,7 @@ public class AsyncTaskInteractor {
         });
     }
 
-    public void listenForFriendRequestsConfirm(FirebaseAdapter firebase, final IOnFriendRequestConfirmedListener listener) {
+    public void listenForFriendRequestsConfirm(final FirebaseAdapter firebase, final IOnFriendRequestConfirmedListener listener) {
         final Firebase usersRef = firebase.getRefUsers();
         String currentUserUID = firebase.currentUserUID();
         String path = usersRef.toString() + Constants.SLASH + currentUserUID + Constants.SLASH + Constants.FRIENDS;
@@ -199,8 +199,26 @@ public class AsyncTaskInteractor {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 System.out.println("I heard there is a new friend ");
-                System.out.println(dataSnapshot.getValue());
-                listener.onNewFriend();
+                System.out.println("new friend UID " + dataSnapshot.getKey());
+                System.out.println("my UID " + firebase.currentUserUID());
+                firebase.getRefUsers().child(dataSnapshot.getKey())
+                        .addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                User user = dataSnapshot.getValue(User.class);
+                                MainPresenter presenter = (MainPresenter) listener;
+                                presenter.setNewFriendName(user.getName());
+                                presenter.setNewFriendEmail(user.getEmail());
+                                presenter.setNewFriendUID(user.getUid());
+                                listener.onNewFriend();
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        });
+
             }
 
             @Override

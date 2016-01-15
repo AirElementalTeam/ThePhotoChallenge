@@ -29,6 +29,9 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
     String tempName;
     String tempEmail;
 
+    private String newFriendName;
+    private String newFriendEmail;
+    private String newFriendUID;
     private String friendRequestFromUserName;
     private String friendRequestFromUserEmail;
     private String friendRequestFromUserUID;
@@ -42,21 +45,7 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
         this.firebase = new FirebaseAdapter();
     }
 
-    public void setCurrentUserName(String currentUserName) {
-        this.currentUserName = currentUserName;
-    }
 
-    public void setCurrentUserEmail(String currentUserEmail) {
-        this.currentUserEmail = currentUserEmail;
-    }
-
-    public void setFriendRequestFromUserName(String friendRequestFromUserName) {
-        this.friendRequestFromUserName = friendRequestFromUserName;
-    }
-
-    public void setFriendRequestFromUserEmail(String friendRequestFromUserEmail) {
-        this.friendRequestFromUserEmail = friendRequestFromUserEmail;
-    }
 
     public void getNameAndMail(){
         firebase.currentUserNameAndMail(this);
@@ -72,12 +61,14 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
     public void onSuccess() {
         //add name and mail to the drawer
         //TODO: this sometimes throws with null
-        if(!this.currentUserName.equals(tempName) && !this.currentUserEmail.equals(tempEmail)) {
+        TextView nameText = (TextView) this.activity.findViewById(R.id.header_username);
+        TextView emailText = (TextView) this.activity.findViewById(R.id.header_email);
+        if(nameText != null && emailText != null && !this.currentUserName.equals(tempName) && !this.currentUserEmail.equals(tempEmail)) {
             tempName = currentUserName;
             tempEmail = currentUserEmail;
-            TextView nameText = (TextView) this.activity.findViewById(R.id.header_username);
+            nameText = (TextView) this.activity.findViewById(R.id.header_username);
             nameText.setText(currentUserName);
-            TextView emailText = (TextView) this.activity.findViewById(R.id.header_email);
+            emailText = (TextView) this.activity.findViewById(R.id.header_email);
             emailText.setText(currentUserEmail);
         }
         System.out.println("After child added on success in main");
@@ -133,9 +124,9 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
         Intent notificationIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
 
         Bundle extras = new Bundle();
-        extras.putString("name" ,tempfriendRequestFromUserName);
-        extras.putString("email", tempfriendRequestFromUserEmail);
-        extras.putString("uid", tempfriendRequestFromUserUID);
+        extras.putString("name" ,newFriendName);
+        extras.putString("email", newFriendEmail);
+        extras.putString("uid", newFriendUID);
         extras.putString("notification", "notificationFriendRequestConfirmed");
         notificationIntent.putExtras(extras);
 
@@ -155,5 +146,45 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
         NotificationManager manager = (NotificationManager)this.activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(Math.abs(generator.nextInt()), not);
 
+    }
+
+    public String getNewFriendName() {
+        return newFriendName;
+    }
+
+    public void setNewFriendName(String newFriendName) {
+        this.newFriendName = newFriendName;
+    }
+
+    public String getNewFriendEmail() {
+        return newFriendEmail;
+    }
+
+    public void setNewFriendEmail(String newFriendEmail) {
+        this.newFriendEmail = newFriendEmail;
+    }
+
+    public String getNewFriendUID() {
+        return newFriendUID;
+    }
+
+    public void setNewFriendUID(String newFriendUID) {
+        this.newFriendUID = newFriendUID;
+    }
+
+    public void setCurrentUserName(String currentUserName) {
+        this.currentUserName = currentUserName;
+    }
+
+    public void setCurrentUserEmail(String currentUserEmail) {
+        this.currentUserEmail = currentUserEmail;
+    }
+
+    public void setFriendRequestFromUserName(String friendRequestFromUserName) {
+        this.friendRequestFromUserName = friendRequestFromUserName;
+    }
+
+    public void setFriendRequestFromUserEmail(String friendRequestFromUserEmail) {
+        this.friendRequestFromUserEmail = friendRequestFromUserEmail;
     }
 }

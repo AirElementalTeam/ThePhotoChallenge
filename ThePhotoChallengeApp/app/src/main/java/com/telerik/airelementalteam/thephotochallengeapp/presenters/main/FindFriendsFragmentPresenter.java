@@ -26,9 +26,9 @@ public class FindFriendsFragmentPresenter {
         this.listAdapter = new FirebaseListAdapter<User>(this.activity, User.class, R.layout.user_list_item, firebase.getRefUsers()) {
             @Override
             protected void populateView(View convertView, User model) {
-                System.out.println(model.toString());
+                //System.out.println(model.toString());
                 if(model.getUid().equals(firebase.currentUserUID())){
-                    convertView = activity.getLayoutInflater().inflate(R.layout.row_null, null);
+                    //convertView = activity.getLayoutInflater().inflate(R.layout.row_null, null);
                     convertView.setVisibility(View.GONE);
                     //TODO: fix list item visibility
                     //http://stackoverflow.com/questions/13646147/hide-row-from-listview-without-taking-up-space
