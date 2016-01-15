@@ -10,7 +10,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
-import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
+import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.DatabaseAdapter;
 
 import Common.Validator;

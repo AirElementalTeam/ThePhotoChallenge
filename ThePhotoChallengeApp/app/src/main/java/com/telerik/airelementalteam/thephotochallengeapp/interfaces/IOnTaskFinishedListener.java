@@ -1,4 +1,4 @@
-package com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks;
+package com.telerik.airelementalteam.thephotochallengeapp.interfaces;
 
 public interface IOnTaskFinishedListener {
     void onSuccess();

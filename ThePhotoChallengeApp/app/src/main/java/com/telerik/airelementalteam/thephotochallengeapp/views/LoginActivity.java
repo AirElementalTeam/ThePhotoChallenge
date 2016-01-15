@@ -1,18 +1,14 @@
 package com.telerik.airelementalteam.thephotochallengeapp.views;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
-import com.telerik.airelementalteam.thephotochallengeapp.data.DatabaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.login.LoginPresenter;
 
 import butterknife.ButterKnife;

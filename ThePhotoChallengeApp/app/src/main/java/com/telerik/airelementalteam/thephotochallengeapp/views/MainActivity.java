@@ -3,20 +3,17 @@ package com.telerik.airelementalteam.thephotochallengeapp.views;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.MainPresenter;
@@ -86,9 +83,19 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
             transaction.commit();
-        }
+        } else if((extra != null) && extra.equals("notificationFriendRequest")){
+            UserFragment fragment = new UserFragment();
+            fragment.setFriendRequestRecieved(false);
+            fragment.setIsFriend(true);
+            fragment.setNotFriend(false);
+            fragment.setName(extraName);
+            fragment.setEmail(extraMail);
+            fragment.setUid(extraUID);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainer, fragment);
+            transaction.commit();
 
-        else if(savedInstanceState == null) {
+        } else if(savedInstanceState == null) {
             ChallengesFragment fragment = new ChallengesFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);

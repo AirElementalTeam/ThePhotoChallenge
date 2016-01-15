@@ -1,7 +1,6 @@
-package com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks;
+package com.telerik.airelementalteam.thephotochallengeapp.data;
 
 import android.app.Application;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import com.firebase.client.Firebase;
 

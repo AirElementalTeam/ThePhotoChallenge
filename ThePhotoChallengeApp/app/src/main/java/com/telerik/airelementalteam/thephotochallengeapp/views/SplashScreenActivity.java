@@ -1,13 +1,11 @@
 package com.telerik.airelementalteam.thephotochallengeapp.views;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import com.firebase.client.AuthData;
 import com.telerik.airelementalteam.thephotochallengeapp.R;
-import com.telerik.airelementalteam.thephotochallengeapp.presenters.IView;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.splashscreen.SplashScreenPresenter;
 
 public class SplashScreenActivity extends AppCompatActivity {

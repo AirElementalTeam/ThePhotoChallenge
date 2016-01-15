@@ -10,17 +10,16 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.widget.TextView;
 
-import com.firebase.client.Firebase;
 import com.telerik.airelementalteam.thephotochallengeapp.R;
-import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnChildrenListener;
-import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
+import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestConfirmedListener;
+import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestListener;
+import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.views.MainActivity;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListener {
+public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestListener, IOnFriendRequestConfirmedListener {
 
     private Activity activity;
     private FirebaseAdapter firebase;
@@ -64,7 +63,7 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
     }
 
     public void listenForChanges() {
-        firebase.listenForChanges(this);
+        firebase.listenForChanges(this, this);
     }
 
     public void logoutUser(){firebase.logoutUser();}
@@ -72,6 +71,7 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
     @Override
     public void onSuccess() {
         //add name and mail to the drawer
+        //TODO: this sometimes throws with null
         if(!this.currentUserName.equals(tempName) && !this.currentUserEmail.equals(tempEmail)) {
             tempName = currentUserName;
             tempEmail = currentUserEmail;
@@ -88,11 +88,12 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
 
     }
 
-    @Override
-    public void childAdded() {
-        System.out.println("after child added");
+    public void setFriendRequestFromUserUID(String friendRequestFromUserUID) {
+        this.friendRequestFromUserUID = friendRequestFromUserUID;
+    }
 
-        //react to friend request
+    @Override
+    public void friendRequestReceived() {
         if(!this.friendRequestFromUserName.equals(tempfriendRequestFromUserName)
                 && !this.friendRequestFromUserEmail.equals(tempfriendRequestFromUserEmail)
                 && !this.friendRequestFromUserUID.equals(tempfriendRequestFromUserUID)) {
@@ -125,11 +126,34 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
             NotificationManager manager = (NotificationManager)this.activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
             manager.notify(Math.abs(generator.nextInt()), not);
         }
-
-        //react to friend request approved
     }
 
-    public void setFriendRequestFromUserUID(String friendRequestFromUserUID) {
-        this.friendRequestFromUserUID = friendRequestFromUserUID;
+    @Override
+    public void onNewFriend() {
+        Intent notificationIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
+
+        Bundle extras = new Bundle();
+        extras.putString("name" ,tempfriendRequestFromUserName);
+        extras.putString("email", tempfriendRequestFromUserEmail);
+        extras.putString("uid", tempfriendRequestFromUserUID);
+        extras.putString("notification", "notificationFriendRequestConfirmed");
+        notificationIntent.putExtras(extras);
+
+        Random generator = new Random();
+        System.out.println("PUTTING EXTRA");
+        System.out.println(notificationIntent.getExtras().toString());
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(activity)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle("New friend!")
+                .setContentText("You and " + this.friendRequestFromUserName + " are now friends")
+                .setContentIntent(PendingIntent.getActivity(activity.getApplicationContext(), Math.abs(generator.nextInt()), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+        builder.setOngoing(false);
+        builder.setAutoCancel(true);
+
+        Notification not = builder.build();
+        NotificationManager manager = (NotificationManager)this.activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(Math.abs(generator.nextInt()), not);
+
     }
 }

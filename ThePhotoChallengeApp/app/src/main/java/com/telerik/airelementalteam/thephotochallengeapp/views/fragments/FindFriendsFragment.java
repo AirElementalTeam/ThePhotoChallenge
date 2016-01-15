@@ -1,10 +1,7 @@
 package com.telerik.airelementalteam.thephotochallengeapp.views.fragments;
 
-
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -12,14 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.FindFriendsFragmentPresenter;
-import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.FriendsFragmentPresenter;
-import com.telerik.airelementalteam.thephotochallengeapp.views.LoginActivity;
-import com.telerik.airelementalteam.thephotochallengeapp.views.MainActivity;
 
 public class FindFriendsFragment extends Fragment {
 

@@ -4,9 +4,9 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncTaskInteractor;
-import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnChildrenListener;
-import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
-import com.telerik.airelementalteam.thephotochallengeapp.presenters.user.UserPresenter;
+import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestConfirmedListener;
+import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestListener;
+import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
 
 import Common.Constants;
 
@@ -108,9 +108,9 @@ public class FirebaseAdapter {
         interactor.asyncSendAndReceiveFriendRequest(this, listener, fromUser, toUser);
     }
 
-    public void listenForChanges(IOnChildrenListener listener) {
-        interactor.listenForFriendRequest(this, listener);
-        interactor.listenForFriendRequestsConfirm(this, listener);
+    public void listenForChanges(IOnFriendRequestListener requestListener, IOnFriendRequestConfirmedListener friendListener) {
+        interactor.listenForFriendRequest(this, requestListener);
+        interactor.listenForFriendRequestsConfirm(this, friendListener);
     }
 
     public void confirmFriendsWith(String uid, IOnTaskFinishedListener listener) {

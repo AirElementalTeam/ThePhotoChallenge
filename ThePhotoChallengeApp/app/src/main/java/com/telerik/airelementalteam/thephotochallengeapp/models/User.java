@@ -1,12 +1,8 @@
 package com.telerik.airelementalteam.thephotochallengeapp.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
@@ -17,7 +13,7 @@ public class User {
     private HashMap<String, Object> challengesByUserIDs;
     private HashMap<String, Object> photosIDs;
     private HashMap<String, Object> favouritePhotosIDs;
-    private HashMap<String, Object> friendsIDs;
+    private HashMap<String, Object> friends;
     private HashMap<String, Object>friendRequestSend;
     private HashMap<String, Object> friendRequestReceived;
 
@@ -31,7 +27,7 @@ public class User {
         this.challengesByUserIDs = new HashMap<>();
         this.photosIDs = new HashMap<>();
         this.favouritePhotosIDs = new HashMap<>();
-        this.friendsIDs = new HashMap<>();
+        this.friends = new HashMap<>();
         this.friendRequestSend = new HashMap<>();
         this.friendRequestReceived = new HashMap<>();
     }
@@ -92,12 +88,12 @@ public class User {
         this.favouritePhotosIDs = favouritePhotosIDs;
     }
 
-    public HashMap<String, Object> getFriendsIDs(){
-        return this.friendsIDs;
+    public HashMap<String, Object> getFriends(){
+        return this.friends;
     }
 
-    public void setFriendsIDs(HashMap<String, Object> friendsIDs) {
-        this.friendsIDs = friendsIDs;
+    public void setFriends(HashMap<String, Object> friends) {
+        this.friends = friends;
     }
 
 
@@ -115,5 +111,10 @@ public class User {
 
     public void setFriendRequestRecieved(HashMap<String, Object> friendRequestRecieved) {
         this.friendRequestReceived = friendRequestRecieved;
+    }
+
+    public String toString() {
+        String user = "Name: " + this.getName() + "\n" + "Email: " + this.getEmail() + "\n" + "UID: " + this.getUid() + "\n" + "Friends" + this.getFriends();
+        return user;
     }
 }

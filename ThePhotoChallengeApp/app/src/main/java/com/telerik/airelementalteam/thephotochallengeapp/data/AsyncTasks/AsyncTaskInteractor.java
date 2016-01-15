@@ -8,14 +8,15 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
+import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestConfirmedListener;
+import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestListener;
+import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.models.User;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.MainPresenter;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.user.UserPresenter;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import Common.Constants;
 import Common.Converter;
@@ -189,7 +190,7 @@ public class AsyncTaskInteractor {
         });
     }
 
-    public void listenForFriendRequestsConfirm(FirebaseAdapter firebase, final IOnChildrenListener listener) {
+    public void listenForFriendRequestsConfirm(FirebaseAdapter firebase, final IOnFriendRequestConfirmedListener listener) {
         final Firebase usersRef = firebase.getRefUsers();
         String currentUserUID = firebase.currentUserUID();
         String path = usersRef.toString() + Constants.SLASH + currentUserUID + Constants.SLASH + Constants.FRIENDS;
@@ -199,6 +200,7 @@ public class AsyncTaskInteractor {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 System.out.println("I heard there is a new friend ");
                 System.out.println(dataSnapshot.getValue());
+                listener.onNewFriend();
             }
 
             @Override
@@ -224,7 +226,7 @@ public class AsyncTaskInteractor {
 
     }
 
-    public void listenForFriendRequest(FirebaseAdapter firebase, final IOnChildrenListener listener) {
+    public void listenForFriendRequest(FirebaseAdapter firebase, final IOnFriendRequestListener listener) {
         final Firebase usersRef = firebase.getRefUsers();
         String currentUserUID = firebase.currentUserUID();
         String path = usersRef.toString() + Constants.SLASH + currentUserUID + Constants.SLASH + Constants.FRIEND_REQUESTS_RECEIVED;
@@ -242,7 +244,7 @@ public class AsyncTaskInteractor {
                         presenter.setFriendRequestFromUserName(user.getName());
                         presenter.setFriendRequestFromUserEmail(user.getEmail());
                         presenter.setFriendRequestFromUserUID(user.getUid());
-                        listener.childAdded();
+                        listener.friendRequestReceived();
                     }
 
                     @Override
