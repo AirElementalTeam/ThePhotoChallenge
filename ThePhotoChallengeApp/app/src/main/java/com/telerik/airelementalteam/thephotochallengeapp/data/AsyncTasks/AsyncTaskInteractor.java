@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import Common.Constants;
 import Common.Converter;
 
 public class AsyncTaskInteractor {
@@ -33,13 +34,13 @@ public class AsyncTaskInteractor {
 
                     @Override
                     public void onSuccess(Map<String, Object> stringObjectMap) {
-                        User newUser = new User(stringObjectMap.get("uid").toString(), name, email);
+                        User newUser = new User(stringObjectMap.get(Constants.UID).toString(), name, email);
                         Firebase refUser = refUsers.child(newUser.getUid());
                         Firebase refMail = refUsersByEmail.child(converter.escapeEmail(newUser.getEmail()));
-                        refMail.child("uid").setValue(newUser.getUid());
+                        refMail.child(Constants.UID).setValue(newUser.getUid());
                         refUser.setValue(newUser);
                         listener.onSuccess();
-                        System.out.println("Successfully created user account with uid: " + stringObjectMap.get("uid"));
+                        System.out.println("Successfully created user account with uid: " + stringObjectMap.get(Constants.UID));
                     }
 
                     @Override
@@ -117,11 +118,12 @@ public class AsyncTaskInteractor {
                 if(currentRequestsSend == null) {
                     currentRequestsSend = new HashMap<>();
                 }
+
                 String fromUserName = currentUser.getName();
                 currentRequestsSend.put(toUserUID, true);
                 currentUser.setFrinedRequestSend(currentRequestsSend);
                 Firebase user = usersRef.child(currentUser.getUid());
-                user.child("friendRequestsSend").updateChildren(currentRequestsSend);
+                user.child(Constants.FRIEND_REQUESTS_SEND).updateChildren(currentRequestsSend);
                 asyncReceiveFriendRequest(usersRef, listener, toUserRef, fromUserUID, fromUserName);
             }
 
@@ -145,11 +147,13 @@ public class AsyncTaskInteractor {
                 requestsReceived.put(fromUserUID, true);
                 toUser.setFriendRequestRecieved(requestsReceived);
                 Firebase user = UsersRef.child(toUser.getUid());
-                user.child("friendRequestsReceived").updateChildren(requestsReceived);
+                user.child(Constants.FRIEND_REQUESTS_RECEIVED).updateChildren(requestsReceived);
 
                 //UserPresenter presenter = (UserPresenter) listener;
                 //presenter.setFriendRequestFromUserName(fromUserName);
 
+                UserPresenter presenter = (UserPresenter) listener;
+                presenter.setFriendRequestSend(true);
                 listener.onSuccess();
             }
 
@@ -185,10 +189,45 @@ public class AsyncTaskInteractor {
         });
     }
 
+    public void listenForFriendRequestsConfirm(FirebaseAdapter firebase, final IOnChildrenListener listener) {
+        final Firebase usersRef = firebase.getRefUsers();
+        String currentUserUID = firebase.currentUserUID();
+        String path = usersRef.toString() + Constants.SLASH + currentUserUID + Constants.SLASH + Constants.FRIENDS;
+        Firebase RefFriends = new Firebase(path);
+        RefFriends.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                System.out.println("I heard there is a new friend ");
+                System.out.println(dataSnapshot.getValue());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+    }
+
     public void listenForFriendRequest(FirebaseAdapter firebase, final IOnChildrenListener listener) {
         final Firebase usersRef = firebase.getRefUsers();
         String currentUserUID = firebase.currentUserUID();
-        String path = usersRef.toString() + "/" + currentUserUID + "/" + "friendRequestsReceived";
+        String path = usersRef.toString() + Constants.SLASH + currentUserUID + Constants.SLASH + Constants.FRIEND_REQUESTS_RECEIVED;
         System.out.println(path);
         Firebase receivedFriendRequestFromUser = new Firebase(path);
         receivedFriendRequestFromUser.addChildEventListener(new ChildEventListener() {
@@ -202,6 +241,7 @@ public class AsyncTaskInteractor {
                         MainPresenter presenter = (MainPresenter) listener;
                         presenter.setFriendRequestFromUserName(user.getName());
                         presenter.setFriendRequestFromUserEmail(user.getEmail());
+                        presenter.setFriendRequestFromUserUID(user.getUid());
                         listener.childAdded();
                     }
 
@@ -237,5 +277,28 @@ public class AsyncTaskInteractor {
     private Query getCurrentUser(FirebaseAdapter firebase){
         Firebase RefUsers = firebase.getRefUsers();
         return RefUsers.child(firebase.currentUserUID());
+    }
+
+    public void asyncMakeFriends(FirebaseAdapter firebase, IOnTaskFinishedListener listener, String userUID, String otherUID) {
+        Firebase RefUsers = firebase.getRefUsers();
+        String pathToOtherUserFriends = RefUsers.toString() + Constants.SLASH + otherUID + Constants.SLASH + Constants.FRIENDS;
+        String pathToOtherUserSendRequests = RefUsers.toString() + Constants.SLASH + otherUID + Constants.SLASH + Constants.FRIEND_REQUESTS_SEND;
+        String pathToAuthUserFriends = RefUsers.toString() + Constants.SLASH + userUID + Constants.SLASH + Constants.FRIENDS;
+        String pathToAuthUserReceivedRequests = RefUsers.toString() + Constants.SLASH + userUID + Constants.SLASH + Constants.FRIEND_REQUESTS_RECEIVED;
+
+        Firebase RefAuthFriends = new Firebase(pathToAuthUserFriends);
+        RefAuthFriends.child(otherUID).setValue(true);
+        Firebase RefOtherFriends = new Firebase(pathToOtherUserFriends);
+        RefOtherFriends.child(userUID).setValue(true);
+        Firebase RefAuthUserReceivedRequests = new Firebase(pathToAuthUserReceivedRequests);
+        RefAuthUserReceivedRequests.child(otherUID).setValue(null);
+        Firebase RefOtherUserSendRequests = new Firebase(pathToOtherUserSendRequests);
+        RefOtherUserSendRequests.child(userUID).setValue(null);
+
+        UserPresenter presenter = (UserPresenter) listener;
+        presenter.setFriends(true);
+        presenter.setFriendRequestSend(false);
+        listener.onSuccess();
+
     }
 }

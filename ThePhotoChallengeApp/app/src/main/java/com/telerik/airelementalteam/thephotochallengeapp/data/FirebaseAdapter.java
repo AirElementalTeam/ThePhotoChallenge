@@ -6,21 +6,24 @@ import com.firebase.client.Query;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncTaskInteractor;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnChildrenListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.user.UserPresenter;
+
+import Common.Constants;
 
 public class FirebaseAdapter {
 
-    final String firebaseConnection = "https://thephotobag.firebaseio.com";
-    final String usersConnection = firebaseConnection + "/Users";
-    final String usersByEmailConnection = firebaseConnection + "/UsersByEmail";
-    final String challengesConnection = firebaseConnection + "/Challanges";
-    final String photosConnection = firebaseConnection + "/Photos";
-    final String themesConnection = firebaseConnection + "/Themes";
-    final String userFriends = "Friends";
+    final String firebaseConnection = Constants.FIREBASE_PATH;
+    final String usersConnection = firebaseConnection + Constants.SLASH + Constants.USERS;
+    final String usersByEmailConnection = firebaseConnection + Constants.SLASH + Constants.USERS_BY_EMAIL;
+    final String challengesConnection = firebaseConnection + Constants.SLASH + Constants.CHALLENGES;
+    final String photosConnection = firebaseConnection + Constants.SLASH + Constants.PHOTOS;
+    final String themesConnection = firebaseConnection + Constants.SLASH + Constants.THEMES;
+    final String userFriends = Constants.FRIENDS;
 
     private Firebase refDB;
     private Firebase refUsers;
     private Firebase refUsersByEmail;
-    private Firebase refChallanges;
+    private Firebase refChallenges;
     private Firebase refPhotos;
     private Firebase refThemes;
 
@@ -30,7 +33,7 @@ public class FirebaseAdapter {
         this.refDB = new Firebase(firebaseConnection);
         this.refUsers = new Firebase(usersConnection);
         this.refUsersByEmail = new Firebase(usersByEmailConnection);
-        this.refChallanges = new Firebase(challengesConnection);
+        this.refChallenges = new Firebase(challengesConnection);
         this.refPhotos = new Firebase(photosConnection);
         this.refThemes = new Firebase(themesConnection);
         this.interactor = new AsyncTaskInteractor();
@@ -53,7 +56,7 @@ public class FirebaseAdapter {
     }
 
     public Firebase getRefChallanges() {
-        return refChallanges;
+        return refChallenges;
     }
 
     public Firebase getRefPhotos() {
@@ -107,5 +110,11 @@ public class FirebaseAdapter {
 
     public void listenForChanges(IOnChildrenListener listener) {
         interactor.listenForFriendRequest(this, listener);
+        interactor.listenForFriendRequestsConfirm(this, listener);
+    }
+
+    public void confirmFriendsWith(String uid, IOnTaskFinishedListener listener) {
+        String authUID = this.currentUserUID();
+        interactor.asyncMakeFriends(this, listener, authUID, uid);
     }
 }

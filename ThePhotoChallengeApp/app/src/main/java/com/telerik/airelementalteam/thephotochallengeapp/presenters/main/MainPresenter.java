@@ -32,8 +32,11 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
 
     private String friendRequestFromUserName;
     private String friendRequestFromUserEmail;
+    private String friendRequestFromUserUID;
     String tempfriendRequestFromUserName;
     String tempfriendRequestFromUserEmail;
+    String tempfriendRequestFromUserUID;
+
 
     public MainPresenter(Activity activity){
         this.activity = activity;
@@ -90,15 +93,19 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
         System.out.println("after child added");
 
         //react to friend request
-        if(!this.friendRequestFromUserName.equals(tempfriendRequestFromUserName) && !this.friendRequestFromUserEmail.equals(tempfriendRequestFromUserEmail)) {
+        if(!this.friendRequestFromUserName.equals(tempfriendRequestFromUserName)
+                && !this.friendRequestFromUserEmail.equals(tempfriendRequestFromUserEmail)
+                && !this.friendRequestFromUserUID.equals(tempfriendRequestFromUserUID)) {
             tempfriendRequestFromUserName = friendRequestFromUserName;
             tempfriendRequestFromUserEmail = friendRequestFromUserEmail;
+            tempfriendRequestFromUserUID = friendRequestFromUserUID;
 
             Intent notificationIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
 
             Bundle extras = new Bundle();
             extras.putString("name" ,tempfriendRequestFromUserName);
             extras.putString("email", tempfriendRequestFromUserEmail);
+            extras.putString("uid", tempfriendRequestFromUserUID);
             extras.putString("notification", "notificationFriendRequest");
             notificationIntent.putExtras(extras);
 
@@ -118,5 +125,11 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
             NotificationManager manager = (NotificationManager)this.activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
             manager.notify(Math.abs(generator.nextInt()), not);
         }
+
+        //react to friend request approved
+    }
+
+    public void setFriendRequestFromUserUID(String friendRequestFromUserUID) {
+        this.friendRequestFromUserUID = friendRequestFromUserUID;
     }
 }

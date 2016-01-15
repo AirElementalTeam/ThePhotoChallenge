@@ -39,4 +39,5 @@
     <string name="friend_request_text">You have friend request from this user.</string>
     <string name="confirm_button_txt">CONFIRM</string>
     <string name="decline_button_txt">DECLINE</string>
+    <string name="friends_text">You are friends</string>
 </resources>

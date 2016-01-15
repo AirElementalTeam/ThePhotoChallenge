@@ -54,12 +54,14 @@ public class MainActivity extends AppCompatActivity
         String extra= "";
         String extraName="";
         String extraMail="";
+        String extraUID ="";
 
         try{
             Bundle data= this.getIntent().getExtras();
             System.out.println(data);
             extraName = data.getString("name");
             extraMail = data.getString("email");
+            extraUID = data.getString("uid");
             extra = data.getString("notification");
         }catch(Exception e){
             e.printStackTrace();
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity
             fragment.setNotFriend(false);
             fragment.setName(extraName);
             fragment.setEmail(extraMail);
+            fragment.setUid(extraUID);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
             transaction.commit();
