@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.widget.TextView;
 
@@ -15,6 +16,9 @@ import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnChil
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.views.MainActivity;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListener {
 
@@ -29,6 +33,7 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
     private String friendRequestFromUserName;
     private String friendRequestFromUserEmail;
     String tempfriendRequestFromUserName;
+    String tempfriendRequestFromUserEmail;
 
     public MainPresenter(Activity activity){
         this.activity = activity;
@@ -83,17 +88,29 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
     @Override
     public void childAdded() {
         System.out.println("after child added");
+
         //react to friend request
-        if(!this.friendRequestFromUserName.equals(tempfriendRequestFromUserName)) {
+        if(!this.friendRequestFromUserName.equals(tempfriendRequestFromUserName) && !this.friendRequestFromUserEmail.equals(tempfriendRequestFromUserEmail)) {
             tempfriendRequestFromUserName = friendRequestFromUserName;
+            tempfriendRequestFromUserEmail = friendRequestFromUserEmail;
 
+            //TODO: VERY BIG TODO!!!
             Intent notificationIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
-            notificationIntent.putExtra("notification", "notificationFriendRequest");
-            notificationIntent.putExtra("userName", this.friendRequestFromUserName);
-            System.out.println("PUTTING EXTRA");
-            System.out.println(friendRequestFromUserName);
-            notificationIntent.putExtra("userEmail", this.friendRequestFromUserEmail);
 
+            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            Bundle extras = new Bundle();
+            extras.putString("name" ,tempfriendRequestFromUserName);
+            extras.putString("email", tempfriendRequestFromUserEmail);
+            extras.putString("notification", "notificationFriendRequest");
+            //notificationIntent.putExtra("name", this.friendRequestFromUserName);
+            //notificationIntent.putExtra("notification", "notificationFriendRequest");
+            //notificationIntent.putExtra("email", this.friendRequestFromUserEmail);
+            notificationIntent.putExtras(extras);
+
+            System.out.println("PUTTING EXTRA");
+            System.out.println(notificationIntent.getExtras().toString());
+
+            Random generator = new Random();
             NotificationCompat.Builder builder = new NotificationCompat.Builder(activity)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setContentTitle("New friend!")

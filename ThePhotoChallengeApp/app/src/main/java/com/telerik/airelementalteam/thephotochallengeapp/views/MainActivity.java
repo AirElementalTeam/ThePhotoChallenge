@@ -54,10 +54,16 @@ public class MainActivity extends AppCompatActivity
         String extra= "";
         String extraName="";
         String extraMail="";
-        Intent intent = getIntent();
-        extra = intent.getStringExtra("notification");
-        extraName = intent.getStringExtra("userName");
-        extraMail = intent.getStringExtra("userEmail");
+
+        try{
+            Bundle data= this.getIntent().getExtras();
+            extraName = data.getString("name");
+            extraMail = data.getString("email");
+            extra = data.getString("notification");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         System.out.println("_______EXTRA_______");
         System.out.println(extra);
         System.out.println("_______EXTRA NAME_______");
@@ -68,7 +74,8 @@ public class MainActivity extends AppCompatActivity
 
         if((extra != null) && extra.equals("notificationFriendRequest")){
 
-            System.out.println("INSIDE IF STATEMENT");
+            Bundle data = this.getIntent().getExtras();
+            System.out.println(data.toString());
             UserFragment fragment = new UserFragment();
             fragment.setFriendRequestRecieved(true);
             fragment.setIsFriend(false);
@@ -87,6 +94,12 @@ public class MainActivity extends AppCompatActivity
             transaction.commit();
         }
 
+        else if(savedInstanceState != null) {
+
+            System.out.println("SAVED INSTANCE STATE");
+            System.out.println(savedInstanceState.toString());
+        }
+
         toolbar = (Toolbar) findViewById(R.id.custom_toolbar);
         setSupportActionBar(toolbar);
 
@@ -103,7 +116,7 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-//
+
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
