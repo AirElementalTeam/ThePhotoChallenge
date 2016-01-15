@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity
 
         try{
             Bundle data= this.getIntent().getExtras();
+            System.out.println(data);
             extraName = data.getString("name");
             extraMail = data.getString("email");
             extra = data.getString("notification");
@@ -74,8 +75,6 @@ public class MainActivity extends AppCompatActivity
 
         if((extra != null) && extra.equals("notificationFriendRequest")){
 
-            Bundle data = this.getIntent().getExtras();
-            System.out.println(data.toString());
             UserFragment fragment = new UserFragment();
             fragment.setFriendRequestRecieved(true);
             fragment.setIsFriend(false);

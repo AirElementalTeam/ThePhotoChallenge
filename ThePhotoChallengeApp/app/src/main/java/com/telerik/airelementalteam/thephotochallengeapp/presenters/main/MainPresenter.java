@@ -97,7 +97,6 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
             //TODO: VERY BIG TODO!!!
             Intent notificationIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
 
-            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             Bundle extras = new Bundle();
             extras.putString("name" ,tempfriendRequestFromUserName);
             extras.putString("email", tempfriendRequestFromUserEmail);
@@ -107,25 +106,21 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
             //notificationIntent.putExtra("email", this.friendRequestFromUserEmail);
             notificationIntent.putExtras(extras);
 
+            Random generator = new Random();
             System.out.println("PUTTING EXTRA");
             System.out.println(notificationIntent.getExtras().toString());
-
-            Random generator = new Random();
+            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(activity)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setContentTitle("New friend!")
                     .setContentText(this.friendRequestFromUserName + " wants to be friends.")
-                    .setAutoCancel(true)
-                    .setOnlyAlertOnce(true)
-                    .setOngoing(false)
-                    .setContentIntent(PendingIntent.getActivity(activity.getApplicationContext(), 0, notificationIntent, 0));
+                    .setContentIntent(PendingIntent.getActivity(activity.getApplicationContext(), Math.abs(generator.nextInt()), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));
             builder.setOngoing(false);
             builder.setAutoCancel(true);
 
             Notification not = builder.build();
-            not.flags = Notification.FLAG_AUTO_CANCEL;
             NotificationManager manager = (NotificationManager)this.activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            manager.notify(123, not);
+            manager.notify(Math.abs(generator.nextInt()), not);
         }
     }
 }
