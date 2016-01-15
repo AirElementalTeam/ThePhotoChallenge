@@ -46,12 +46,13 @@ public class FindFriendsFragment extends Fragment {
 
                 String name = nameText.getText().toString();
                 String email = emailText.getText().toString();
-                System.out.println(name);
-                System.out.println(email);
-                System.out.println("----------------------");
+
                 UserFragment fragment = new UserFragment();
                 fragment.setName(name);
                 fragment.setEmail(email);
+                fragment.setNotFriend(true);
+                fragment.setIsFriend(false);
+                fragment.setFriendRequestRecieved(false);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer, fragment);
                 transaction.commit();

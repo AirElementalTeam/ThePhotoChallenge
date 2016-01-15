@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,7 +51,36 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.inject(this);
         presenter = new MainPresenter(this);
 
-        if(savedInstanceState == null) {
+        String extra= "";
+        String extraName="";
+        String extraMail="";
+        Intent intent = getIntent();
+        extra = intent.getStringExtra("notification");
+        extraName = intent.getStringExtra("userName");
+        extraMail = intent.getStringExtra("userEmail");
+        System.out.println("_______EXTRA_______");
+        System.out.println(extra);
+        System.out.println("_______EXTRA NAME_______");
+        System.out.println(extraName);
+        System.out.println("_______EXTRA MAIL_______");
+        System.out.println(extraMail);
+        //TODO: why the two second extras for name and mail don't arrive in the MainActivity, but the first arrives ok
+
+        if((extra != null) && extra.equals("notificationFriendRequest")){
+
+            System.out.println("INSIDE IF STATEMENT");
+            UserFragment fragment = new UserFragment();
+            fragment.setFriendRequestRecieved(true);
+            fragment.setIsFriend(false);
+            fragment.setNotFriend(false);
+            fragment.setName(extraName);
+            fragment.setEmail(extraMail);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragmentContainer, fragment);
+            transaction.commit();
+        }
+
+        else if(savedInstanceState == null) {
             ChallengesFragment fragment = new ChallengesFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
@@ -83,11 +113,7 @@ public class MainActivity extends AppCompatActivity
         notificationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.this);
-                UserFragment fragment = new UserFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragmentContainer, fragment);
-                transaction.commit();
+                //TODO: custom notification in app
             }
         });
     }

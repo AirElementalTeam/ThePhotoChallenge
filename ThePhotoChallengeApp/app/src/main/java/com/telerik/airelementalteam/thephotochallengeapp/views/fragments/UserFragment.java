@@ -21,6 +21,10 @@ public class UserFragment extends Fragment {
     private UserPresenter presenter;
     private String email;
     private String name;
+    private boolean friendRequestReceived;
+    private boolean friendRequestSend;
+    private boolean notFriend;
+    private boolean isFriend;
 
     public UserFragment() {
     }
@@ -31,18 +35,65 @@ public class UserFragment extends Fragment {
         presenter = new UserPresenter(this.getActivity());
         View view = inflater.inflate(R.layout.fragment_user, container, false);
         TextView nameText = (TextView) view.findViewById(R.id.friend_item_name);
-        System.out.println(name);
-        System.out.println(email);
         TextView emailText = (TextView) view.findViewById(R.id.friend_item_email);
+        System.out.println(this.name);
         nameText.setText(this.name);
         emailText.setText(this.email);
 
+        TextView noFriendText = (TextView) view.findViewById(R.id.private_user_text);
+        TextView friendRequestText = (TextView) view.findViewById(R.id.friend_request_text);
         AppCompatButton addFriendButton = (AppCompatButton) view.findViewById(R.id.add_friend_btn);
+        AppCompatButton confirmFriendButton = (AppCompatButton) view.findViewById(R.id.confirm_friend_button);
+        AppCompatButton declineFriendButton = (AppCompatButton) view.findViewById(R.id.decline_friend_button);
+
+
+        if(friendRequestReceived) {
+            noFriendText.setVisibility(View.GONE);
+            addFriendButton.setVisibility(View.GONE);
+            friendRequestText.setVisibility(View.VISIBLE);
+            confirmFriendButton.setVisibility(View.VISIBLE);
+            declineFriendButton.setVisibility(View.VISIBLE);
+
+        } else if(friendRequestSend){
+            noFriendText.setVisibility(View.GONE);
+            addFriendButton.setVisibility(View.GONE);
+            friendRequestText.setText("Pending answer from user...");
+            friendRequestText.setVisibility(View.VISIBLE);
+            confirmFriendButton.setVisibility(View.GONE);
+            declineFriendButton.setVisibility(View.GONE);
+
+        } else if(notFriend){
+            noFriendText.setVisibility(View.VISIBLE);
+            addFriendButton.setVisibility(View.VISIBLE);
+            friendRequestText.setVisibility(View.GONE);
+            confirmFriendButton.setVisibility(View.GONE);
+            declineFriendButton.setVisibility(View.GONE);
+        }
+        else if(isFriend){
+            noFriendText.setVisibility(View.GONE);
+            addFriendButton.setVisibility(View.GONE);
+            friendRequestText.setVisibility(View.GONE);
+            confirmFriendButton.setVisibility(View.GONE);
+            declineFriendButton.setVisibility(View.GONE);
+        }
 
         addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.sendFriendRequest(email);
+            }
+        });
+
+        confirmFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: add to friends
+            }
+        });
+        declineFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: don't add to friends
             }
         });
         return view;
@@ -54,5 +105,17 @@ public class UserFragment extends Fragment {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setFriendRequestRecieved(boolean friendRequestReceived) {
+        this.friendRequestReceived = friendRequestReceived;
+    }
+
+    public void setNotFriend(boolean notFriend) {
+        this.notFriend = notFriend;
+    }
+
+    public void setIsFriend(boolean isFriend) {
+        this.isFriend = isFriend;
     }
 }

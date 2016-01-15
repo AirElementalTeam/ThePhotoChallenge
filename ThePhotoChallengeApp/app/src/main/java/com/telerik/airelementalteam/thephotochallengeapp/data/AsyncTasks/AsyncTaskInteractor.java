@@ -190,21 +190,18 @@ public class AsyncTaskInteractor {
         String currentUserUID = firebase.currentUserUID();
         String path = usersRef.toString() + "/" + currentUserUID + "/" + "friendRequestsReceived";
         System.out.println(path);
-        Firebase receivedFriendRequests = new Firebase(path);
-        receivedFriendRequests.addChildEventListener(new ChildEventListener() {
+        Firebase receivedFriendRequestFromUser = new Firebase(path);
+        receivedFriendRequestFromUser.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                System.out.println("On child added");
-
                 //find user
-                System.out.println(usersRef.child(dataSnapshot.getKey()).child("name").getKey());
-                usersRef.child(dataSnapshot.getKey()).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                usersRef.child(dataSnapshot.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        System.out.println(dataSnapshot.getValue());
-                        System.out.println("----------------------------------------->>>");
+                        User user = dataSnapshot.getValue(User.class);
                         MainPresenter presenter = (MainPresenter) listener;
-                        presenter.setFriendRequestFromUserName(dataSnapshot.getValue().toString());
+                        presenter.setFriendRequestFromUserName(user.getName());
+                        presenter.setFriendRequestFromUserEmail(user.getEmail());
                         listener.childAdded();
                     }
 
@@ -213,12 +210,6 @@ public class AsyncTaskInteractor {
 
                     }
                 });
-
-
-                //listener.childAdded();
-                //System.out.println(dataSnapshot.getValue());
-
-
             }
 
             @Override

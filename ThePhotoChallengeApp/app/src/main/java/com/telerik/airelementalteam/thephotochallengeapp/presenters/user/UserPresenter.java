@@ -2,6 +2,7 @@ package com.telerik.airelementalteam.thephotochallengeapp.presenters.user;
 
 import android.app.Activity;
 import android.support.v4.app.NotificationCompat;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -45,13 +46,11 @@ public class UserPresenter implements IOnTaskFinishedListener {
         Firebase refMail = refUsersByEmail.child(escapedMail);
         Query toUser = refMail.orderByChild(activity.getString(R.string.uid));
         firebase.sendAndReceiveFriendRequest(this, fromUser, toUser);
-
-        //create friend request (sent for current user/ recieved for other user)
     }
 
     @Override
     public void onSuccess() {
-
+        Toast.makeText(activity.getApplicationContext(), "Friend request send", Toast.LENGTH_SHORT).show();
 
     }
 

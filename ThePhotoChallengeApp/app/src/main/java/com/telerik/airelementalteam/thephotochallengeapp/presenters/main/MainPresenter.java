@@ -3,7 +3,9 @@ package com.telerik.airelementalteam.thephotochallengeapp.presenters.main;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.widget.TextView;
 
@@ -12,6 +14,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnChildrenListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
+import com.telerik.airelementalteam.thephotochallengeapp.views.MainActivity;
 
 public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListener {
 
@@ -24,6 +27,7 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
     String tempEmail;
 
     private String friendRequestFromUserName;
+    private String friendRequestFromUserEmail;
     String tempfriendRequestFromUserName;
 
     public MainPresenter(Activity activity){
@@ -41,6 +45,10 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
 
     public void setFriendRequestFromUserName(String friendRequestFromUserName) {
         this.friendRequestFromUserName = friendRequestFromUserName;
+    }
+
+    public void setFriendRequestFromUserEmail(String friendRequestFromUserEmail) {
+        this.friendRequestFromUserEmail = friendRequestFromUserEmail;
     }
 
     public void getNameAndMail(){
@@ -64,8 +72,7 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
             TextView emailText = (TextView) this.activity.findViewById(R.id.header_email);
             emailText.setText(currentUserEmail);
         }
-
-        System.out.println("Aftr child added on success in main");
+        System.out.println("After child added on success in main");
     }
 
     @Override
@@ -79,12 +86,27 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
         //react to friend request
         if(!this.friendRequestFromUserName.equals(tempfriendRequestFromUserName)) {
             tempfriendRequestFromUserName = friendRequestFromUserName;
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(activity);
-            builder.setContentTitle("New friend!");
-            builder.setContentText(this.friendRequestFromUserName + " wants to be friends.");
-            builder.setSmallIcon(R.drawable.ic_notification);
+
+            Intent notificationIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
+            notificationIntent.putExtra("notification", "notificationFriendRequest");
+            notificationIntent.putExtra("userName", this.friendRequestFromUserName);
+            System.out.println("PUTTING EXTRA");
+            System.out.println(friendRequestFromUserName);
+            notificationIntent.putExtra("userEmail", this.friendRequestFromUserEmail);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(activity)
+                    .setSmallIcon(R.drawable.ic_notification)
+                    .setContentTitle("New friend!")
+                    .setContentText(this.friendRequestFromUserName + " wants to be friends.")
+                    .setAutoCancel(true)
+                    .setOnlyAlertOnce(true)
+                    .setOngoing(false)
+                    .setContentIntent(PendingIntent.getActivity(activity.getApplicationContext(), 0, notificationIntent, 0));
+            builder.setOngoing(false);
+            builder.setAutoCancel(true);
 
             Notification not = builder.build();
+            not.flags = Notification.FLAG_AUTO_CANCEL;
             NotificationManager manager = (NotificationManager)this.activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
             manager.notify(123, not);
         }

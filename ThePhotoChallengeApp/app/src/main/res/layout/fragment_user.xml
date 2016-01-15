@@ -45,6 +45,37 @@
         android:layout_centerInParent="true"
         android:text="@string/no_friend_text"/>
 
+    <TextView
+        android:id="@+id/friend_request_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/friend_request_text"/>
+
+    <RelativeLayout
+        android:layout_below="@+id/friend_request_text"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/confirm_friend_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/confirm_button_txt"
+            android:textColor="@color/colorPrimaryDark"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/decline_friend_button"
+            android:layout_toEndOf="@+id/confirm_friend_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/decline_button_txt"
+            android:textColor="@color/colorPrimaryDark"/>
+
+    </RelativeLayout>
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/add_friend_btn"
         android:layout_alignParentBottom="true"
