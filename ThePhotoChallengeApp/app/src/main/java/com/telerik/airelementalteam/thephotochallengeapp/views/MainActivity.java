@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity
         System.out.println(extraName);
         System.out.println("_______EXTRA MAIL_______");
         System.out.println(extraMail);
-        //TODO: why the two second extras for name and mail don't arrive in the MainActivity, but the first arrives ok
 
         if((extra != null) && extra.equals("notificationFriendRequest")){
 
@@ -91,12 +90,6 @@ public class MainActivity extends AppCompatActivity
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
             transaction.commit();
-        }
-
-        else if(savedInstanceState != null) {
-
-            System.out.println("SAVED INSTANCE STATE");
-            System.out.println(savedInstanceState.toString());
         }
 
         toolbar = (Toolbar) findViewById(R.id.custom_toolbar);

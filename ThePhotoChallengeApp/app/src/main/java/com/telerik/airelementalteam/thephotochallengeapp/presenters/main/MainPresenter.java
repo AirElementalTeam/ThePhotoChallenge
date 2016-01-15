@@ -94,16 +94,12 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnChildrenListen
             tempfriendRequestFromUserName = friendRequestFromUserName;
             tempfriendRequestFromUserEmail = friendRequestFromUserEmail;
 
-            //TODO: VERY BIG TODO!!!
             Intent notificationIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
 
             Bundle extras = new Bundle();
             extras.putString("name" ,tempfriendRequestFromUserName);
             extras.putString("email", tempfriendRequestFromUserEmail);
             extras.putString("notification", "notificationFriendRequest");
-            //notificationIntent.putExtra("name", this.friendRequestFromUserName);
-            //notificationIntent.putExtra("notification", "notificationFriendRequest");
-            //notificationIntent.putExtra("email", this.friendRequestFromUserEmail);
             notificationIntent.putExtras(extras);
 
             Random generator = new Random();
