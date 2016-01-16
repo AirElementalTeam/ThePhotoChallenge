@@ -6,6 +6,7 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -27,13 +28,38 @@ public class FriendsFragment extends ListFragment {
         View view =  inflater.inflate(R.layout.fragment_friends, container, false);
         ListView friendsList = (ListView) view.findViewById(android.R.id.list);
         TextView noFriends = (TextView) view.findViewById(R.id.no_friends_id);
-        presenter.populateFriendList(friendsList, noFriends);
-
         CircleImageView findFriendsButton = (CircleImageView) view.findViewById(R.id.find_friends_button);
+
         findFriendsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FindFriendsFragment fragment = new FindFriendsFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer, fragment);
+                transaction.commit();
+            }
+        });
+
+        presenter.populateFriendList(friendsList, noFriends);
+        friendsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO: floating button shiuld be extracted in separate fragment so items can be clickable
+                //If a view contains either focusable or clickable item the OnItemCLickListener won't be called.
+                //System.out.println("Clicked on friend item");
+                TextView nameText = (TextView) view.findViewById(R.id.list_user_name);
+                TextView emailText = (TextView) view.findViewById(R.id.list_user_email);
+
+                String name = nameText.getText().toString();
+                String email = emailText.getText().toString();
+
+                UserFragment fragment = new UserFragment();
+                fragment.setName(name);
+                fragment.setEmail(email);
+                fragment.setNotFriend(false);
+                fragment.setFriendRequestRecieved(false);
+                fragment.setFriendRequestSend(false);
+                fragment.setIsFriend(true);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer, fragment);
                 transaction.commit();

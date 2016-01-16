@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity
 
         try{
             Bundle data= this.getIntent().getExtras();
-            System.out.println(data);
+            //System.out.println(data);
             extraName = data.getString("name");
             extraMail = data.getString("email");
             extraUID = data.getString("uid");
@@ -64,12 +64,12 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        System.out.println("_______EXTRA_______");
-        System.out.println(extra);
-        System.out.println("_______EXTRA NAME_______");
-        System.out.println(extraName);
-        System.out.println("_______EXTRA MAIL_______");
-        System.out.println(extraMail);
+        //System.out.println("_______EXTRA_______");
+        //System.out.println(extra);
+        //System.out.println("_______EXTRA NAME_______");
+        //System.out.println(extraName);
+        //System.out.println("_______EXTRA MAIL_______");
+        //System.out.println(extraMail);
 
         if((extra != null) && extra.equals("notificationFriendRequest")){
 
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        presenter.getNameAndMail();
+        //presenter.getNameAndMail();
         presenter.listenForChanges();
 
         notificationButton.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        presenter.getNameAndMail();
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

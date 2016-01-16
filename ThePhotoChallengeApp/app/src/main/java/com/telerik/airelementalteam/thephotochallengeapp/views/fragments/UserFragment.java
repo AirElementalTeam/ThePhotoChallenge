@@ -41,7 +41,7 @@ public class UserFragment extends Fragment implements IOnChildrenListener {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
         TextView nameText = (TextView) view.findViewById(R.id.friend_item_name);
         TextView emailText = (TextView) view.findViewById(R.id.friend_item_email);
-        System.out.println(this.name);
+        //System.out.println(this.name);
         nameText.setText(this.name);
         emailText.setText(this.email);
 
@@ -117,6 +117,10 @@ public class UserFragment extends Fragment implements IOnChildrenListener {
 
     public void setIsFriend(boolean isFriend) {
         this.isFriend = isFriend;
+    }
+
+    public void setFriendRequestSend(boolean friendRequestSend) {
+        this.friendRequestSend = friendRequestSend;
     }
 
     public void notFriendLayout(){

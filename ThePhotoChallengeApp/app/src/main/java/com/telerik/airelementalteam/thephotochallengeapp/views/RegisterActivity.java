@@ -36,14 +36,11 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Inside onClickListener of the REGISTER Button.");
 
                 String email  = emailInput.getText().toString();
                 String name = nameInput.getText().toString();
                 String password = passInput.getText().toString();
                 String confirmPassword = passConfirmText.getText().toString();
-
-                System.out.println("Email: " + email + "; Name: " + name + "; Pass: " + password + "; confirmPass: " + confirmPassword);
 
                 presenter.attemptRegistration(email, name, password, confirmPassword);
             }

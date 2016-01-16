@@ -6,16 +6,10 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
-import com.firebase.client.ValueEventListener;
 import com.firebase.ui.FirebaseListAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.models.User;
-
-import Common.Constants;
 
 public class FriendsFragmentPresenter {
 
@@ -24,8 +18,6 @@ public class FriendsFragmentPresenter {
     private FirebaseListAdapter<User> listAdapter;
 
     private ProgressDialog dialog;
-
-    //public FriendsFragmentPresenter(){}
 
     public FriendsFragmentPresenter(Activity activity) {
         this.activity = activity;
@@ -45,7 +37,6 @@ public class FriendsFragmentPresenter {
         };
         listView.setAdapter(listAdapter);
     }
-
     public void cleanup() {
         listAdapter.cleanup();
     }

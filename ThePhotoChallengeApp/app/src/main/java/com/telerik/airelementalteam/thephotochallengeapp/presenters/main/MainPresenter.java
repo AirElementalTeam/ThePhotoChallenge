@@ -45,8 +45,6 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
         this.firebase = new FirebaseAdapter();
     }
 
-
-
     public void getNameAndMail(){
         firebase.currentUserNameAndMail(this);
     }
@@ -60,7 +58,6 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
     @Override
     public void onSuccess() {
         //add name and mail to the drawer
-        //TODO: this sometimes throws with null
         TextView nameText = (TextView) this.activity.findViewById(R.id.header_username);
         TextView emailText = (TextView) this.activity.findViewById(R.id.header_email);
         if(nameText != null && emailText != null && !this.currentUserName.equals(tempName) && !this.currentUserEmail.equals(tempEmail)) {
@@ -71,7 +68,7 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
             emailText = (TextView) this.activity.findViewById(R.id.header_email);
             emailText.setText(currentUserEmail);
         }
-        System.out.println("After child added on success in main");
+        //System.out.println("After child added on success in main");
     }
 
     @Override
@@ -102,8 +99,8 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
             notificationIntent.putExtras(extras);
 
             Random generator = new Random();
-            System.out.println("PUTTING EXTRA");
-            System.out.println(notificationIntent.getExtras().toString());
+            //System.out.println("PUTTING EXTRA");
+            //System.out.println(notificationIntent.getExtras().toString());
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(activity)
                     .setSmallIcon(R.drawable.ic_notification)
@@ -123,6 +120,8 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
     public void onNewFriend() {
         Intent notificationIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
 
+        //WTF
+        System.out.println("I AM INSIDE FRIEND CONFIRM NOTIFICATION FACTORY");
         Bundle extras = new Bundle();
         extras.putString("name" ,newFriendName);
         extras.putString("email", newFriendEmail);
@@ -131,8 +130,8 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
         notificationIntent.putExtras(extras);
 
         Random generator = new Random();
-        System.out.println("PUTTING EXTRA");
-        System.out.println(notificationIntent.getExtras().toString());
+        //System.out.println("PUTTING EXTRA");
+        //System.out.println(notificationIntent.getExtras().toString());
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(activity)
                 .setSmallIcon(R.drawable.ic_notification)

@@ -46,9 +46,9 @@ public class AsyncTaskInteractor {
 
                     @Override
                     public void onError(FirebaseError firebaseError) {
-                        System.out.println("error code is ----> " + firebaseError.getCode());
-                        System.out.println(firebaseError.getMessage());
-                        System.out.println(firebaseError.getDetails());
+                        //System.out.println("error code is ----> " + firebaseError.getCode());
+                        //System.out.println(firebaseError.getMessage());
+                        //System.out.println(firebaseError.getDetails());
                         //TODO: find a way to return proper response when you get some specific error code!
                         switch (firebaseError.getCode()) {
                             case FirebaseError.INVALID_EMAIL:
@@ -95,7 +95,7 @@ public class AsyncTaskInteractor {
                 User user = dataSnapshot.getValue(User.class);
                 String toUserUID = user.getUid();
                 String fromUserUID = firebase.currentUserUID();
-                System.out.println(toUserUID);
+               // System.out.println(toUserUID);
                 asyncSendFriendRequest(firebase, listener, fromUser, toUser, fromUserUID, toUserUID);
                 //HALLELUJAH!
             }
@@ -194,12 +194,13 @@ public class AsyncTaskInteractor {
         final Firebase usersRef = firebase.getRefUsers();
         String currentUserUID = firebase.currentUserUID();
         String path = usersRef.toString() + Constants.SLASH + currentUserUID + Constants.SLASH + Constants.FRIENDS;
-        Firebase RefFriends = new Firebase(path);
+        Firebase RefFriends = firebase.refFriends();
         RefFriends.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 System.out.println("I heard there is a new friend ");
                 System.out.println("new friend UID " + dataSnapshot.getKey());
+                System.out.println(dataSnapshot.getValue());
                 System.out.println("my UID " + firebase.currentUserUID());
                 firebase.getRefUsers().child(dataSnapshot.getKey())
                         .addValueEventListener(new ValueEventListener() {
@@ -215,6 +216,7 @@ public class AsyncTaskInteractor {
 
                             @Override
                             public void onCancelled(FirebaseError firebaseError) {
+                                System.out.println("Inside onCancelled of listenForFriendRequestsConfirm");
 
                             }
                         });
@@ -248,7 +250,6 @@ public class AsyncTaskInteractor {
         final Firebase usersRef = firebase.getRefUsers();
         String currentUserUID = firebase.currentUserUID();
         String path = usersRef.toString() + Constants.SLASH + currentUserUID + Constants.SLASH + Constants.FRIEND_REQUESTS_RECEIVED;
-        System.out.println(path);
         Firebase receivedFriendRequestFromUser = new Firebase(path);
         receivedFriendRequestFromUser.addChildEventListener(new ChildEventListener() {
             @Override

@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:layout_height="70dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -18,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="80dp"
         android:layout_marginTop="16dp"
-        android:text="Username Username"
         android:textSize="20sp"
         android:textColor="@color/black"/>
 
@@ -26,7 +26,6 @@
         android:id="@+id/list_user_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="email@email.com"
         android:layout_below="@+id/list_user_name"
         android:layout_marginLeft="85dp"/>
 
