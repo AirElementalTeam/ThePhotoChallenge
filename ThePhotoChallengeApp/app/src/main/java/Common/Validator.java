@@ -17,6 +17,7 @@ public class Validator {
     final String INVALID_PASS_MSG = "Passwords should between 4 and 10 alphanumeric characters. Sorry, try again.";
     final String TERRIBLE_ERROR_TITLE = "Oh no!";
     final String TERRIBLE_ERROR_MSG = "Some terrible error happened... We are very sorry! Try again.";
+    final String EMPTY_TEXT_IN_CHALLENGE = "All fields must be filled";
 
     private Activity activity;
     private MessageDialog errorMessage;
@@ -103,5 +104,16 @@ public class Validator {
         errorMessage.setMessage(TERRIBLE_ERROR_MSG);
         errorMessage.show();
         return;
+    }
+
+    public boolean validateNewChallenge(String title, String theme, String dueDate) {
+        //TODO: more friendly response here
+        if(title.isEmpty() || theme.isEmpty() ||dueDate.isEmpty() || dueDate.equals("Set due date")){
+            errorMessage.setTitle(null);
+            errorMessage.setMessage(EMPTY_TEXT_IN_CHALLENGE);
+            errorMessage.show();
+            return false;
+        }
+        return true;
     }
 }

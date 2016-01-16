@@ -3,10 +3,13 @@ package com.telerik.airelementalteam.thephotochallengeapp.data;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
-import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncTaskInteractor;
+import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncAuthInteractor;
+import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncChallengesInteractor;
+import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncFriendRequestsInteractor;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestConfirmedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestListener;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
+import com.telerik.airelementalteam.thephotochallengeapp.models.Challenge;
 
 import Common.Constants;
 
@@ -16,6 +19,7 @@ public class FirebaseAdapter {
     final String usersConnection = firebaseConnection + Constants.SLASH + Constants.USERS;
     final String usersByEmailConnection = firebaseConnection + Constants.SLASH + Constants.USERS_BY_EMAIL;
     final String challengesConnection = firebaseConnection + Constants.SLASH + Constants.CHALLENGES;
+    final String userChallengesConnection = firebaseConnection + Constants.SLASH + currentUserUID() + "-" + Constants.CHALLENGES;
     final String photosConnection = firebaseConnection + Constants.SLASH + Constants.PHOTOS;
     final String themesConnection = firebaseConnection + Constants.SLASH + Constants.THEMES;
     final String userFriends = Constants.FRIENDS;
@@ -24,19 +28,25 @@ public class FirebaseAdapter {
     private Firebase refUsers;
     private Firebase refUsersByEmail;
     private Firebase refChallenges;
+    private Firebase refUserChallenges;
     private Firebase refPhotos;
     private Firebase refThemes;
 
-    private AsyncTaskInteractor interactor;
+    private AsyncAuthInteractor authInteractor;
+    private AsyncFriendRequestsInteractor requestsInteractor;
+    private AsyncChallengesInteractor challengesInteractor;
 
     public FirebaseAdapter() {
         this.refDB = new Firebase(firebaseConnection);
         this.refUsers = new Firebase(usersConnection);
         this.refUsersByEmail = new Firebase(usersByEmailConnection);
         this.refChallenges = new Firebase(challengesConnection);
+        this.refUserChallenges = new Firebase(userChallengesConnection);
         this.refPhotos = new Firebase(photosConnection);
         this.refThemes = new Firebase(themesConnection);
-        this.interactor = new AsyncTaskInteractor();
+        this.authInteractor = new AsyncAuthInteractor();
+        this.requestsInteractor = new AsyncFriendRequestsInteractor();
+        this.challengesInteractor = new AsyncChallengesInteractor();
     }
 
     public FirebaseAdapter openConnection(){
@@ -69,15 +79,20 @@ public class FirebaseAdapter {
 
     // authentication methods
     public void registerUser(String name, String email, String password, IOnTaskFinishedListener listener){
-        interactor.asyncRegisterUser(this, listener, name, email, password);
+        authInteractor.asyncRegisterUser(this, listener, name, email, password);
     }
 
     public void loginUser(String email, String password, IOnTaskFinishedListener listener){
-        interactor.asyncLoginUser(this, listener, email, password);
+        authInteractor.asyncLoginUser(this, listener, email, password);
     }
 
     public boolean authUser() {
+        openConnection();
+        System.out.println("authUser");
+        System.out.println(refDB);
+
         AuthData auth = refDB.getAuth();
+        System.out.println("auth ----- " + auth);
         if (auth != null) {
             //user is logged in
             return true;
@@ -87,8 +102,13 @@ public class FirebaseAdapter {
         }
     }
 
+    public void logoutUser(){
+        refDB.unauth();
+    }
+
+    //current user needed things
     public void currentUserNameAndMail(IOnTaskFinishedListener listener){
-        interactor.asyncGetUserNameAndMail(this, listener);
+        requestsInteractor.asyncGetUserNameAndMail(this, listener);
     }
 
     public String currentUserUID() {
@@ -96,29 +116,35 @@ public class FirebaseAdapter {
     }
 
     public Firebase currentUserFriends() {
-        String UID = this.currentUserUID();
-        return this.refUsers.child(UID).child(userFriends);
+        return new Firebase(firebaseConnection + Constants.SLASH + Constants.FRIENDS + Constants.SLASH + currentUserUID() + "-" + Constants.FRIENDS);
     }
 
-    public void logoutUser(){
-        refDB.unauth();
-    }
-
+    //friend request handling methods
     public void sendAndReceiveFriendRequest(IOnTaskFinishedListener listener, Query fromUser, Query toUser) {
-        interactor.asyncSendAndReceiveFriendRequest(this, listener, fromUser, toUser);
+        requestsInteractor.asyncSendAndReceiveFriendRequest(this, listener, fromUser, toUser);
     }
 
+    //listeners
     public void listenForChanges(IOnFriendRequestListener requestListener, IOnFriendRequestConfirmedListener friendListener) {
-        interactor.listenForFriendRequest(this, requestListener);
-        interactor.listenForFriendRequestsConfirm(this, friendListener);
+        requestsInteractor.listenForFriendRequest(this, requestListener);
+        requestsInteractor.listenForFriendRequestsConfirm(this, friendListener);
     }
 
     public void confirmFriendsWith(String uid, IOnTaskFinishedListener listener) {
         String authUID = this.currentUserUID();
-        interactor.asyncMakeFriends(this, listener, authUID, uid);
+        requestsInteractor.asyncMakeFriends(this, listener, authUID, uid);
     }
 
-    public Firebase refFriends() {
-        return new Firebase(firebaseConnection + Constants.SLASH + Constants.FRIENDS + Constants.SLASH + currentUserUID() + "-" + Constants.FRIENDS);
+    //challenges methods
+    public void createNewChallenge(Challenge newChallenge, IOnTaskFinishedListener listener) {
+        challengesInteractor.saveChallenge(this, listener, newChallenge);
+    }
+
+    public Firebase getRefUserChallenges() {
+        return refUserChallenges;
+    }
+
+    public void setRefUserChallenges(Firebase refUserChallenges) {
+        this.refUserChallenges = refUserChallenges;
     }
 }

@@ -15,13 +15,12 @@ public class SplashScreenPresenter {
     }
 
     public boolean isAuthUser(){
-        if(!firebase.authUser()){
-            return false;
-        }
+        System.out.println("SPLASHSCREEN CRASH");
+        System.out.println("firebase.getRefDB()------" + firebase.getRefDB());
+       // if(!firebase.authUser()){
+       //     return false;
+       // }
         return true;
     }
-
-
-
 
 }

@@ -1,60 +1,70 @@
 package com.telerik.airelementalteam.thephotochallengeapp.models;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Challenge {
     private String id;
     private String title;
-    private String themeID;
+    private String theme;
+    private String dueDate;
+    private boolean isPublic;
     private String creatorID;
-    private List<String> participantIDs;
-    private List<String> photosIDs;
 
-    public Challenge(){}
-
-    public Challenge(String title, String themeID)
-    {
-        this.title = title;
-        this.themeID = themeID;
+    public Challenge() {
     }
 
-    public String getId(){return this.id;}
+    public Challenge(String title, String theme, String dueDate) {
+        this.title = title;
+        this.theme = theme;
+        this.dueDate = dueDate;
+        this.isPublic = true;
+    }
+
+    public Challenge(String title, String theme, boolean isPublic) {
+        this.title = title;
+        this.theme = theme;
+        this.isPublic = isPublic;
+    }
+
+    public String getId() {
+        return this.id;
+    }
 
     public void setId(String id) {
         this.id = id;
     }
 
-    public String getTitle(){return this.title;}
+    public String getTitle() {
+        return this.title;
+    }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getThemeID(){return this.themeID;}
-
-    public void setThemeID(String themeID) {
-        this.themeID = themeID;
+    public String getTheme() {
+        return this.theme;
     }
 
-    public String getCreatorID(){return this.creatorID;}
+    public void setTheme(String themeID) {
+        this.theme = themeID;
+    }
+
+    public String getCreatorID() {
+        return this.creatorID;
+    }
 
     public void setCreatorID(String creatorID) {
         this.creatorID = creatorID;
     }
 
-    public List<String> getParticipantIDs() {
-        return participantIDs;
+    public boolean isPublic() {
+        return isPublic;
     }
 
-    public void setParticipantIDs(List<String> participantIDs) {
-        this.participantIDs = participantIDs;
-    }
-
-    public List<String> getPhotosIDs() {
-        return photosIDs;
-    }
-
-    public void setPhotosIDs(List<String> photosIDs) {
-        this.photosIDs = photosIDs;
+    public void setIsPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 }
