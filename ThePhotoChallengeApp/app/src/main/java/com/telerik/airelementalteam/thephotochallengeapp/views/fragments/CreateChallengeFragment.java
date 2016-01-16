@@ -29,17 +29,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import Common.Validator;
-
 public class CreateChallengeFragment extends Fragment{
 
     private CreateChallengePresenter presenter;
-    private Validator validator;
     private TextView titleText;
     private TextView themeText;
     private RadioGroup publicRadioGroup;
     private ImageView datepickerButton;
     private TextView datepickText;
+    private PopupWindow dropdownWindow;
     private AppCompatButton createChallengeButton;
 
     public CreateChallengeFragment() {
@@ -49,10 +47,7 @@ public class CreateChallengeFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         presenter = new CreateChallengePresenter(this.getActivity());
-        validator = new Validator(getActivity());
         final View view = inflater.inflate(R.layout.fragment_create_challenge, container, false);
-        titleText = (TextView) view.findViewById(R.id.titleInput);
-        themeText = (TextView) view.findViewById(R.id.themeInput);
         datepickerButton = (ImageView) view.findViewById(R.id.datepicker_button);
         datepickText = (TextView) view.findViewById(R.id.pickdate_text);
         createChallengeButton = (AppCompatButton) view.findViewById(R.id.create_challenge_button);
@@ -75,6 +70,7 @@ public class CreateChallengeFragment extends Fragment{
         datepickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("CLICK MADAFAKA");
                 new DatePickerDialog(getActivity(), date, calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -83,11 +79,7 @@ public class CreateChallengeFragment extends Fragment{
         createChallengeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = titleText.getText().toString();
-                String theme = themeText.getText().toString();
-                String dueDate = datepickText.getText().toString();
-                presenter.createChallenge(title, theme, dueDate);
-
+                System.out.println("CLICK MADAFAKA");
             }
         });
 
