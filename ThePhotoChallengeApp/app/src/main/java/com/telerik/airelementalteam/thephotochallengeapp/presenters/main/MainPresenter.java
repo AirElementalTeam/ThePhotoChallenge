@@ -82,6 +82,11 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
 
     @Override
     public void friendRequestReceived() {
+        System.out.println("Inside friendRequestReceived");
+        System.out.println("friendRequestFromUserName   -  " + friendRequestFromUserName);
+        System.out.println("tempfriendRequestFromUserName   -  " + tempfriendRequestFromUserName);
+        System.out.println("friendRequestFromUserUID   -  " + friendRequestFromUserUID);
+        System.out.println("tempfriendRequestFromUserUID   -  " + tempfriendRequestFromUserUID);
         if(!this.friendRequestFromUserName.equals(tempfriendRequestFromUserName)
                 && !this.friendRequestFromUserEmail.equals(tempfriendRequestFromUserEmail)
                 && !this.friendRequestFromUserUID.equals(tempfriendRequestFromUserUID)) {
@@ -92,25 +97,26 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
             Intent notificationIntent = new Intent(activity.getApplicationContext(), MainActivity.class);
 
             Bundle extras = new Bundle();
-            extras.putString("name" ,tempfriendRequestFromUserName);
+            extras.putString("name", tempfriendRequestFromUserName);
             extras.putString("email", tempfriendRequestFromUserEmail);
             extras.putString("uid", tempfriendRequestFromUserUID);
             extras.putString("notification", "notificationFriendRequest");
             notificationIntent.putExtras(extras);
 
             Random generator = new Random();
-            //System.out.println("PUTTING EXTRA");
-            //System.out.println(notificationIntent.getExtras().toString());
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(activity)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setContentTitle("New friend!")
+                    .setAutoCancel(true)
                     .setContentText(this.friendRequestFromUserName + " wants to be friends.")
                     .setContentIntent(PendingIntent.getActivity(activity.getApplicationContext(), Math.abs(generator.nextInt()), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));
             builder.setOngoing(false);
             builder.setAutoCancel(true);
 
             Notification not = builder.build();
+            not.defaults = Notification.DEFAULT_LIGHTS;
+            not.flags = Notification.FLAG_SHOW_LIGHTS | Notification.FLAG_AUTO_CANCEL;
             NotificationManager manager = (NotificationManager)this.activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
             manager.notify(Math.abs(generator.nextInt()), not);
         }
@@ -136,12 +142,15 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
         NotificationCompat.Builder builder = new NotificationCompat.Builder(activity)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle("New friend!")
-                .setContentText("You and " + this.friendRequestFromUserName + " are now friends")
+                .setAutoCancel(true)
+                .setContentText("You and " + this.newFriendName + " are now friends")
                 .setContentIntent(PendingIntent.getActivity(activity.getApplicationContext(), Math.abs(generator.nextInt()), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT));
         builder.setOngoing(false);
         builder.setAutoCancel(true);
 
         Notification not = builder.build();
+        not.defaults = Notification.DEFAULT_LIGHTS;
+        not.flags = Notification.FLAG_SHOW_LIGHTS | Notification.FLAG_AUTO_CANCEL;
         NotificationManager manager = (NotificationManager)this.activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(0, not);
 

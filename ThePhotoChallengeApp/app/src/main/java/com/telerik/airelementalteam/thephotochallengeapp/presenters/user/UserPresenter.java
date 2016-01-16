@@ -34,14 +34,16 @@ public class UserPresenter implements IOnTaskFinishedListener {
     }
 
     public void sendFriendRequest(String email) {
+        //find users by mail
         currentUserUID = firebase.currentUserUID();
         String escapedMail = converter.escapeEmail(email);
         Firebase refUsers = firebase.getRefUsers();
         Firebase refUsersByEmail = firebase.getRefUsersByEmail();
         Query fromUser = refUsers.child(currentUserUID);
-
-        Firebase refMail = refUsersByEmail.child(escapedMail);
-        Query toUser = refMail.orderByChild(activity.getString(R.string.uid));
+        Query toUser = refUsersByEmail.child(escapedMail);
+        System.out.println("________________________________");
+        System.out.println(toUser);
+        System.out.println("________________________________");
         firebase.sendAndReceiveFriendRequest(this, fromUser, toUser);
     }
 

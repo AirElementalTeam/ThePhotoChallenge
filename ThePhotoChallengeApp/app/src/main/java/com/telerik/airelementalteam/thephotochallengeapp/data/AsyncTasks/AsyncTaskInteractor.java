@@ -17,7 +17,6 @@ import com.telerik.airelementalteam.thephotochallengeapp.presenters.user.UserPre
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import Common.Constants;
 import Common.Converter;
@@ -38,9 +37,9 @@ public class AsyncTaskInteractor {
                     public void onSuccess(Map<String, Object> stringObjectMap) {
                         User newUser = new User(stringObjectMap.get(Constants.UID).toString(), name, email);
                         Firebase refUser = refUsers.child(newUser.getUid());
-                        Firebase refMail = refUsersByEmail.child(converter.escapeEmail(newUser.getEmail()));
-                        refMail.child(Constants.UID).setValue(newUser.getUid());
+                        Firebase refUserByMail = refUsersByEmail.child(converter.escapeEmail(newUser.getEmail()));
                         refUser.setValue(newUser);
+                        refUserByMail.setValue(newUser);
                         listener.onSuccess();
                         System.out.println("Successfully created user account with uid: " + stringObjectMap.get(Constants.UID));
                     }
@@ -94,8 +93,8 @@ public class AsyncTaskInteractor {
         UserBQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User userB = dataSnapshot.getValue(User.class);
-                asyncSendFriendRequest(firebase, listener, UserAQuery, UserBQuery, userB);
+                User userBByMail = dataSnapshot.getValue(User.class);
+                asyncSendFriendRequest(firebase, listener, UserAQuery, UserBQuery, userBByMail);
             }
 
             @Override
@@ -162,13 +161,15 @@ public class AsyncTaskInteractor {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class); //boom
 
-                String name = user.getName();
-                String email = user.getEmail();
-                MainPresenter presenter = (MainPresenter) listener;
-                presenter.setCurrentUserName(name);
-                presenter.setCurrentUserEmail(email);
+                if(user != null) {
+                    String name = user.getName();
+                    String email = user.getEmail();
+                    MainPresenter presenter = (MainPresenter) listener;
+                    presenter.setCurrentUserName(name);
+                    presenter.setCurrentUserEmail(email);
 
-                listener.onSuccess();
+                    listener.onSuccess();
+                }
             }
 
             @Override
@@ -181,7 +182,6 @@ public class AsyncTaskInteractor {
     public void listenForFriendRequestsConfirm(final FirebaseAdapter firebase, final IOnFriendRequestConfirmedListener listener) {
         final Firebase usersRef = firebase.getRefUsers();
         String currentUserUID = firebase.currentUserUID();
-        String path = usersRef.toString() + Constants.SLASH + currentUserUID + Constants.SLASH + Constants.FRIENDS;
         Firebase RefFriends = firebase.refFriends();
         RefFriends.addChildEventListener(new ChildEventListener() {
             @Override
