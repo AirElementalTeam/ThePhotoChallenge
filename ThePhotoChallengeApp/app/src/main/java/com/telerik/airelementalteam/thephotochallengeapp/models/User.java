@@ -14,8 +14,8 @@ public class User {
     private HashMap<String, Object> photosIDs;
     private HashMap<String, Object> favouritePhotosIDs;
     private HashMap<String, Object> friends;
-    private HashMap<String, Object>friendRequestSend;
-    private HashMap<String, Object> friendRequestReceived;
+    private HashMap<String, User>friendRequestSend;
+    private HashMap<String, User> friendRequestReceived;
 
     public User(){}
 
@@ -97,19 +97,19 @@ public class User {
     }
 
 
-    public HashMap<String, Object> getFrinedRequestSend() {
+    public HashMap<String, User> getFrinedRequestSend() {
         return friendRequestSend;
     }
 
-    public void setFrinedRequestSend(HashMap<String, Object> friendRequestSend) {
+    public void setFrinedRequestSend(HashMap<String, User> friendRequestSend) {
         this.friendRequestSend = friendRequestSend;
     }
 
-    public HashMap<String, Object> getFriendRequestRecieved() {
+    public HashMap<String, User> getFriendRequestRecieved() {
         return friendRequestReceived;
     }
 
-    public void setFriendRequestRecieved(HashMap<String, Object> friendRequestRecieved) {
+    public void setFriendRequestRecieved(HashMap<String, User> friendRequestRecieved) {
         this.friendRequestReceived = friendRequestRecieved;
     }
 

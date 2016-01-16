@@ -64,12 +64,12 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        //System.out.println("_______EXTRA_______");
-        //System.out.println(extra);
-        //System.out.println("_______EXTRA NAME_______");
-        //System.out.println(extraName);
-        //System.out.println("_______EXTRA MAIL_______");
-        //System.out.println(extraMail);
+        System.out.println("_______EXTRA_______");
+        System.out.println(extra);
+        System.out.println("_______EXTRA NAME_______");
+        System.out.println(extraName);
+        System.out.println("_______EXTRA MAIL_______");
+        System.out.println(extraMail);
 
         if((extra != null) && extra.equals("notificationFriendRequest")){
 

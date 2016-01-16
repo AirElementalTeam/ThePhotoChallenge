@@ -130,8 +130,8 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
         notificationIntent.putExtras(extras);
 
         Random generator = new Random();
-        //System.out.println("PUTTING EXTRA");
-        //System.out.println(notificationIntent.getExtras().toString());
+        System.out.println("PUTTING EXTRA");
+        System.out.println(notificationIntent.getExtras().toString());
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(activity)
                 .setSmallIcon(R.drawable.ic_notification)
@@ -143,7 +143,7 @@ public class MainPresenter implements IOnTaskFinishedListener, IOnFriendRequestL
 
         Notification not = builder.build();
         NotificationManager manager = (NotificationManager)this.activity.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(Math.abs(generator.nextInt()), not);
+        manager.notify(0, not);
 
     }
 

@@ -17,6 +17,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.presenters.user.UserPre
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import Common.Constants;
 import Common.Converter;
@@ -88,71 +89,59 @@ public class AsyncTaskInteractor {
         });
     }
 
-    public void asyncSendAndReceiveFriendRequest(final FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final Query fromUser, final Query toUser) {
-        toUser.addListenerForSingleValueEvent(new ValueEventListener() {
+    public void asyncSendAndReceiveFriendRequest(final FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final Query UserAQuery, final Query UserBQuery) {
+        System.out.println("Inside asyncSendAndReceiveFriendRequest");
+        UserBQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                String toUserUID = user.getUid();
-                String fromUserUID = firebase.currentUserUID();
-               // System.out.println(toUserUID);
-                asyncSendFriendRequest(firebase, listener, fromUser, toUser, fromUserUID, toUserUID);
-                //HALLELUJAH!
+                User userB = dataSnapshot.getValue(User.class);
+                asyncSendFriendRequest(firebase, listener, UserAQuery, UserBQuery, userB);
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("Inside onCancelled of child.addListenerForSingleValueEvent");
                 listener.onError();
             }
         });
     }
 
-    public void asyncSendFriendRequest(FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final Query fromUserRef, final Query toUserRef, final String fromUserUID, final String toUserUID) {
-        firebase.openConnection();
-        final Firebase usersRef = firebase.getRefUsers();
-        fromUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    public void asyncSendFriendRequest(final FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final Query UserAQuery, final Query UserBQuery, final User userB) {
+        System.out.println("Inside asyncSendFriendRequest");
+        UserAQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User currentUser = dataSnapshot.getValue(User.class);
-                HashMap<String, Object> currentRequestsSend = currentUser.getFrinedRequestSend();
-                if(currentRequestsSend == null) {
-                    currentRequestsSend = new HashMap<>();
+                User userA = dataSnapshot.getValue(User.class);
+                HashMap<String, User> requestSend_A = userA.getFrinedRequestSend();
+                if(requestSend_A == null) {
+                    requestSend_A = new HashMap<>();
                 }
-
-                String fromUserName = currentUser.getName();
-                currentRequestsSend.put(toUserUID, true);
-                currentUser.setFrinedRequestSend(currentRequestsSend);
-                Firebase user = usersRef.child(currentUser.getUid());
-                user.child(Constants.FRIEND_REQUESTS_SEND).updateChildren(currentRequestsSend);
-                asyncReceiveFriendRequest(usersRef, listener, toUserRef, fromUserUID, fromUserName);
+                requestSend_A.put(userB.getUid(), userB);
+                Firebase refUserARequestsSend = firebase.getRefUsers().child(userA.getUid()).child(Constants.FRIEND_REQUESTS_SEND);
+                refUserARequestsSend.child(userB.getUid()).setValue(userB);
+                asyncReceiveFriendRequest(firebase.getRefUsers(), listener, userA, UserBQuery);
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("Inside onCancelled of currentUserRef.addListenerForSingleValueEvent");
-                listener.onError();
+
             }
         });
     }
 
-    public void asyncReceiveFriendRequest(final Firebase UsersRef, final IOnTaskFinishedListener listener, Query toUserRef, final String fromUserUID, final String fromUserName) {
-        toUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    public void asyncReceiveFriendRequest(final Firebase RefUsers, final IOnTaskFinishedListener listener, final User userA, Query UserBQuery) {
+        System.out.println("Inside asyncReceiveFriendRequest");
+        UserBQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User toUser = dataSnapshot.getValue(User.class);
-                HashMap<String, Object> requestsReceived = toUser.getFriendRequestRecieved();
-                if(requestsReceived == null) {
-                    requestsReceived = new HashMap<>();
+                User userB = dataSnapshot.getValue(User.class);
+                HashMap<String, User> requestReceived_B = userB.getFriendRequestRecieved();
+                if(requestReceived_B == null) {
+                    requestReceived_B = new HashMap<>();
                 }
-                requestsReceived.put(fromUserUID, true);
-                toUser.setFriendRequestRecieved(requestsReceived);
-                Firebase user = UsersRef.child(toUser.getUid());
-                user.child(Constants.FRIEND_REQUESTS_RECEIVED).updateChildren(requestsReceived);
 
-                //UserPresenter presenter = (UserPresenter) listener;
-                //presenter.setFriendRequestFromUserName(fromUserName);
-
+                requestReceived_B.put(userA.getUid(), userA);
+                Firebase refUserBRequestReceived = RefUsers.child(userB.getUid()).child(Constants.FRIEND_REQUESTS_RECEIVED);
+                refUserBRequestReceived.child(userA.getUid()).setValue(userA);
                 UserPresenter presenter = (UserPresenter) listener;
                 presenter.setFriendRequestSend(true);
                 listener.onSuccess();
@@ -160,10 +149,9 @@ public class AsyncTaskInteractor {
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
-                listener.onError();
+
             }
         });
-
     }
 
     public void asyncGetUserNameAndMail(FirebaseAdapter firebase, final IOnTaskFinishedListener listener) {
@@ -198,29 +186,16 @@ public class AsyncTaskInteractor {
         RefFriends.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                System.out.println("I heard there is a new friend ");
+                System.out.println("!!!I heard there is a new friend ");
                 System.out.println("new friend UID " + dataSnapshot.getKey());
                 System.out.println(dataSnapshot.getValue());
                 System.out.println("my UID " + firebase.currentUserUID());
-                firebase.getRefUsers().child(dataSnapshot.getKey())
-                        .addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                User user = dataSnapshot.getValue(User.class);
-                                MainPresenter presenter = (MainPresenter) listener;
-                                presenter.setNewFriendName(user.getName());
-                                presenter.setNewFriendEmail(user.getEmail());
-                                presenter.setNewFriendUID(user.getUid());
-                                listener.onNewFriend();
-                            }
-
-                            @Override
-                            public void onCancelled(FirebaseError firebaseError) {
-                                System.out.println("Inside onCancelled of listenForFriendRequestsConfirm");
-
-                            }
-                        });
-
+                User newFriend = dataSnapshot.getValue(User.class);
+                MainPresenter presenter = (MainPresenter) listener;
+                presenter.setNewFriendName(newFriend.getName());
+                presenter.setNewFriendEmail(newFriend.getEmail());
+                presenter.setNewFriendUID(newFriend.getUid());
+                listener.onNewFriend();
             }
 
             @Override
@@ -247,6 +222,7 @@ public class AsyncTaskInteractor {
     }
 
     public void listenForFriendRequest(FirebaseAdapter firebase, final IOnFriendRequestListener listener) {
+        System.out.println("Inside listenForFriendRequest");
         final Firebase usersRef = firebase.getRefUsers();
         String currentUserUID = firebase.currentUserUID();
         String path = usersRef.toString() + Constants.SLASH + currentUserUID + Constants.SLASH + Constants.FRIEND_REQUESTS_RECEIVED;
@@ -254,23 +230,13 @@ public class AsyncTaskInteractor {
         receivedFriendRequestFromUser.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                //find user
-                usersRef.child(dataSnapshot.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        User user = dataSnapshot.getValue(User.class);
-                        MainPresenter presenter = (MainPresenter) listener;
-                        presenter.setFriendRequestFromUserName(user.getName());
-                        presenter.setFriendRequestFromUserEmail(user.getEmail());
-                        presenter.setFriendRequestFromUserUID(user.getUid());
-                        listener.friendRequestReceived();
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                    }
-                });
+                System.out.println(dataSnapshot.getValue());
+                User user = dataSnapshot.getValue(User.class);
+                MainPresenter presenter = (MainPresenter) listener;
+                presenter.setFriendRequestFromUserName(user.getName());
+                presenter.setFriendRequestFromUserEmail(user.getEmail());
+                presenter.setFriendRequestFromUserUID(user.getUid());
+                listener.friendRequestReceived();
             }
 
             @Override
