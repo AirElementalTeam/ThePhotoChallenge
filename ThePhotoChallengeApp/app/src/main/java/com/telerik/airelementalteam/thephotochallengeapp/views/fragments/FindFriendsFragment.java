@@ -12,7 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
-import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.FindFriendsFragmentPresenter;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.FindFriendsFragmentPresenter;
 
 public class FindFriendsFragment extends Fragment {
 

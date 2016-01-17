@@ -1,4 +1,4 @@
-package com.telerik.airelementalteam.thephotochallengeapp.presenters.main;
+package com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters;
 
 import android.app.Activity;
 import android.view.View;

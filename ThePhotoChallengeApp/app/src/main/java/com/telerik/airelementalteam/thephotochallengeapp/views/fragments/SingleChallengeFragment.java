@@ -2,7 +2,7 @@ package com.telerik.airelementalteam.thephotochallengeapp.views.fragments;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +10,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
-import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.SingleChallengePresenter;
-
-import org.w3c.dom.Text;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SingleChallengePresenter;
 
 public class SingleChallengeFragment extends android.app.Fragment {
 
@@ -27,6 +25,7 @@ public class SingleChallengeFragment extends android.app.Fragment {
     private TextView dueDateText;
     private TextView noPhotosText;
     private GridView photosGrid;
+    private AppCompatButton takePhotoButton;
 
     public SingleChallengeFragment() {
 
@@ -46,8 +45,16 @@ public class SingleChallengeFragment extends android.app.Fragment {
         challengeThemeText = (TextView) view.findViewById(R.id.theme_name_text);
         dueDateText = (TextView) view.findViewById(R.id.due_date_text);
         noPhotosText = (TextView) view.findViewById(R.id.no_photos_text);
+        takePhotoButton = (AppCompatButton) view.findViewById(R.id.take_photo_button);
 
         presenter.getChallengeInfo(this.getChallengeID());
+
+        takePhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.startCamera();
+            }
+        });
 
 
         return view;

@@ -1,30 +1,20 @@
 package com.telerik.airelementalteam.thephotochallengeapp.views.fragments;
 
-import android.app.ActionBar;
 import android.app.DatePickerDialog;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Trace;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatImageButton;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
-import com.telerik.airelementalteam.thephotochallengeapp.models.Challenge;
-import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.CreateChallengePresenter;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.CreateChallengePresenter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

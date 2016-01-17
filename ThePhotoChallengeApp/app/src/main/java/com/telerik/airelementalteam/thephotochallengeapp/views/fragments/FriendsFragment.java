@@ -11,7 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
-import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.FriendsFragmentPresenter;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.FriendsFragmentPresenter;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

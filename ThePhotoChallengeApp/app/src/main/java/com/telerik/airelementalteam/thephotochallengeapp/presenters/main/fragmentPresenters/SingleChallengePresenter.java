@@ -1,4 +1,4 @@
-package com.telerik.airelementalteam.thephotochallengeapp.presenters.main;
+package com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters;
 
 import android.app.Activity;
 import android.content.res.Resources;
@@ -106,6 +106,8 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
         this.fragment.getPhotosCountText().setText(this.photosCount);
         if(this.photosCount.equals("0")) {
             this.fragment.getNoPhotosText().setText(R.string.challengee_no_photos_text);
+        } else {
+            populatePhotosGrid(this.fragment.getPhotosGrid());
         }
     }
 
@@ -115,4 +117,6 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
     }
 
 
+    public void startCamera() {
+    }
 }

@@ -8,7 +8,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.models.Challenge;
 import com.telerik.airelementalteam.thephotochallengeapp.models.User;
-import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.SingleChallengePresenter;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SingleChallengePresenter;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SingleChallengeFragment;
 
 public class AsyncChallengeInteractor {
