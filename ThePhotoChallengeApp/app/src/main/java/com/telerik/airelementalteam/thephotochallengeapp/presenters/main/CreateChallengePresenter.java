@@ -56,7 +56,7 @@ public class CreateChallengePresenter implements IOnTaskFinishedListener {
 
     //we will never use this
     public void populateDropdown(ListView dropdownList) {
-        this.listAdapter = new FirebaseListAdapter<User>(this.activity, User.class, R.layout.fragment_create_challenge, firebase.refFriends()) {
+        this.listAdapter = new FirebaseListAdapter<User>(this.activity, User.class, R.layout.fragment_create_challenge, firebase.refUserFriends()) {
             @Override
             protected void populateView(final View view, User user) {
                 ((TextView) view.findViewById(R.id.dropdown_name)).setText(user.getName());

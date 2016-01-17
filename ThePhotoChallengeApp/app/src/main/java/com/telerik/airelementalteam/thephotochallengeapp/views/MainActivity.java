@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         presenter = new MainPresenter(this);
+        presenter.getNameAndMail();
 
         String extra= "";
         String extraName="";
@@ -200,6 +201,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //presenter.getNameAndMail();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -218,12 +220,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onResume() {
-        super.onResume();
         presenter.getNameAndMail();
+        super.onResume();
 
-    }
-
-    public void commitFragment(Fragment fragment) {
 
     }
 }

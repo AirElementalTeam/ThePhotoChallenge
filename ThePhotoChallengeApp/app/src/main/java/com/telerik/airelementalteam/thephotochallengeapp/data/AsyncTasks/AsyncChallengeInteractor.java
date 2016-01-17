@@ -44,5 +44,7 @@ public class AsyncChallengeInteractor {
     }
 
     public void getChallengeInfo(FirebaseAdapter firebaseAdapter, IOnTaskFinishedListener listener, String challengeID) {
+
+
     }
 }

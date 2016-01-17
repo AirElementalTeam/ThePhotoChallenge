@@ -28,7 +28,7 @@ public class FriendsFragmentPresenter {
     public void populateFriendList(ListView listView, final TextView noFriends) {
 
         //TODO: fix
-        this.listAdapter = new FirebaseListAdapter<User>(this.activity, User.class, R.layout.user_list_item, firebase.refFriends()) {
+        this.listAdapter = new FirebaseListAdapter<User>(this.activity, User.class, R.layout.user_list_item, firebase.refUserFriends()) {
             @Override
             protected void populateView(final View convertView, final User model) {
                 ((TextView) convertView.findViewById(R.id.list_user_name)).setText(model.getName());

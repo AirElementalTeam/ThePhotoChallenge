@@ -50,6 +50,7 @@ public class CreateChallengeFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.setRetainInstance(true);
         presenter = new CreateChallengePresenter(this.getActivity());
         final View view = inflater.inflate(R.layout.fragment_create_challenge, container, false);
         titleText = (TextView) view.findViewById(R.id.titleInput);

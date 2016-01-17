@@ -17,6 +17,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.presenters.user.UserPre
 import java.util.HashMap;
 
 import Common.Constants;
+import Common.Path;
 
 /**
  * Created by bianka on 1/17/16.
@@ -94,10 +95,12 @@ public class AsyncFriendshipInteractor {
         Firebase ref = firebase.getRefDB();
         final Firebase RefUsers = firebase.getRefUsers();
 
-        final String pathToOtherUserFriends = ref.toString() + Constants.SLASH + Constants.FRIENDS + Constants.SLASH + otherUID + "-" + Constants.FRIENDS;
-        final String pathToOtherUserSendRequests = RefUsers.toString() + Constants.SLASH + otherUID + Constants.SLASH + Constants.FRIEND_REQUESTS_SEND;
-        final String pathToAuthUserFriends = ref.toString() + Constants.SLASH + Constants.FRIENDS + Constants.SLASH + userUID + "-" + Constants.FRIENDS;
-        final String pathToAuthUserReceivedRequests = RefUsers.toString() + Constants.SLASH + userUID + Constants.SLASH + Constants.FRIEND_REQUESTS_RECEIVED;
+        final String pathToOtherUserFriends = String.format(Path.TO_USER_FRIENDS, otherUID);
+        final String pathToOtherUserSendRequests = String.format(Path.TO_FRINED_REQUESTS_SEND, otherUID);
+                //RefUsers.toString() + Constants.SLASH + otherUID + Constants.SLASH + Constants.FRIEND_REQUESTS_SEND;
+        final String pathToAuthUserFriends = String.format(Path.TO_USER_FRIENDS, userUID);
+        final String pathToAuthUserReceivedRequests = String.format(Path.TO_FRIEND_REQUESTS_RECEIVED, userUID);
+                //RefUsers.toString() + Constants.SLASH + userUID + Constants.SLASH + Constants.FRIEND_REQUESTS_RECEIVED;
 
         RefUsers.child(userUID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -139,9 +142,9 @@ public class AsyncFriendshipInteractor {
 
     //listeners
     public void listenForFriendRequestsConfirm(final FirebaseAdapter firebase, final IOnFriendRequestConfirmedListener listener) {
-        final Firebase usersRef = firebase.getRefUsers();
-        String currentUserUID = firebase.currentUserUID();
-        Firebase RefFriends = firebase.refFriends();
+        //final Firebase usersRef = firebase.getRefUsers();
+        //String currentUserUID = firebase.currentUserUID();
+        Firebase RefFriends = firebase.refUserFriends();
         RefFriends.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -184,7 +187,7 @@ public class AsyncFriendshipInteractor {
         System.out.println("Inside listenForFriendRequest");
         final Firebase usersRef = firebase.getRefUsers();
         String currentUserUID = firebase.currentUserUID();
-        String path = usersRef.toString() + Constants.SLASH + currentUserUID + Constants.SLASH + Constants.FRIEND_REQUESTS_RECEIVED;
+        String path = String.format(Path.TO_FRIEND_REQUESTS_RECEIVED, currentUserUID);
         Firebase receivedFriendRequestFromUser = new Firebase(path);
         receivedFriendRequestFromUser.addChildEventListener(new ChildEventListener() {
             @Override

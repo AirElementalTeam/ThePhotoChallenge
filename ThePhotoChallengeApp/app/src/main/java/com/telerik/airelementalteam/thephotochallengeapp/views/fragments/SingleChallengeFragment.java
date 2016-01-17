@@ -35,6 +35,7 @@ public class SingleChallengeFragment extends android.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        this.setRetainInstance(true);
         presenter = new SingleChallengePresenter(this.getActivity(), this);
         View view = inflater.inflate(R.layout.fragment_single_challenge, container, false);
         photosCountText = (TextView) view.findViewById(R.id.photos_count_text);

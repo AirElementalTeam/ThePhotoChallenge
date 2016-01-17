@@ -4,6 +4,8 @@ public class Constants {
 
     public static final String FIREBASE_PATH = "https://thephotobag.firebaseio.com";
     public static final String SLASH = "/";
+    public static final String DASH = "-";
+    public static final String PLACEHOLDER = "%s";
     public static final String UID = "uid";
     public static final String USERS = "Users";
     public static final String USERS_BY_EMAIL = "UsersByEmail";

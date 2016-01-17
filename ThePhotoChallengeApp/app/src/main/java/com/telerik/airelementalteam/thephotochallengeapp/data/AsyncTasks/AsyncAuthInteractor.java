@@ -42,9 +42,6 @@ public class AsyncAuthInteractor {
 
                     @Override
                     public void onError(FirebaseError firebaseError) {
-                        //System.out.println("error code is ----> " + firebaseError.getCode());
-                        //System.out.println(firebaseError.getMessage());
-                        //System.out.println(firebaseError.getDetails());
                         //TODO: find a way to return proper response when you get some specific error code!
                         switch (firebaseError.getCode()) {
                             case FirebaseError.INVALID_EMAIL:
