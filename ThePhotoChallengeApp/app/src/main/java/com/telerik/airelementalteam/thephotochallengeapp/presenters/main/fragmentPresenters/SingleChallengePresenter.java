@@ -1,7 +1,14 @@
 package com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -13,12 +20,17 @@ import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinis
 import com.telerik.airelementalteam.thephotochallengeapp.models.Photo;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SingleChallengeFragment;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+
 public class SingleChallengePresenter implements IOnTaskFinishedListener {
 
     private Activity activity;
     private SingleChallengeFragment fragment;
     private FirebaseAdapter firebase;
     private FirebaseListAdapter<Photo> gridAdapter;
+    private File imageFile;
+    private String convertedPhotoString;
 
     private String challengeTitle;
     private String challengeTheme;
@@ -116,7 +128,25 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
 
     }
 
-
     public void startCamera() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        imageFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "snimchica.jpg");
+        Uri tempuri = Uri.fromFile(imageFile);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempuri);
+        cameraIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+        this.activity.startActivityForResult(cameraIntent, 0);
+    }
+
+    public void convertToBase64(File imageFile){
+        String pathName = imageFile.getAbsolutePath();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        Bitmap bmp = BitmapFactory.decodeFile(pathName, options);
+
+        ByteArrayOutputStream bYtE = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, bYtE);
+        bmp.recycle();
+        final byte[] byteArray = bYtE.toByteArray();
+        convertedPhotoString = Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 }
