@@ -27,8 +27,6 @@ public class LoginPresenter implements IOnTaskFinishedListener {
     private DatabaseAdapter SQLite;
 
     private ProgressDialog progressDialog;
-    ProgressBar bar;
-
 
     public LoginPresenter(Activity activity){
         this.activity = activity;
@@ -51,9 +49,6 @@ public class LoginPresenter implements IOnTaskFinishedListener {
             return;
         }
 
-        bar = new ProgressBar(activity);
-        bar.setVisibility(View.VISIBLE);
-
         progressDialog = ProgressDialog.show(activity, "Authenticating...", null);
         progressDialog.show();
         firebase.openConnection();
@@ -71,7 +66,6 @@ public class LoginPresenter implements IOnTaskFinishedListener {
 
     @Override
     public void onSuccess() {
-        bar.setVisibility(View.GONE);
         progressDialog.hide();
         Context context = activity.getApplicationContext();
         Intent intent = new Intent(context, MainActivity.class);

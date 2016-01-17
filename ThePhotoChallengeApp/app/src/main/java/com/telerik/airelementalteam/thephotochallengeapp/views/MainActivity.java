@@ -1,5 +1,6 @@
 package com.telerik.airelementalteam.thephotochallengeapp.views;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -219,6 +220,10 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         presenter.getNameAndMail();
+
+    }
+
+    public void commitFragment(Fragment fragment) {
 
     }
 }

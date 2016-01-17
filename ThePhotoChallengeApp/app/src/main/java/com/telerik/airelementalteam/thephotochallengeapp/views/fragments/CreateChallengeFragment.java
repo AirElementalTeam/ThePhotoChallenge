@@ -23,11 +23,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
+import com.telerik.airelementalteam.thephotochallengeapp.models.Challenge;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.CreateChallengePresenter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+
+import Common.Constants;
 
 public class CreateChallengeFragment extends Fragment{
 
@@ -48,6 +52,8 @@ public class CreateChallengeFragment extends Fragment{
                              Bundle savedInstanceState) {
         presenter = new CreateChallengePresenter(this.getActivity());
         final View view = inflater.inflate(R.layout.fragment_create_challenge, container, false);
+        titleText = (TextView) view.findViewById(R.id.titleInput);
+        themeText = (TextView) view.findViewById(R.id.themeInput);
         datepickerButton = (ImageView) view.findViewById(R.id.datepicker_button);
         datepickText = (TextView) view.findViewById(R.id.pickdate_text);
         createChallengeButton = (AppCompatButton) view.findViewById(R.id.create_challenge_button);
@@ -60,17 +66,22 @@ public class CreateChallengeFragment extends Fragment{
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String format = "dd/MM/yy";
+
+                Date today = new Date();
+                Date picked = calendar.getTime();
+
+                String format = Constants.DATETIME_FORMAT;
                 SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
                 datepickText.setText(sdf.format(calendar.getTime()));
-                //updateLabel();
+                if(!presenter.validateDate(today, picked)){
+                    datepickText.setText(Constants.CHOOSE_DAY_IN_FUTURE);
+                }
             }
         };
 
         datepickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("CLICK MADAFAKA");
                 new DatePickerDialog(getActivity(), date, calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -79,7 +90,10 @@ public class CreateChallengeFragment extends Fragment{
         createChallengeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("CLICK MADAFAKA");
+                String title = titleText.getText().toString();
+                String theme = themeText.getText().toString();
+                String dueDate = datepickText.getText().toString();
+                presenter.createChallenge(title,theme,dueDate);
             }
         });
 

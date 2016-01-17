@@ -89,8 +89,6 @@ public class UserFragment extends Fragment implements IOnChildrenListener {
         return view;
     }
 
-
-
     public void setName(String name) {
         this.name = name;
     }

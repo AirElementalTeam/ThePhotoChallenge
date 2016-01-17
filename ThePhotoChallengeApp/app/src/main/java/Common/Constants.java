@@ -8,10 +8,13 @@ public class Constants {
     public static final String USERS = "Users";
     public static final String USERS_BY_EMAIL = "UsersByEmail";
     public static final String CHALLENGES = "Challenges";
+    public static final String CHALLENGES_BY_USER = "ChallengesByUser";
     public static final String PHOTOS = "Photos";
     public static final String THEMES = "Themes";
     public static final String FRIENDS = "Friends";
     public static final String FRIEND_REQUESTS_SEND = "friendRequestsSend";
     public static final String FRIEND_REQUESTS_RECEIVED = "friendRequestsReceived";
+    public static final String CHOOSE_DAY_IN_FUTURE = "You must choose a date in the future ;)";
+    public static final String DATETIME_FORMAT = "dd/MM/yy";
 
 }

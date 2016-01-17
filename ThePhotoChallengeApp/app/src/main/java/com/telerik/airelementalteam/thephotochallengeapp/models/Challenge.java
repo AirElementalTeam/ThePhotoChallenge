@@ -1,21 +1,22 @@
 package com.telerik.airelementalteam.thephotochallengeapp.models;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Challenge {
     private String id;
     private String title;
-    private String themeID;
+    private String theme;
+    private String dueDate;
     private String creatorID;
-    private List<String> participantIDs;
-    private List<String> photosIDs;
 
     public Challenge(){}
 
-    public Challenge(String title, String themeID)
+    public Challenge(String title, String theme, String dueDate)
     {
         this.title = title;
-        this.themeID = themeID;
+        this.theme = theme;
+        this.dueDate = dueDate;
     }
 
     public String getId(){return this.id;}
@@ -30,10 +31,10 @@ public class Challenge {
         this.title = title;
     }
 
-    public String getThemeID(){return this.themeID;}
+    public String getTheme(){return this.theme;}
 
-    public void setThemeID(String themeID) {
-        this.themeID = themeID;
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
     public String getCreatorID(){return this.creatorID;}
@@ -42,19 +43,11 @@ public class Challenge {
         this.creatorID = creatorID;
     }
 
-    public List<String> getParticipantIDs() {
-        return participantIDs;
+    public String getDueDate() {
+        return dueDate;
     }
 
-    public void setParticipantIDs(List<String> participantIDs) {
-        this.participantIDs = participantIDs;
-    }
-
-    public List<String> getPhotosIDs() {
-        return photosIDs;
-    }
-
-    public void setPhotosIDs(List<String> photosIDs) {
-        this.photosIDs = photosIDs;
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 }

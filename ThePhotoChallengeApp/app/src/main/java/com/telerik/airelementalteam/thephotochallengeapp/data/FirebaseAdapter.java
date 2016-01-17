@@ -7,6 +7,8 @@ import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncTa
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestConfirmedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestListener;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
+import com.telerik.airelementalteam.thephotochallengeapp.models.Challenge;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.CreateChallengePresenter;
 
 import Common.Constants;
 
@@ -120,5 +122,13 @@ public class FirebaseAdapter {
 
     public Firebase refFriends() {
         return new Firebase(firebaseConnection + Constants.SLASH + Constants.FRIENDS + Constants.SLASH + currentUserUID() + "-" + Constants.FRIENDS);
+    }
+
+    public Firebase refUserChallenges() {
+        return  new Firebase(firebaseConnection + Constants.SLASH + Constants.CHALLENGES_BY_USER + Constants.SLASH + currentUserUID() + "-" + Constants.CHALLENGES);
+    }
+
+    public void createNewChallenge(Challenge newChallenge, IOnTaskFinishedListener listener) {
+        interactor.saveNewChallenge(this, listener, newChallenge);
     }
 }
