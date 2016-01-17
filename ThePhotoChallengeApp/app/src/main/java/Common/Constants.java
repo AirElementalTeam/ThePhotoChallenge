@@ -12,6 +12,7 @@ public class Constants {
     public static final String CHALLENGES = "Challenges";
     public static final String CHALLENGES_BY_USER = "ChallengesByUser";
     public static final String PHOTOS = "Photos";
+    public static final String ALL_PHOTOS = "PhotosAll";
     public static final String THEMES = "Themes";
     public static final String FRIENDS = "Friends";
     public static final String FRIEND_REQUESTS_SEND = "friendRequestsSend";
@@ -19,4 +20,7 @@ public class Constants {
     public static final String CHOOSE_DAY_IN_FUTURE = "You must choose a date in the future ;)";
     public static final String DATETIME_FORMAT = "dd/MM/yy";
 
+
+    public static final String PHOTOS_BY_CHALLENGE = "PhotosByChallenge";
+    public static final String PHOTOS_BY_USER = "PhotosByUser";
 }

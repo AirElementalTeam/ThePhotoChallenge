@@ -96,7 +96,7 @@ public class AsyncFriendshipInteractor {
         final Firebase RefUsers = firebase.getRefUsers();
 
         final String pathToOtherUserFriends = String.format(Path.TO_USER_FRIENDS, otherUID);
-        final String pathToOtherUserSendRequests = String.format(Path.TO_FRINED_REQUESTS_SEND, otherUID);
+        final String pathToOtherUserSendRequests = String.format(Path.TO_FRIEND_REQUESTS_SEND, otherUID);
                 //RefUsers.toString() + Constants.SLASH + otherUID + Constants.SLASH + Constants.FRIEND_REQUESTS_SEND;
         final String pathToAuthUserFriends = String.format(Path.TO_USER_FRIENDS, userUID);
         final String pathToAuthUserReceivedRequests = String.format(Path.TO_FRIEND_REQUESTS_RECEIVED, userUID);
