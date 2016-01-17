@@ -1,8 +1,6 @@
 package com.telerik.airelementalteam.thephotochallengeapp.presenters.main;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,6 +18,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SingleC
 
 import java.util.Date;
 
+import Common.Constants;
 import Common.Validator;
 
 public class CreateChallengePresenter implements IOnTaskFinishedListener {
@@ -31,6 +30,8 @@ public class CreateChallengePresenter implements IOnTaskFinishedListener {
     private Validator validator;
 
     private ProgressDialog progressDialog;
+
+    private String newChallengeID;
 
     public CreateChallengePresenter(Activity activity) {
         this.activity = activity;
@@ -48,6 +49,8 @@ public class CreateChallengePresenter implements IOnTaskFinishedListener {
         progressDialog = ProgressDialog.show(activity, "Creating new challenge...", null);
         progressDialog.show();
         Challenge newChallenge = new Challenge(title, theme, dueDate);
+        newChallengeID = newChallenge.getTitle() + "-" + Constants.THEMES + "-" + newChallenge.getTheme() + Constants.UID + firebase.currentUserUID();
+        newChallenge.setId(newChallengeID);
         firebase.createNewChallenge(newChallenge, this);
     }
 
@@ -71,8 +74,10 @@ public class CreateChallengePresenter implements IOnTaskFinishedListener {
 
     @Override
     public void onSuccess() {
+
         progressDialog.cancel();
         SingleChallengeFragment fragment = new SingleChallengeFragment();
+        fragment.setChallengeID(newChallengeID);
         FragmentTransaction transaction = this.activity.getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
         transaction.commit();

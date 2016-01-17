@@ -9,6 +9,9 @@ public class Challenge {
     private String theme;
     private String dueDate;
     private String creatorID;
+    private String creatorName;
+    private int participantsCount;
+    private int photosCount;
 
     public Challenge(){}
 
@@ -17,6 +20,7 @@ public class Challenge {
         this.title = title;
         this.theme = theme;
         this.dueDate = dueDate;
+        this.participantsCount = 1;
     }
 
     public String getId(){return this.id;}
@@ -49,5 +53,29 @@ public class Challenge {
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getCreatorName() {
+        return creatorName;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
+
+    public int getParticipantsCount() {
+        return participantsCount;
+    }
+
+    public void setParticipantsCount(int participantsCount) {
+        this.participantsCount = participantsCount;
+    }
+
+    public int getPhotosCount() {
+        return photosCount;
+    }
+
+    public void setPhotosCount(int photosCount) {
+        this.photosCount = photosCount;
     }
 }

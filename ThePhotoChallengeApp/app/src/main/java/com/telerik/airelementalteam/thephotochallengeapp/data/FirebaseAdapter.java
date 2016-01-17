@@ -3,12 +3,13 @@ package com.telerik.airelementalteam.thephotochallengeapp.data;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
-import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncTaskInteractor;
+import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncAuthInteractor;
+import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncChallengeInteractor;
+import com.telerik.airelementalteam.thephotochallengeapp.data.AsyncTasks.AsyncFriendshipInteractor;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestConfirmedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestListener;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.models.Challenge;
-import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.CreateChallengePresenter;
 
 import Common.Constants;
 
@@ -29,7 +30,9 @@ public class FirebaseAdapter {
     private Firebase refPhotos;
     private Firebase refThemes;
 
-    private AsyncTaskInteractor interactor;
+    private AsyncAuthInteractor authInteractor;
+    private AsyncFriendshipInteractor friendshipInteractor;
+    private AsyncChallengeInteractor challengeInteractor;
 
     public FirebaseAdapter() {
         this.refDB = new Firebase(firebaseConnection);
@@ -38,7 +41,10 @@ public class FirebaseAdapter {
         this.refChallenges = new Firebase(challengesConnection);
         this.refPhotos = new Firebase(photosConnection);
         this.refThemes = new Firebase(themesConnection);
-        this.interactor = new AsyncTaskInteractor();
+        this.authInteractor = new AsyncAuthInteractor();
+        this.friendshipInteractor = new AsyncFriendshipInteractor();
+        this.challengeInteractor = new AsyncChallengeInteractor();
+
     }
 
     public FirebaseAdapter openConnection(){
@@ -71,11 +77,11 @@ public class FirebaseAdapter {
 
     // authentication methods
     public void registerUser(String name, String email, String password, IOnTaskFinishedListener listener){
-        interactor.asyncRegisterUser(this, listener, name, email, password);
+        authInteractor.asyncRegisterUser(this, listener, name, email, password);
     }
 
     public void loginUser(String email, String password, IOnTaskFinishedListener listener){
-        interactor.asyncLoginUser(this, listener, email, password);
+        authInteractor.asyncLoginUser(this, listener, email, password);
     }
 
     public boolean authUser() {
@@ -90,7 +96,7 @@ public class FirebaseAdapter {
     }
 
     public void currentUserNameAndMail(IOnTaskFinishedListener listener){
-        interactor.asyncGetUserNameAndMail(this, listener);
+        authInteractor.asyncGetUserNameAndMail(this, listener);
     }
 
     public String currentUserUID() {
@@ -107,17 +113,17 @@ public class FirebaseAdapter {
     }
 
     public void sendAndReceiveFriendRequest(IOnTaskFinishedListener listener, Query fromUser, Query toUser) {
-        interactor.asyncSendAndReceiveFriendRequest(this, listener, fromUser, toUser);
+        friendshipInteractor.asyncSendAndReceiveFriendRequest(this, listener, fromUser, toUser);
     }
 
     public void listenForChanges(IOnFriendRequestListener requestListener, IOnFriendRequestConfirmedListener friendListener) {
-        interactor.listenForFriendRequest(this, requestListener);
-        interactor.listenForFriendRequestsConfirm(this, friendListener);
+        friendshipInteractor.listenForFriendRequest(this, requestListener);
+        friendshipInteractor.listenForFriendRequestsConfirm(this, friendListener);
     }
 
     public void confirmFriendsWith(String uid, IOnTaskFinishedListener listener) {
         String authUID = this.currentUserUID();
-        interactor.asyncMakeFriends(this, listener, authUID, uid);
+        friendshipInteractor.asyncMakeFriends(this, listener, authUID, uid);
     }
 
     public Firebase refFriends() {
@@ -129,6 +135,10 @@ public class FirebaseAdapter {
     }
 
     public void createNewChallenge(Challenge newChallenge, IOnTaskFinishedListener listener) {
-        interactor.saveNewChallenge(this, listener, newChallenge);
+        challengeInteractor.saveNewChallenge(this, listener, newChallenge);
+    }
+
+    public void getChallengeInfo(String challengeID, IOnTaskFinishedListener listener) {
+        challengeInteractor.getChallengeInfo(this, listener, challengeID);
     }
 }
