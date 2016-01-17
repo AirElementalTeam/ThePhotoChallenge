@@ -23,6 +23,7 @@
         android:layout_centerHorizontal="true"/>
 
     <ImageView
+        android:id="@+id/approve_photo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_tick"
@@ -31,15 +32,12 @@
         android:layout_alignParentBottom="true"/>
 
     <ImageView
+        android:id="@+id/decline_photo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_cancel"
         android:layout_below="@+id/take_location_button"
         android:layout_toEndOf="@+id/take_location_button"
         android:layout_alignParentBottom="true"/>
-
-
-
-
 
 </RelativeLayout>
