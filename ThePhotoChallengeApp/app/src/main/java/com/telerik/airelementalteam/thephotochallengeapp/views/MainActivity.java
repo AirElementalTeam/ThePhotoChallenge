@@ -3,6 +3,8 @@ package com.telerik.airelementalteam.thephotochallengeapp.views;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -33,7 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, LocationListener {
 
     private MainPresenter presenter;
 
@@ -245,5 +247,25 @@ public class MainActivity extends AppCompatActivity
 
     public void setNewImageFile(File newImageFile) {
         this.newImageFile = newImageFile;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }

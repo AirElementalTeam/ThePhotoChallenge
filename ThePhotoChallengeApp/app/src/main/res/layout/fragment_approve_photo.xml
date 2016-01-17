@@ -13,30 +13,40 @@
         android:layout_height="wrap_content"
         android:src="@drawable/background"/>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/take_location_button"
         android:layout_margin="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/flat_location"
+        android:background="@android:color/transparent"
         android:layout_below="@+id/new_photo_viewer"
         android:layout_centerHorizontal="true"/>
 
-    <ImageView
+    <TextView
+        android:id="@+id/location_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/take_location_button"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageButton
         android:id="@+id/approve_photo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_tick"
         android:layout_toStartOf="@+id/take_location_button"
-        android:layout_below="@id/take_location_button"
+        android:layout_below="@+id/location_text"
+        android:background="@android:color/transparent"
         android:layout_alignParentBottom="true"/>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/decline_photo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_cancel"
-        android:layout_below="@+id/take_location_button"
+        android:layout_below="@+id/location_text"
+        android:background="@android:color/transparent"
         android:layout_toEndOf="@+id/take_location_button"
         android:layout_alignParentBottom="true"/>
 
