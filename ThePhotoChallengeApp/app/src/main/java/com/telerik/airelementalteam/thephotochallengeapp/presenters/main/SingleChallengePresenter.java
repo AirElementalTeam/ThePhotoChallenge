@@ -1,6 +1,7 @@
 package com.telerik.airelementalteam.thephotochallengeapp.presenters.main;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -103,6 +104,9 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
         this.fragment.getCreatorNameText().setText(this.creatorName);
         this.fragment.getParticipantsCountText().setText(this.participantsCount);
         this.fragment.getPhotosCountText().setText(this.photosCount);
+        if(this.photosCount.equals("0")) {
+            this.fragment.getNoPhotosText().setText(R.string.challengee_no_photos_text);
+        }
     }
 
     @Override

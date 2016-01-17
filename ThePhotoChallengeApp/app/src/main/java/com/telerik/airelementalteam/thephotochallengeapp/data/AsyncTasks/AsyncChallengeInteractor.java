@@ -8,6 +8,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.models.Challenge;
 import com.telerik.airelementalteam.thephotochallengeapp.models.User;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.SingleChallengePresenter;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SingleChallengeFragment;
 
 public class AsyncChallengeInteractor {
@@ -43,7 +44,28 @@ public class AsyncChallengeInteractor {
 
     }
 
-    public void getChallengeInfo(FirebaseAdapter firebaseAdapter, IOnTaskFinishedListener listener, String challengeID) {
+    public void getChallengeInfo(FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final String challengeID) {
+        Firebase refChallenges = firebase.getRefChallanges();
+        Firebase refChallenge = refChallenges.child(challengeID);
+        refChallenge.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Challenge challenge = dataSnapshot.getValue(Challenge.class);
+                SingleChallengePresenter presenter = (SingleChallengePresenter) listener;
+                presenter.setChallengeTitle(challenge.getTitle());
+                presenter.setChallengeTheme(challenge.getTheme());
+                presenter.setCreatorName(challenge.getCreatorName());
+                presenter.setDueDate(challenge.getDueDate());
+                presenter.setParticipantsCount(Integer.toString(challenge.getParticipantsCount()));
+                presenter.setPhotosCount(Integer.toString(challenge.getPhotosCount()));
+                listener.onSuccess();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
 
 
     }

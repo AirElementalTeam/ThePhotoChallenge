@@ -113,6 +113,15 @@
             android:layout_marginRight="10dp"
             android:layout_below="@+id/participants_text"/>
 
+        <TextView
+            android:id="@+id/no_photos_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@+id/participate_button"
+            android:layout_marginTop="50dp"
+            android:layout_centerInParent="true"/>
+
         <GridView
             android:id="@+id/photos_grid_view"
             android:layout_width="wrap_content"

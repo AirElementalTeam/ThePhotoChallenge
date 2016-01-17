@@ -25,6 +25,7 @@ public class SingleChallengeFragment extends android.app.Fragment {
     private TextView challengeTitleText;
     private TextView challengeThemeText;
     private TextView dueDateText;
+    private TextView noPhotosText;
     private GridView photosGrid;
 
     public SingleChallengeFragment() {
@@ -44,6 +45,7 @@ public class SingleChallengeFragment extends android.app.Fragment {
         challengeTitleText = (TextView) view.findViewById(R.id.challenge_title);
         challengeThemeText = (TextView) view.findViewById(R.id.theme_name_text);
         dueDateText = (TextView) view.findViewById(R.id.due_date_text);
+        noPhotosText = (TextView) view.findViewById(R.id.no_photos_text);
 
         presenter.getChallengeInfo(this.getChallengeID());
 
@@ -113,5 +115,13 @@ public class SingleChallengeFragment extends android.app.Fragment {
 
     public void setDueDateText(TextView dueDateText) {
         this.dueDateText = dueDateText;
+    }
+
+    public TextView getNoPhotosText() {
+        return noPhotosText;
+    }
+
+    public void setNoPhotosText(TextView noPhotosText) {
+        this.noPhotosText = noPhotosText;
     }
 }
