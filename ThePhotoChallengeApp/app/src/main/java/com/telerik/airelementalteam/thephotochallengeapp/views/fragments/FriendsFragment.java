@@ -41,6 +41,7 @@ public class FriendsFragment extends ListFragment {
         });
 
         presenter.populateFriendList(friendsList, noFriends);
+
         friendsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

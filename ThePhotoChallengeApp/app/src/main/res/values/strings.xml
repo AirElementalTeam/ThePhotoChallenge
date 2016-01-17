@@ -46,4 +46,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="challengee_no_photos_text">This challenge have no photos. \n Be the first one to participate!</string>
     <string name="take_photo">TAKE PHOTO</string>
+    <string name="comments">Comments</string>
 </resources>

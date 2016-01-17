@@ -1,0 +1,142 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context="com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SinglePhotoFragment">
+
+    <TextView
+        android:id="@+id/challenge_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Challenge title"
+        android:textSize="20sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:id="@+id/theme_name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:shadowColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorAccent"
+        android:layout_below="@+id/challenge_title"
+        android:text="Theme"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageView
+        android:id="@+id/photo_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/background"
+        android:layout_below="@+id/theme_name_text"
+        android:layout_marginTop="30dp"/>
+
+    <ImageView
+        android:id="@+id/likes_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_heart"
+        android:layout_below="@id/photo_view"
+        android:layout_alignEnd="@+id/photo_view"
+        />
+
+    <TextView
+        android:id="@+id/likes_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="23"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/colorAccent"
+        android:layout_below="@+id/photo_view"
+        android:layout_toStartOf="@+id/likes_icon"
+        android:layout_marginTop="7dp"
+        />
+
+    <ImageView
+        android:id="@+id/views_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_action_eye_open"
+        android:layout_below="@+id/photo_view"
+        android:layout_toStartOf="@+id/likes_count"
+        />
+
+    <TextView
+        android:id="@+id/views_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="71"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/colorAccent"
+        android:layout_below="@+id/photo_view"
+        android:layout_toStartOf="@+id/views_icon"
+        android:layout_marginTop="7dp"
+        />
+
+    <ImageView
+        android:id="@+id/location_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_location"
+        android:layout_below="@+id/photo_view"
+        android:layout_toStartOf="@+id/views_count"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sofia"
+        android:layout_below="@+id/photo_view"
+        android:layout_marginTop="9dp"
+        android:layout_toStartOf="@+id/location_icon"/>
+
+    <TextView
+        android:id="@+id/photo_by_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="photo by: "
+        android:layout_below="@+id/photo_view"
+        android:layout_marginTop="7dp"/>
+
+    <TextView
+        android:id="@+id/photo_creator_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BB-8"
+        android:layout_below="@+id/photo_view"
+        android:layout_toEndOf="@+id/photo_by_text"
+        android:layout_marginTop="7dp"
+        android:textSize="15sp"
+        android:textColor="@color/colorAccent"/>
+
+    <TextView
+        android:id="@+id/comments_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/comments"
+        android:layout_below="@+id/likes_icon"
+        android:layout_marginTop="10dp"/>
+
+    <ListView
+        android:id="@+id/comments_list"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/comments_title"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="100dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Add comment"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="100dp"
+        />
+
+
+
+
+</RelativeLayout>

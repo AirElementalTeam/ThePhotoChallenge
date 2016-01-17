@@ -27,6 +27,8 @@ import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.Ranking
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SettingsFragment;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.UserFragment;
 
+import java.io.File;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -34,6 +36,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private MainPresenter presenter;
+
+    private File newImageFile;
 
     NavigationView navigationView;
     Toolbar toolbar;
@@ -224,5 +228,22 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
 
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("AFTER PICTURE TAKEN in MAIN");
+        System.out.println("requestcode    " + requestCode );
+        System.out.println("resultCode    " + requestCode);
+        System.out.println("data    " + data );
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public File getNewImageFile() {
+        return newImageFile;
+    }
+
+    public void setNewImageFile(File newImageFile) {
+        this.newImageFile = newImageFile;
     }
 }

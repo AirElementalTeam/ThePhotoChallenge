@@ -1,6 +1,7 @@
 package com.telerik.airelementalteam.thephotochallengeapp.views.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SingleChallengePresenter;
+
+import java.io.File;
 
 public class SingleChallengeFragment extends android.app.Fragment {
 
@@ -26,6 +29,8 @@ public class SingleChallengeFragment extends android.app.Fragment {
     private TextView noPhotosText;
     private GridView photosGrid;
     private AppCompatButton takePhotoButton;
+
+    private File newImageFile;
 
     public SingleChallengeFragment() {
 
@@ -58,6 +63,12 @@ public class SingleChallengeFragment extends android.app.Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        presenter.convertToBase64(this.newImageFile);
     }
 
     public String getChallengeID() {
@@ -130,5 +141,9 @@ public class SingleChallengeFragment extends android.app.Fragment {
 
     public void setNoPhotosText(TextView noPhotosText) {
         this.noPhotosText = noPhotosText;
+    }
+
+    public void setNewImageFile(File newImageFile) {
+        this.newImageFile = newImageFile;
     }
 }
