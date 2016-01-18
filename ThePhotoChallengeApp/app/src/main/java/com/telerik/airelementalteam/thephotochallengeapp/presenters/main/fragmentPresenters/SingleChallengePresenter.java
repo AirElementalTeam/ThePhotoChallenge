@@ -27,6 +27,8 @@ import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SingleC
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SingleChallengePresenter implements IOnTaskFinishedListener {
 
@@ -36,6 +38,7 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
     private FirebaseListAdapter<Photo> gridAdapter;
     private File imageFile;
     private String convertedPhotoString;
+    private List<String> photosIds;
 
     private String challengeID;
     private String challengeTitle;
@@ -49,17 +52,20 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
         this.activity = activity;
         this.fragment = fragment;
         this.firebase = new FirebaseAdapter();
+        this.photosIds = new ArrayList<>();
     }
 
     public void populatePhotosGrid(GridView gridView){
         this.gridAdapter = new FirebaseListAdapter<Photo>(this.activity, Photo.class, R.layout.photo_grid_item, firebase.getRefToCurrentChallengePhotos(this.challengeID)) {
             @Override
             protected void populateView(View view, Photo photo) {
+                photosIds.add(photo.getId());
                 byte[] photoBytes = Base64.decode(photo.getBase64(), Base64.DEFAULT);
                 Bitmap bmp = BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.length);
                 ((ImageView) view.findViewById(R.id.photo_in_grid)).setImageBitmap(bmp);
             }
         };
+        this.fragment.setPhotosIds(photosIds);
         gridView.setAdapter(gridAdapter);
     }
 
@@ -158,4 +164,11 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
     }
 
 
+    public List<String> getPhotosIds() {
+        return photosIds;
+    }
+
+    public void setPhotosIds(List<String> photosIds) {
+        this.photosIds = photosIds;
+    }
 }

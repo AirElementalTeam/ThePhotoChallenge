@@ -1,12 +1,14 @@
 package com.telerik.airelementalteam.thephotochallengeapp.views.fragments;
 
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -14,6 +16,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SingleChallengePresenter;
 
 import java.io.File;
+import java.util.List;
 
 public class SingleChallengeFragment extends android.app.Fragment {
 
@@ -30,6 +33,7 @@ public class SingleChallengeFragment extends android.app.Fragment {
     private GridView photosGrid;
     private AppCompatButton takePhotoButton;
 
+    private List<String> photosIds;
     private File newImageFile;
 
     public SingleChallengeFragment() {
@@ -61,6 +65,20 @@ public class SingleChallengeFragment extends android.app.Fragment {
             @Override
             public void onClick(View v) {
                 presenter.startCamera();
+            }
+        });
+
+        photosGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String photoId = photosIds.get(position);
+                SinglePhotoFragment fragment = new SinglePhotoFragment();
+                fragment.setPhotoId(photoId);
+                FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainer, fragment);
+                transaction.addToBackStack("SingleChallengeFragment");
+                transaction.commit();
+
             }
         });
 
@@ -148,5 +166,13 @@ public class SingleChallengeFragment extends android.app.Fragment {
 
     public void setNewImageFile(File newImageFile) {
         this.newImageFile = newImageFile;
+    }
+
+    public List<String> getPhotosIds() {
+        return photosIds;
+    }
+
+    public void setPhotosIds(List<String> photosIds) {
+        this.photosIds = photosIds;
     }
 }

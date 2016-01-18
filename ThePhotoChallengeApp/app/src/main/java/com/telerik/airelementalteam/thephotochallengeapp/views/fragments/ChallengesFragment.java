@@ -52,14 +52,11 @@ public class ChallengesFragment extends Fragment {
                 fragment.setChallengeID(challengeId);
                 FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer, fragment);
+                transaction.addToBackStack("ChallengesFragment");
                 transaction.commit();
             }
         });
         return view;
-    }
-
-    public List<String> getChallengesIds() {
-        return challengesIds;
     }
 
     public void setChallengesIds(List<String> challengesIds) {
