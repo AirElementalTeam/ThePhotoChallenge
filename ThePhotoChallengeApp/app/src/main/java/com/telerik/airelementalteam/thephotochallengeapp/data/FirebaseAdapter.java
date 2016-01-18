@@ -13,6 +13,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.models.Challenge;
 import com.telerik.airelementalteam.thephotochallengeapp.models.Photo;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.ApprovePhotoPresenter;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SinglePhotoPresenter;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.user.UserPresenter;
 
 import Common.Constants;
 import Common.Path;
@@ -166,5 +167,9 @@ public class FirebaseAdapter {
 
     public void getPhotoInfo(IOnTaskFinishedListener listener, String photoId) {
         challengeInteractor.getPhotoInfo(this, listener, photoId);
+    }
+
+    public void getFriendshipState(IOnTaskFinishedListener listener, String uid) {
+        authInteractor.getFriendshipState(this, listener, uid);
     }
 }

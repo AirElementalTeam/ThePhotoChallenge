@@ -10,6 +10,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.models.User;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.MainPresenter;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.user.UserPresenter;
 
 import java.util.Map;
 
@@ -105,5 +106,64 @@ public class AsyncAuthInteractor {
                 listener.onError();
             }
         });
+    }
+
+    public void getFriendshipState(final FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final String uid) {
+        final UserPresenter presenter = (UserPresenter) listener;
+        firebase.refUserFriends().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(uid)) {
+                    System.out.println("dataSnapshot ----->" + dataSnapshot);
+                    System.out.println("dataSnapshot.hasChild(firebase.currentUserUID() ----->" + dataSnapshot.hasChild(firebase.currentUserUID()));
+                    //friends
+                    presenter.setFriends(true);
+                    presenter.setFriendRequestSend(false);
+                    presenter.setFriendRequestReceived(false);
+                    listener.onSuccess();
+                } else {
+                    firebase.getRefUsers().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            if(dataSnapshot.child(Constants.FRIEND_REQUESTS_RECEIVED).hasChild(firebase.currentUserUID())){
+                                System.out.println("dataSnapshot ----->" + dataSnapshot);
+                                System.out.println("dataSnapshot.child(Constants.FRIEND_REQUESTS_RECEIVED).hasChild(firebase.currentUserUID()) ----->" + dataSnapshot.child(Constants.FRIEND_REQUESTS_RECEIVED).hasChild(firebase.currentUserUID()));
+                                //auth user send this user a friend request
+                                presenter.setFriendRequestSend(true);
+                                presenter.setFriends(false);
+                                presenter.setFriendRequestReceived(false);
+                                listener.onSuccess();
+                            } else if(dataSnapshot.child(Constants.FRIEND_REQUESTS_SEND).hasChild(firebase.currentUserUID())){
+                                System.out.println("dataSnapshot.child(Constants.FRIEND_REQUESTS_SEND).hasChild(firebase.currentUserUID()) ----->" + dataSnapshot.child(Constants.FRIEND_REQUESTS_SEND).hasChild(firebase.currentUserUID()));
+                                //this user send auth user friend request
+                                presenter.setFriendRequestReceived(true);
+                                presenter.setFriendRequestSend(false);
+                                presenter.setFriends(false);
+                                listener.onSuccess();
+                            } else {
+                                System.out.println("else ----->" + dataSnapshot);
+                                //no friends
+                                presenter.setFriends(false);
+                                presenter.setFriendRequestReceived(false);
+                                presenter.setFriendRequestSend(false);
+                                listener.onSuccess();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
     }
 }

@@ -14,26 +14,35 @@ import android.widget.TextView;
 import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.FindFriendsFragmentPresenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FindFriendsFragment extends Fragment {
 
     private FindFriendsFragmentPresenter presenter;
-    private ProgressDialog bar;
+
+    private List<String> usersUIDS;
 
     public FindFriendsFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        presenter = new FindFriendsFragmentPresenter(this.getActivity());
+        presenter = new FindFriendsFragmentPresenter(this.getActivity(), this);
+        this.usersUIDS = new ArrayList<>();
 
         View view =  inflater.inflate(R.layout.fragment_find_friends, container, false);
         ListView userList = (ListView) view.findViewById(android.R.id.list);
 
         presenter.populateFriendList(userList);
 
+
         userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("USER IDS LIST");
+                System.out.println(usersUIDS);
+                String userUID = usersUIDS.get(position);
                 TextView nameText = (TextView) view.findViewById(R.id.list_user_name);
                 TextView emailText = (TextView) view.findViewById(R.id.list_user_email);
 
@@ -41,13 +50,12 @@ public class FindFriendsFragment extends Fragment {
                 String email = emailText.getText().toString();
 
                 UserFragment fragment = new UserFragment();
+                fragment.setUid(userUID);
                 fragment.setName(name);
                 fragment.setEmail(email);
-                fragment.setNotFriend(true);
-                fragment.setIsFriend(false);
-                fragment.setFriendRequestRecieved(false);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragmentContainer, fragment);
+                transaction.addToBackStack("FindFriendsFragment");
                 transaction.commit();
             }
         });
@@ -60,4 +68,13 @@ public class FindFriendsFragment extends Fragment {
         super.onDestroy();
         presenter.cleanup();
     }
+
+    public List<String> getUsersUIDS() {
+        return usersUIDS;
+    }
+
+    public void setUsersUIDS(List<String> usersUIDS) {
+        this.usersUIDS = usersUIDS;
+    }
+
 }

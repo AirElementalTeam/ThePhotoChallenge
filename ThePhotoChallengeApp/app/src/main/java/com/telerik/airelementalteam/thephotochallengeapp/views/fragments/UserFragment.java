@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnChildrenListener;
@@ -52,39 +53,7 @@ public class UserFragment extends Fragment implements IOnChildrenListener {
         confirmFriendButton = (AppCompatButton) view.findViewById(R.id.confirm_friend_button);
         declineFriendButton = (AppCompatButton) view.findViewById(R.id.decline_friend_button);
 
-
-        if(friendRequestReceived) {
-            requestReceivedLayout();
-            confirmFriendButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO: add to friends
-                    presenter.confirmFriendship(uid);
-                }
-            });
-
-            declineFriendButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO: don't add to friends
-                }
-            });
-
-        } else if(friendRequestSend){
-            requestSendLayout();
-
-        } else if(notFriend){
-            notFriendLayout();
-            addFriendButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    presenter.sendFriendRequest(email);
-                }
-            });
-
-        } else if(isFriend){
-            friendLayout();
-        }
+        presenter.getUserInfo(this.uid);
 
         return view;
     }
@@ -128,6 +97,13 @@ public class UserFragment extends Fragment implements IOnChildrenListener {
         friendRequestText.setVisibility(View.GONE);
         confirmFriendButton.setVisibility(View.GONE);
         declineFriendButton.setVisibility(View.GONE);
+        addFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(), "Friend request send", Toast.LENGTH_SHORT).show();
+                presenter.sendFriendRequest(email);
+            }
+        });
     }
 
     public void requestReceivedLayout() {
@@ -137,6 +113,18 @@ public class UserFragment extends Fragment implements IOnChildrenListener {
         friendRequestText.setVisibility(View.VISIBLE);
         confirmFriendButton.setVisibility(View.VISIBLE);
         declineFriendButton.setVisibility(View.VISIBLE);
+        confirmFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.confirmFriendship(uid);
+            }
+        });
+        declineFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: don't add to friends
+            }
+        });
     }
 
     public void requestSendLayout() {

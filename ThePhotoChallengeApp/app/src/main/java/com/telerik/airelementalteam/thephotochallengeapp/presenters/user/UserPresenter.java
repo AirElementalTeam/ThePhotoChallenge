@@ -24,6 +24,7 @@ public class UserPresenter implements IOnTaskFinishedListener {
     //private String otherUserUID;
 
     private boolean friendRequestSend;
+    private boolean friendRequestReceived;
     private boolean friends;
 
     public UserPresenter(Activity activity, UserFragment fragment){
@@ -51,17 +52,29 @@ public class UserPresenter implements IOnTaskFinishedListener {
         firebase.confirmFriendsWith(uid, this);
     }
 
+    public void getUserInfo(String uid) {
+        firebase.getFriendshipState(this, uid);
+    }
+
     @Override
     public void onSuccess() {
+        System.out.println("onSuccess in UserPresenter");
+        System.out.println("friendRequestSend  ------> " + friendRequestSend);
+        System.out.println("friendRequestReceived  ------> " + friendRequestReceived);
+        System.out.println("friends  ------> " + friends);
+
         //friend request send
         if(friendRequestSend) {
-            Toast.makeText(activity.getApplicationContext(), "Friend request send", Toast.LENGTH_SHORT).show();
+
             this.fragment.requestSendLayout();
             this.friends = false;
-        }
-        if(friends) {
+        } else if(friendRequestReceived) {
+            this.fragment.requestReceivedLayout();
+        } else if(friends) {
             this.fragment.friendLayout();
             this.friendRequestSend = false;
+        } else {
+            this.fragment.notFriendLayout();
         }
     }
 
@@ -76,5 +89,11 @@ public class UserPresenter implements IOnTaskFinishedListener {
 
     public void setFriends(boolean friends) {
         this.friends = friends;
+    }
+
+
+
+    public void setFriendRequestReceived(boolean friendRequestReceived) {
+        this.friendRequestReceived = friendRequestReceived;
     }
 }
