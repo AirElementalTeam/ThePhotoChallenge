@@ -13,6 +13,9 @@ import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmen
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SinglePhotoPresenter;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SingleChallengeFragment;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 import Common.Constants;
@@ -29,7 +32,7 @@ public class AsyncChallengeInteractor {
                 User creator = dataSnapshot.getValue(User.class);
                 newChallenge.setCreatorName(creator.getName());
                 newChallenge.setCreatorID(firebase.currentUserUID());
-                Firebase refUserChallenges = firebase.refUserChallenges();
+                Firebase refUserChallenges = firebase.refAuthUserChallenges();
                 Firebase refNewChallengeByUser = refUserChallenges.child(newChallenge.getId());
                 refNewChallengeByUser.setValue(newChallenge);
 
@@ -37,7 +40,9 @@ public class AsyncChallengeInteractor {
                 Firebase refNewChallenge = refChallenges.child(newChallenge.getId());
                 refNewChallenge.setValue(newChallenge);
 
-                SingleChallengeFragment fragment = new SingleChallengeFragment();
+                Map<String, Object> participantID = new HashMap<>();
+                participantID.put(newChallenge.getCreatorID(), true);
+                firebase.getRefToChallengeParticipants().child(newChallenge.getId()).updateChildren(participantID);
 
                 listener.onSuccess();
             }
@@ -78,10 +83,10 @@ public class AsyncChallengeInteractor {
     }
 
     public void savePhoto(FirebaseAdapter firebase, IOnTaskFinishedListener listener, Photo photo) {
+        System.out.println("INSIDE INTERACTOR ____ challengeID ---- >" + photo.getChallengeId());
         Firebase refAllPhotos = firebase.getRefAllPhotos();
         Firebase refUserPhotos = firebase.refUserPhotos();
         Firebase refChallengePhotos = new Firebase(String.format(Path.TO_CURRENT_CHALLENGE_PHOTOS, photo.getChallengeId(), photo.getUserID()));
-        Firebase refChallenges = firebase.getRefChallanges();
         Random generator = new Random();
         photo.setId(photo.getChallengeId() + Constants.DASH + photo.getUserID() + Math.abs(generator.nextInt()));
         refAllPhotos.child(photo.getId()).setValue(photo);
@@ -92,21 +97,72 @@ public class AsyncChallengeInteractor {
     }
 
     public void updateChallengePhotosCount(final FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final String challengeId) {
-        firebase.refUserChallenges().child(challengeId).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebase.getRefChallanges().child(challengeId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot1) {
-                Challenge challenge = dataSnapshot1.getValue(Challenge.class);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Challenge challenge = dataSnapshot.getValue(Challenge.class);
                 int photosCount = challenge.getPhotosCount();
                 photosCount += 1;
                 challenge.setPhotosCount(photosCount);
-                dataSnapshot1.getRef().setValue(challenge);
-                firebase.getRefChallanges().child(challengeId).addListenerForSingleValueEvent(new ValueEventListener() {
+                dataSnapshot.getRef().setValue(challenge);
+                firebase.refUserChallenges(challenge.getCreatorID()).child(challengeId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Challenge challenge = dataSnapshot.getValue(Challenge.class);
                         int photosCount = challenge.getPhotosCount();
                         photosCount += 1;
                         challenge.setPhotosCount(photosCount);
+                        dataSnapshot.getRef().setValue(challenge);
+                        updateChallengeParticipants(firebase, listener, challengeId);
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+    }
+
+    private void updateChallengeParticipants(final FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final String challengeID) {
+        firebase.getRefToChallengeParticipants().child(challengeID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(firebase.currentUserUID())) {
+                    System.out.println("I AM HERE BUT SHOULD I BE HERE");
+                    System.out.println(dataSnapshot.getValue());
+                    listener.onSuccess();
+                } else {
+                    dataSnapshot.getRef().child(firebase.currentUserUID()).setValue(true);
+                    updateParticipantsCount(firebase, listener, challengeID);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
+    }
+
+    private void updateParticipantsCount(final FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final String challengeID) {
+        firebase.getRefChallanges().child(challengeID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Challenge challenge = dataSnapshot.getValue(Challenge.class);
+                int partCount = challenge.getParticipantsCount();
+                partCount += 1;
+                challenge.setParticipantsCount(partCount);
+                dataSnapshot.getRef().setValue(challenge);
+                firebase.refUserChallenges(challenge.getCreatorID()).child(challengeID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Challenge challenge = dataSnapshot.getValue(Challenge.class);
+                        int partCount = challenge.getParticipantsCount();
+                        partCount += 1;
+                        challenge.setParticipantsCount(partCount);
                         dataSnapshot.getRef().setValue(challenge);
                         listener.onSuccess();
                     }

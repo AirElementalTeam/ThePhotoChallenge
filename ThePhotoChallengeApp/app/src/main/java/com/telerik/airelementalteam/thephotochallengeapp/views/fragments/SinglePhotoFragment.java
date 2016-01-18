@@ -57,7 +57,7 @@ public class SinglePhotoFragment extends android.app.Fragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        // TODO: 1/18/16
+                        // TODO: animation
                         //bigHeart.setVisibility(View.VISIBLE);
                     }
                 }, LIKE_TIME_OUT);

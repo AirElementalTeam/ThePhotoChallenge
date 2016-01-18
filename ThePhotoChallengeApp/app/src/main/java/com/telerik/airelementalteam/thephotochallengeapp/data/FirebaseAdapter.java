@@ -68,6 +68,10 @@ public class FirebaseAdapter {
         return new Firebase(String.format(Path.TO_CURRENT_CHALLENGE_PHOTOS, challengeID));
     }
 
+    public Firebase getRefToChallengeParticipants() {
+        return new Firebase(Path.TO_CHALLENGE_PARTICIPANTS);
+    }
+
     public Firebase getRefPhotos() {
         return refPhotos;
     }
@@ -77,8 +81,13 @@ public class FirebaseAdapter {
         return new Firebase(path);
     }
 
-    public Firebase refUserChallenges() {
+    public Firebase refAuthUserChallenges() {
         String path = String.format(Path.TO_CHALLENGES_BY_USER, currentUserUID());
+        return  new Firebase(path);
+    }
+
+    public Firebase refUserChallenges(String userUID){
+        String path = String.format(Path.TO_CHALLENGES_BY_USER, userUID);
         return  new Firebase(path);
     }
 

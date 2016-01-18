@@ -15,6 +15,9 @@ public class Path {
     //placeholder1 - challengeID
     public static final String TO_CURRENT_CHALLENGE_PHOTOS = TO_PHOTOS_BY_CHALLENGES + Constants.SLASH + Constants.PLACEHOLDER + Constants.DASH + Constants.PHOTOS;
 
+    //placeholder - challengeID
+    public static final String TO_CHALLENGE_PARTICIPANTS = TO_REF_DB + Constants.SLASH + Constants.CHALLENGE_PARTICIPANTS;
+
     //placeholder - userUID
     public static final String TO_USER_PHOTOS = TO_PHOTOS_BY_USERS + Constants.SLASH + Constants.PLACEHOLDER + Constants.DASH + Constants.PHOTOS;
 

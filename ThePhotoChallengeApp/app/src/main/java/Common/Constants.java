@@ -11,6 +11,7 @@ public class Constants {
     public static final String USERS_BY_EMAIL = "UsersByEmail";
     public static final String CHALLENGES = "Challenges";
     public static final String CHALLENGES_BY_USER = "ChallengesByUser";
+    public static final String CHALLENGE_PARTICIPANTS = "ChallengeParticipants";
     public static final String PHOTOS = "Photos";
     public static final String ALL_PHOTOS = "PhotosAll";
     public static final String THEMES = "Themes";

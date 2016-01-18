@@ -1,6 +1,7 @@
 package com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -32,6 +33,7 @@ public class SinglePhotoPresenter implements IOnTaskFinishedListener {
     }
 
     public void getPhotoInfo(String photoId) {
+
         firebase.getPhotoInfo(this, photoId);
     }
 
@@ -50,7 +52,6 @@ public class SinglePhotoPresenter implements IOnTaskFinishedListener {
 
     @Override
     public void onError() {
-
     }
 
     public String getBase64() {

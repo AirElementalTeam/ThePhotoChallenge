@@ -63,80 +63,6 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
         gridView.setAdapter(gridAdapter);
     }
 
-    public void getChallengeInfo(String challengeID) {
-        this.challengeID = challengeID;
-        firebase.getChallengeInfo(challengeID, this);
-
-    }
-
-    public String getChallengeTitle() {
-        return challengeTitle;
-    }
-
-    public void setChallengeTitle(String challengeTitle) {
-        this.challengeTitle = challengeTitle;
-    }
-
-    public String getChallengeTheme() {
-        return challengeTheme;
-    }
-
-    public void setChallengeTheme(String challengeTheme) {
-        this.challengeTheme = challengeTheme;
-    }
-
-    public String getCreatorName() {
-        return creatorName;
-    }
-
-    public void setCreatorName(String creatorName) {
-        this.creatorName = creatorName;
-    }
-
-    public String getPhotosCount() {
-        return photosCount;
-    }
-
-    public void setPhotosCount(String photosCount) {
-        this.photosCount = photosCount;
-    }
-
-    public String getParticipantsCount() {
-        return participantsCount;
-    }
-
-    public void setParticipantsCount(String participantsCount) {
-        this.participantsCount = participantsCount;
-    }
-
-    public String getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(String dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    @Override
-    public void onSuccess() {
-        this.fragment.getChallengeTitleText().setText(this.challengeTitle);
-        this.fragment.getChallengeThemeText().setText(this.challengeTheme);
-        this.fragment.getDueDateText().setText(this.dueDate);
-        this.fragment.getCreatorNameText().setText(this.creatorName);
-        this.fragment.getParticipantsCountText().setText(this.participantsCount);
-        this.fragment.getPhotosCountText().setText(this.photosCount);
-        if(this.photosCount.equals("0")) {
-            this.fragment.getNoPhotosText().setText(R.string.challengee_no_photos_text);
-        } else {
-            populatePhotosGrid(this.fragment.getPhotosGrid());
-        }
-    }
-
-    @Override
-    public void onError() {
-
-    }
-
     public void startCamera() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         imageFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "snimchica.jpg");
@@ -163,6 +89,7 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
         newPhoto.setUserName(this.creatorName);
         newPhoto.setChallengeName(this.challengeTitle);
         newPhoto.setChallengeId(this.challengeID);
+        System.out.println("this CHALLENGE ID =-----" + this.challengeID);
         newPhoto.setTheme(this.challengeTheme);
         newPhoto.setViews(0);
         newPhoto.setLikes(0);
@@ -179,11 +106,56 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
         transaction.commit();
     }
 
-    public String getChallengeID() {
-        return challengeID;
+    public void getChallengeInfo(String challengeID) {
+        this.challengeID = challengeID;
+        firebase.getChallengeInfo(challengeID, this);
+
     }
 
-    public void setChallengeID(String challengeID) {
-        this.challengeID = challengeID;
+    public void setChallengeTitle(String challengeTitle) {
+        this.challengeTitle = challengeTitle;
     }
+
+    public void setChallengeTheme(String challengeTheme) {
+        this.challengeTheme = challengeTheme;
+    }
+
+    public void setCreatorName(String creatorName) {
+        this.creatorName = creatorName;
+    }
+
+    public void setPhotosCount(String photosCount) {
+        this.photosCount = photosCount;
+    }
+
+
+    public void setParticipantsCount(String participantsCount) {
+        this.participantsCount = participantsCount;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    @Override
+    public void onSuccess() {
+        this.fragment.getChallengeTitleText().setText(this.challengeTitle);
+        this.fragment.getChallengeThemeText().setText(this.challengeTheme);
+        this.fragment.getDueDateText().setText(this.dueDate);
+        this.fragment.getCreatorNameText().setText(this.creatorName);
+        this.fragment.getParticipantsCountText().setText(this.participantsCount);
+        this.fragment.getPhotosCountText().setText(this.photosCount);
+        if(this.photosCount.equals("0")) {
+            this.fragment.getNoPhotosText().setText(R.string.challengee_no_photos_text);
+        } else {
+            populatePhotosGrid(this.fragment.getPhotosGrid());
+        }
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+
 }

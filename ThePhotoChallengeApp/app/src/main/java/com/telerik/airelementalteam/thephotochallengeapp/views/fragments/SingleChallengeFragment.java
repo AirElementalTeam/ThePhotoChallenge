@@ -53,6 +53,7 @@ public class SingleChallengeFragment extends android.app.Fragment {
         takePhotoButton = (AppCompatButton) view.findViewById(R.id.take_photo_button);
         photosGrid = (GridView) view.findViewById(android.R.id.list);
 
+        System.out.println("CHALLENGE ID" + this.getChallengeID());
         presenter.getChallengeInfo(this.getChallengeID());
         presenter.populatePhotosGrid(photosGrid);
 

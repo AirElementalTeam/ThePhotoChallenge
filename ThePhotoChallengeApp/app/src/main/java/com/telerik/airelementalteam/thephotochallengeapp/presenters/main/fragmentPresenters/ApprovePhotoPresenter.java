@@ -2,6 +2,7 @@ package com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragme
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.location.Location;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -20,6 +21,8 @@ public class ApprovePhotoPresenter implements IOnTaskFinishedListener{
     private Activity activity;
     private FirebaseAdapter firebase;
 
+    private ProgressDialog progressDialog;
+
     private Photo photo;
 
     public ApprovePhotoPresenter(Activity activity) {
@@ -28,6 +31,8 @@ public class ApprovePhotoPresenter implements IOnTaskFinishedListener{
     }
 
     public void onApprovedPhoto(Photo photo) {
+        progressDialog = ProgressDialog.show(activity, "Saving photo...", null);
+        progressDialog.show();
         this.photo = photo;
         firebase.savePhoto(photo, this);
 
@@ -46,11 +51,12 @@ public class ApprovePhotoPresenter implements IOnTaskFinishedListener{
     @Override
     public void onSuccess() {
         System.out.println("Saved the photo");
+        //firebase.getRefToChallengeParticipants(this.photo.getChallengeId()).
         SinglePhotoFragment fragment = new SinglePhotoFragment();
         fragment.setPhotoId(this.photo.getId());
         FragmentTransaction transaction = this.activity.getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
-
+        progressDialog.hide();
         transaction.commit();
     }
 
