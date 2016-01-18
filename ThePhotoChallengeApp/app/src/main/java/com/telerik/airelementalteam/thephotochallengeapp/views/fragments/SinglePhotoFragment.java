@@ -1,9 +1,9 @@
 package com.telerik.airelementalteam.thephotochallengeapp.views.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,16 +11,15 @@ import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SinglePhotoPresenter;
-import com.telerik.airelementalteam.thephotochallengeapp.views.LoginActivity;
-import com.telerik.airelementalteam.thephotochallengeapp.views.MainActivity;
-
-import org.w3c.dom.Text;
 
 public class SinglePhotoFragment extends android.app.Fragment {
+
 
     private final int LIKE_TIME_OUT = 2000;
 
     SinglePhotoPresenter presenter;
+    GestureDetector gestureDetector;;
+    boolean tapped;
 
     private ImageView imageView;
     private ImageView likesIcon;
@@ -37,8 +36,9 @@ public class SinglePhotoFragment extends android.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        gestureDetector = new GestureDetector(getActivity(), new GestureListener());
         View view = inflater.inflate(R.layout.fragment_single_photo, container, false);
-        imageView = (ImageView) view.findViewById(R.id.photo_view);
+        imageView = (ImageView) view.findViewById(R.id.photo_container);
         likesIcon = (ImageView) view.findViewById(R.id.likes_icon);
         bigHeart = (ImageView) view.findViewById(R.id.liked_view);
         bigHeart.setVisibility(View.INVISIBLE);
@@ -51,22 +51,14 @@ public class SinglePhotoFragment extends android.app.Fragment {
         this.presenter = new SinglePhotoPresenter(getActivity(), this);
         presenter.getPhotoInfo(getPhotoId());
 
-        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+        imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onLongClick(View v) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // TODO: animation
-                        //bigHeart.setVisibility(View.VISIBLE);
-                    }
-                }, LIKE_TIME_OUT);
-
-                bigHeart.setVisibility(View.INVISIBLE);
-                likesIcon.setBackground(getResources().getDrawable(R.drawable.ic_action_heart_yellow));
-                return false;
+            public boolean onTouch(View v, MotionEvent event) {
+                System.out.println("   on touch");
+                return gestureDetector.onTouchEvent(event);
             }
         });
+
         return view;
     }
 
@@ -130,7 +122,39 @@ public class SinglePhotoFragment extends android.app.Fragment {
         return imageView;
     }
 
-    public void setImageView(ImageView imageView) {
-        this.imageView = imageView;
+    public ImageView getLikesIcon() {
+        return likesIcon;
+    }
+
+    public void setLikesIcon(ImageView likesIcon) {
+        this.likesIcon = likesIcon;
+    }
+
+    public class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onDown(MotionEvent e) {
+
+            return true;
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            //System.out.print("tapped");
+            likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_heart_red));
+
+            tapped = !tapped;
+            if (tapped) {
+                System.out.print("tapped");
+
+
+
+            } else {
+                System.out.print(" not tapped");
+
+
+
+            }
+            return true;
+        }
     }
 }

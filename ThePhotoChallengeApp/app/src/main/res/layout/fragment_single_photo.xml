@@ -1,4 +1,5 @@
 <RelativeLayout
+    android:id="@+id/single_photo_page"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -26,7 +27,7 @@
         android:layout_centerHorizontal="true"/>
 
     <ImageView
-        android:id="@+id/photo_view"
+        android:id="@+id/photo_container"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
         android:layout_width="match_parent"
@@ -47,8 +48,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_heart"
-        android:layout_below="@id/photo_view"
-        android:layout_alignEnd="@+id/photo_view"
+        android:layout_below="@id/photo_container"
+        android:layout_alignEnd="@+id/photo_container"
         />
 
     <TextView
@@ -57,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
         android:textColor="@color/colorAccent"
-        android:layout_below="@+id/photo_view"
+        android:layout_below="@+id/photo_container"
         android:layout_toStartOf="@+id/likes_icon"
         android:layout_marginTop="7dp"
         />
@@ -68,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
         android:src="@drawable/ic_action_eye_open"
-        android:layout_below="@+id/photo_view"
+        android:layout_below="@+id/photo_container"
         android:layout_toStartOf="@+id/likes_count"
         />
 
@@ -78,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
         android:textColor="@color/colorAccent"
-        android:layout_below="@+id/photo_view"
+        android:layout_below="@+id/photo_container"
         android:layout_toStartOf="@+id/views_icon"
         android:layout_marginTop="7dp"
         />
@@ -88,14 +89,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_location"
-        android:layout_below="@+id/photo_view"
+        android:layout_below="@+id/photo_container"
         android:layout_toStartOf="@+id/views_count"/>
 
     <TextView
         android:id="@+id/location_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/photo_view"
+        android:layout_below="@+id/photo_container"
         android:layout_marginTop="9dp"
         android:layout_toStartOf="@+id/location_icon"/>
 
@@ -104,14 +105,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="photo by: "
-        android:layout_below="@+id/photo_view"
+        android:layout_below="@+id/photo_container"
         android:layout_marginTop="7dp"/>
 
     <TextView
         android:id="@+id/photo_creator_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/photo_view"
+        android:layout_below="@+id/photo_container"
         android:layout_toEndOf="@+id/photo_by_text"
         android:layout_marginTop="7dp"
         android:textSize="15sp"
