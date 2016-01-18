@@ -13,6 +13,8 @@ import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmen
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SinglePhotoPresenter;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SingleChallengeFragment;
 
+import java.util.Random;
+
 import Common.Constants;
 import Common.Path;
 
@@ -79,7 +81,8 @@ public class AsyncChallengeInteractor {
         Firebase refAllPhotos = firebase.getRefAllPhotos();
         Firebase refUserPhotos = firebase.refUserPhotos();
         Firebase refChallengePhotos = new Firebase(String.format(Path.TO_CURRENT_CHALLENGE_PHOTOS, photo.getChallengeId(), photo.getUserID()));
-        photo.setId(photo.getChallengeId() + Constants.DASH + photo.getUserID());
+        Random generator = new Random();
+        photo.setId(photo.getChallengeId() + Constants.DASH + photo.getUserID() + Math.abs(generator.nextInt()));
         refAllPhotos.child(photo.getId()).setValue(photo);
         refUserPhotos.child(photo.getId()).setValue(photo);
         refChallengePhotos.child(photo.getId()).setValue(photo);

@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.FirebaseListAdapter;
@@ -51,13 +52,15 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
     }
 
     public void populatePhotosGrid(GridView gridView){
-        this.gridAdapter = new FirebaseListAdapter<Photo>(this.activity, Photo.class, R.layout.photo_grid_item, firebase.getRefPhotos()) {
+        this.gridAdapter = new FirebaseListAdapter<Photo>(this.activity, Photo.class, R.layout.photo_grid_item, firebase.getRefToCurrentChallengePhotos(this.challengeID)) {
             @Override
             protected void populateView(View view, Photo photo) {
-                //TODO;(FIX THE REF)
+                byte[] photoBytes = Base64.decode(photo.getBase64(), Base64.DEFAULT);
+                Bitmap bmp = BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.length);
+                ((ImageView) view.findViewById(R.id.photo_in_grid)).setImageBitmap(bmp);
             }
         };
-
+        gridView.setAdapter(gridAdapter);
     }
 
     public void getChallengeInfo(String challengeID) {

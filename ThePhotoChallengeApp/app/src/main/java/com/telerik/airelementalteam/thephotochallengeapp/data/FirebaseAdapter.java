@@ -64,6 +64,10 @@ public class FirebaseAdapter {
         return refChallenges;
     }
 
+    public Firebase getRefToCurrentChallengePhotos(String challengeID) {
+        return new Firebase(String.format(Path.TO_CURRENT_CHALLENGE_PHOTOS, challengeID));
+    }
+
     public Firebase getRefPhotos() {
         return refPhotos;
     }

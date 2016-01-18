@@ -51,8 +51,10 @@ public class SingleChallengeFragment extends android.app.Fragment {
         dueDateText = (TextView) view.findViewById(R.id.due_date_text);
         noPhotosText = (TextView) view.findViewById(R.id.no_photos_text);
         takePhotoButton = (AppCompatButton) view.findViewById(R.id.take_photo_button);
+        photosGrid = (GridView) view.findViewById(android.R.id.list);
 
         presenter.getChallengeInfo(this.getChallengeID());
+        presenter.populatePhotosGrid(photosGrid);
 
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
