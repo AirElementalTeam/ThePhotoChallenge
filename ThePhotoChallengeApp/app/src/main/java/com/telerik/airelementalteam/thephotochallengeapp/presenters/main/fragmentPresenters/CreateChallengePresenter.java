@@ -17,6 +17,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.models.User;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SingleChallengeFragment;
 
 import java.util.Date;
+import java.util.Random;
 
 import Common.Constants;
 import Common.Validator;
@@ -49,6 +50,7 @@ public class CreateChallengePresenter implements IOnTaskFinishedListener {
         progressDialog = ProgressDialog.show(activity, "Creating new challenge...", null);
         progressDialog.show();
         Challenge newChallenge = new Challenge(title, theme, dueDate);
+        Random generator = new Random();
         newChallengeID = newChallenge.getTitle() + "-" + Constants.THEMES + "-" + newChallenge.getTheme() + Constants.UID + firebase.currentUserUID();
         newChallenge.setId(newChallengeID);
         firebase.createNewChallenge(newChallenge, this);

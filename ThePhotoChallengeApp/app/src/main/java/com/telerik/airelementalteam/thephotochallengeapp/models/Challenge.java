@@ -78,4 +78,10 @@ public class Challenge {
     public void setPhotosCount(int photosCount) {
         this.photosCount = photosCount;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Title - %s \n Theme - %s \n due date - %s \n crator id - %s \n creator - %s \n participantsCount - %s \n photoscount - %s",
+                getTitle(), getTheme(), getDueDate(), getCreatorID(), getCreatorName(), getParticipantsCount(), getPhotosCount());
+    }
 }

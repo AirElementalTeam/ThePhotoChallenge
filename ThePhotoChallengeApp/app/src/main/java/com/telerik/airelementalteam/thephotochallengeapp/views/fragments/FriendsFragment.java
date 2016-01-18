@@ -47,7 +47,7 @@ public class FriendsFragment extends ListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //TODO: floating button should be extracted in separate fragment so items can be clickable
                 //If a view contains either focusable or clickable item the OnItemCLickListener won't be called.
-                //System.out.println("Clicked on friend item");
+                System.out.println("Clicked on friend item");
                 TextView nameText = (TextView) view.findViewById(R.id.list_user_name);
                 TextView emailText = (TextView) view.findViewById(R.id.list_user_email);
 

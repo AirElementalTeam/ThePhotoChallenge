@@ -149,7 +149,13 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            int count = getFragmentManager().getBackStackEntryCount();
+
+            if (count == 0) {
+                super.onBackPressed();
+            } else {
+                getFragmentManager().popBackStack();
+            }
         }
     }
 
@@ -162,42 +168,49 @@ public class MainActivity extends AppCompatActivity
             CreateChallengeFragment fragment = new CreateChallengeFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
+            transaction.addToBackStack("CreateChallengeFragment");
             transaction.commit();
 
         } else if (id == R.id.nav_challenges) {
             ChallengesFragment fragment = new ChallengesFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
+            transaction.addToBackStack("ChallengesFragment");
             transaction.commit();
 
         } else if (id == R.id.nav_favourites) {
             FavouritesFragment fragment = new FavouritesFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
+            transaction.addToBackStack("FavouritesFragment");
             transaction.commit();
 
         } else if (id == R.id.nav_friends) {
             FriendsFragment fragment = new FriendsFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
+            transaction.addToBackStack("FriendsFragment");
             transaction.commit();
 
         } else if (id == R.id.nav_ranking) {
             RankingFragment fragment = new RankingFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
+            transaction.addToBackStack("RankingFragment");
             transaction.commit();
 
         } else if (id == R.id.nav_browse) {
             BrowseFragment fragment = new BrowseFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
+            transaction.addToBackStack("BrowseFragment");
             transaction.commit();
 
         } else if (id == R.id.nav_settings) {
             SettingsFragment fragment = new SettingsFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.fragmentContainer, fragment);
+            transaction.addToBackStack("SettingsFragment");
             transaction.commit();
 
         } else if (id == R.id.nav_logout) {

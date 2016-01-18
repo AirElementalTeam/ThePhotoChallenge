@@ -7,8 +7,7 @@ public class Path {
     public static final String TO_USERS = Constants.FIREBASE_PATH + Constants.SLASH + Constants.USERS;
     public static final String TO_USERS_BY_EMAIL = Constants.FIREBASE_PATH + Constants.SLASH + Constants.USERS_BY_EMAIL;
     public static final String TO_CHALLENGES = Constants.FIREBASE_PATH + Constants.SLASH + Constants.CHALLENGES;
-    public static final String TO_CHALLENGES_BY_USER = TO_REF_DB + Constants.SLASH + Constants.CHALLENGES_BY_USER + Constants.SLASH + Constants.PLACEHOLDER + Constants.DASH + Constants.CHALLENGES;
-    public static final String TO_PHOTOS = Constants.FIREBASE_PATH + Constants.SLASH + Constants.PHOTOS;
+    public static final String TO_CHALLENGES_BY_USER = TO_REF_DB + Constants.SLASH + Constants.CHALLENGES_BY_USER + Constants.SLASH + Constants.PLACEHOLDER + Constants.DASH + Constants.CHALLENGES;    public static final String TO_PHOTOS = Constants.FIREBASE_PATH + Constants.SLASH + Constants.PHOTOS;
     public static final String TO_ALL_PHOTOS = TO_PHOTOS + Constants.SLASH + Constants.ALL_PHOTOS;
     public static final String TO_PHOTOS_BY_CHALLENGES = TO_PHOTOS + Constants.SLASH + Constants.PHOTOS_BY_CHALLENGE;
     public static final String TO_PHOTOS_BY_USERS = TO_PHOTOS + Constants.SLASH + Constants.PHOTOS_BY_USER;

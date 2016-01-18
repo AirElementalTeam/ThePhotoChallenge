@@ -50,7 +50,7 @@ public class ApprovePhotoPresenter implements IOnTaskFinishedListener{
         fragment.setPhotoId(this.photo.getId());
         FragmentTransaction transaction = this.activity.getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
-        transaction.addToBackStack(null);
+
         transaction.commit();
     }
 

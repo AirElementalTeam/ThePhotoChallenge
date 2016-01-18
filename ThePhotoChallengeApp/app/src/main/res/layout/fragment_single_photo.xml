@@ -29,11 +29,21 @@
 
     <ImageView
         android:id="@+id/photo_view"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/background"
         android:layout_below="@+id/theme_name_text"
         android:layout_marginTop="30dp"/>
+
+    <ImageView
+        android:id="@+id/liked_view"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_action_heart"
+        android:layout_below="@+id/theme_name_text"
+        android:layout_marginTop="60dp"/>
 
     <ImageView
         android:id="@+id/likes_icon"
