@@ -168,6 +168,7 @@ public class ApprovePhotoFragment extends android.app.Fragment implements Google
         takeLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("Click location");
                 displayLocation();
                 //presenter.takeLocation(photo);
             }

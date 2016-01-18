@@ -10,6 +10,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.models.Challenge;
 import com.telerik.airelementalteam.thephotochallengeapp.models.Photo;
 import com.telerik.airelementalteam.thephotochallengeapp.models.User;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SingleChallengePresenter;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SinglePhotoPresenter;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SingleChallengeFragment;
 
 import Common.Constants;
@@ -83,5 +84,30 @@ public class AsyncChallengeInteractor {
         refUserPhotos.child(photo.getId()).setValue(photo);
         refChallengePhotos.child(photo.getId()).setValue(photo);
         listener.onSuccess();
+    }
+
+    public void getPhotoInfo(FirebaseAdapter firebaseAdapter, final IOnTaskFinishedListener listener, final String photoId) {
+        firebaseAdapter.getRefAllPhotos().child(photoId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Photo photo = dataSnapshot.getValue(Photo.class);
+                SinglePhotoPresenter presenter = (SinglePhotoPresenter) listener;
+                presenter.setBase64(photo.getBase64());
+                presenter.setChallengeName(photo.getChallengeName());
+                presenter.setChallengeId(photo.getChallengeId());
+                presenter.setTheme(photo.getTheme());
+                presenter.setLikes(Integer.toString(photo.getLikes()));
+                presenter.setViews(Integer.toString(photo.getViews()));
+                presenter.setLocation(photo.getLocation());
+                presenter.setUserName(photo.getUserName());
+                presenter.setUserID(photo.getUserID());
+                listener.onSuccess();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 }

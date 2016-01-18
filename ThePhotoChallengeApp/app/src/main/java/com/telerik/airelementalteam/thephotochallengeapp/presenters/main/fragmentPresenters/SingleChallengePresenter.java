@@ -174,7 +174,6 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
         transaction.replace(R.id.fragmentContainer, newFragment);
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
     public String getChallengeID() {

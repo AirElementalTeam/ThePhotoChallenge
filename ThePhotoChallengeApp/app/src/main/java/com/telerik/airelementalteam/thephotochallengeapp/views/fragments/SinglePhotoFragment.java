@@ -1,109 +1,108 @@
 package com.telerik.airelementalteam.thephotochallengeapp.views.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SinglePhotoPresenter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SinglePhotoFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SinglePhotoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class SinglePhotoFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import org.w3c.dom.Text;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class SinglePhotoFragment extends android.app.Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    SinglePhotoPresenter presenter;
 
-    public SinglePhotoFragment() {
-        // Required empty public constructor
-    }
+    private ImageView imageView;
+    private TextView challengeTitle;
+    private TextView challengeTheme;
+    private TextView userName;
+    private TextView viewsCount;
+    private TextView likesCount;
+    private TextView location;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SinglePhotoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SinglePhotoFragment newInstance(String param1, String param2) {
-        SinglePhotoFragment fragment = new SinglePhotoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    private String photoId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_single_photo, container, false);
+        View view = inflater.inflate(R.layout.fragment_single_photo, container, false);
+        imageView = (ImageView) view.findViewById(R.id.photo_view);
+        challengeTitle = (TextView) view.findViewById(R.id.challenge_title);
+        challengeTheme = (TextView) view.findViewById(R.id.theme_name_text);
+        userName = (TextView) view.findViewById(R.id.photo_creator_text);
+        viewsCount = (TextView) view.findViewById(R.id.views_count);
+        likesCount = (TextView) view.findViewById(R.id.likes_count);
+        location = (TextView) view.findViewById(R.id.location_text);
+        this.presenter = new SinglePhotoPresenter(getActivity(), this);
+        presenter.getPhotoInfo(getPhotoId());
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    public String getPhotoId() {
+        return photoId;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void setPhotoId(String photoId) {
+        this.photoId = photoId;
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public TextView getChallengeTitle() {
+        return challengeTitle;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public void setChallengeTitle(TextView challengeTitle) {
+        this.challengeTitle = challengeTitle;
+    }
+
+    public TextView getChallengeTheme() {
+        return challengeTheme;
+    }
+
+    public void setChallengeTheme(TextView challengeTheme) {
+        this.challengeTheme = challengeTheme;
+    }
+
+    public TextView getUserName() {
+        return userName;
+    }
+
+    public void setUserName(TextView userName) {
+        this.userName = userName;
+    }
+
+    public TextView getViewsCount() {
+        return viewsCount;
+    }
+
+    public void setViewsCount(TextView viewsCount) {
+        this.viewsCount = viewsCount;
+    }
+
+    public TextView getLikesCount() {
+        return likesCount;
+    }
+
+    public void setLikesCount(TextView likesCount) {
+        this.likesCount = likesCount;
+    }
+
+    public TextView getLocation() {
+        return location;
+    }
+
+    public void setLocation(TextView location) {
+        this.location = location;
+    }
+
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
     }
 }

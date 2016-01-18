@@ -5,11 +5,10 @@
     android:background="@color/colorBackground"
     tools:context=".views.fragments.ChallengesFragment">
 
-    <Button
-        android:layout_width="wrap_content"
+    <GridView
+        android:id="@+id/challenges_grid"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CHALLENGES"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:numColumns="2"/>
 
 </RelativeLayout>

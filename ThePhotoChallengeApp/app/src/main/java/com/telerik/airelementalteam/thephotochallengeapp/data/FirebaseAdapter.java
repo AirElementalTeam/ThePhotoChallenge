@@ -12,6 +12,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinis
 import com.telerik.airelementalteam.thephotochallengeapp.models.Challenge;
 import com.telerik.airelementalteam.thephotochallengeapp.models.Photo;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.ApprovePhotoPresenter;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SinglePhotoPresenter;
 
 import Common.Constants;
 import Common.Path;
@@ -113,6 +114,8 @@ public class FirebaseAdapter {
         refDB.unauth();
     }
 
+
+    //friendship methods
     public void sendAndReceiveFriendRequest(IOnTaskFinishedListener listener, Query fromUser, Query toUser) {
         friendshipInteractor.asyncSendAndReceiveFriendRequest(this, listener, fromUser, toUser);
     }
@@ -127,8 +130,7 @@ public class FirebaseAdapter {
         friendshipInteractor.asyncMakeFriends(this, listener, authUID, uid);
     }
 
-
-
+    //challenge methods
     public void createNewChallenge(Challenge newChallenge, IOnTaskFinishedListener listener) {
         challengeInteractor.saveNewChallenge(this, listener, newChallenge);
     }
@@ -147,5 +149,9 @@ public class FirebaseAdapter {
 
     public void setRefAllPhotos(Firebase refAllPhotos) {
         this.refAllPhotos = refAllPhotos;
+    }
+
+    public void getPhotoInfo(IOnTaskFinishedListener listener, String photoId) {
+        challengeInteractor.getPhotoInfo(this, listener, photoId);
     }
 }

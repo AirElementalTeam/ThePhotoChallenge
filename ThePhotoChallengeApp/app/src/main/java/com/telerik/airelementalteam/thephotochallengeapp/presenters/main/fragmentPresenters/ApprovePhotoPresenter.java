@@ -12,6 +12,7 @@ import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinis
 import com.telerik.airelementalteam.thephotochallengeapp.models.Photo;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.ApprovePhotoFragment;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SingleChallengeFragment;
+import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SinglePhotoFragment;
 
 public class ApprovePhotoPresenter implements IOnTaskFinishedListener{
 
@@ -19,15 +20,17 @@ public class ApprovePhotoPresenter implements IOnTaskFinishedListener{
     private Activity activity;
     private FirebaseAdapter firebase;
 
+    private Photo photo;
+
     public ApprovePhotoPresenter(Activity activity) {
         this.activity = activity;
         this.firebase = new FirebaseAdapter();
     }
 
     public void onApprovedPhoto(Photo photo) {
+        this.photo = photo;
         firebase.savePhoto(photo, this);
-        //save photo to db
-        //on success navigate to single photo view
+
     }
 
     public void onDeclinedPhoto(Photo photo) {
@@ -43,7 +46,12 @@ public class ApprovePhotoPresenter implements IOnTaskFinishedListener{
     @Override
     public void onSuccess() {
         System.out.println("Saved the photo");
-
+        SinglePhotoFragment fragment = new SinglePhotoFragment();
+        fragment.setPhotoId(this.photo.getId());
+        FragmentTransaction transaction = this.activity.getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainer, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override

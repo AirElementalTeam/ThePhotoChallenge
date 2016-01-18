@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
+    android:background="@color/colorBackground"
     tools:context="com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SinglePhotoFragment">
 
     <TextView
@@ -86,6 +87,7 @@
         android:layout_toStartOf="@+id/views_count"/>
 
     <TextView
+        android:id="@+id/location_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sofia"
