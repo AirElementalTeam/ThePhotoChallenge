@@ -23,6 +23,7 @@ import Common.Path;
 
 public class AsyncChallengeInteractor {
 
+
     //challenges methods
     public void saveNewChallenge(final FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final Challenge newChallenge) {
 
@@ -82,18 +83,30 @@ public class AsyncChallengeInteractor {
 
     }
 
-    public void savePhoto(FirebaseAdapter firebase, IOnTaskFinishedListener listener, Photo photo) {
-        System.out.println("INSIDE INTERACTOR ____ challengeID ---- >" + photo.getChallengeId());
-        Firebase refAllPhotos = firebase.getRefAllPhotos();
-        Firebase refUserPhotos = firebase.refUserPhotos();
-        Firebase refChallengePhotos = new Firebase(String.format(Path.TO_CURRENT_CHALLENGE_PHOTOS, photo.getChallengeId(), photo.getUserID()));
-        Random generator = new Random();
-        photo.setId(photo.getChallengeId() + Constants.DASH + photo.getUserID() + Math.abs(generator.nextInt()));
-        refAllPhotos.child(photo.getId()).setValue(photo);
-        refUserPhotos.child(photo.getId()).setValue(photo);
-        refChallengePhotos.child(photo.getId()).setValue(photo);
-        //TODO: increase photo count in challenge
-        updateChallengePhotosCount(firebase, listener, photo.getChallengeId());
+    public void savePhoto(final FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final Photo photo) {
+        firebase.getRefUsers().child(firebase.currentUserUID()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+                System.out.println("INSIDE INTERACTOR ____ challengeID ---- >" + photo.getChallengeId());
+                photo.setUserName(user.getName());
+                Firebase refAllPhotos = firebase.getRefAllPhotos();
+                Firebase refUserPhotos = firebase.refUserPhotos();
+                Firebase refChallengePhotos = new Firebase(String.format(Path.TO_CURRENT_CHALLENGE_PHOTOS, photo.getChallengeId(), photo.getUserID()));
+                Random generator = new Random();
+                photo.setId(photo.getChallengeId() + Constants.DASH + photo.getUserID() + Math.abs(generator.nextInt()));
+                refAllPhotos.child(photo.getId()).setValue(photo);
+                refUserPhotos.child(photo.getId()).setValue(photo);
+                refChallengePhotos.child(photo.getId()).setValue(photo);
+                updateChallengePhotosCount(firebase, listener, photo.getChallengeId());
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
     }
 
     public void updateChallengePhotosCount(final FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final String challengeId) {
@@ -131,7 +144,7 @@ public class AsyncChallengeInteractor {
         firebase.getRefToChallengeParticipants().child(challengeID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(firebase.currentUserUID())) {
+                if (dataSnapshot.hasChild(firebase.currentUserUID())) {
                     System.out.println("I AM HERE BUT SHOULD I BE HERE");
                     System.out.println(dataSnapshot.getValue());
                     listener.onSuccess();

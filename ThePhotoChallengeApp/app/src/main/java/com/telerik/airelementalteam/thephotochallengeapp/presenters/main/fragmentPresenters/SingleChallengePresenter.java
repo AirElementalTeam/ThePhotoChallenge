@@ -92,7 +92,7 @@ public class SingleChallengePresenter implements IOnTaskFinishedListener {
         Photo newPhoto = new Photo();
         newPhoto.setBase64(this.convertedPhotoString);
         newPhoto.setUserID(this.firebase.currentUserUID());
-        newPhoto.setUserName(this.creatorName);
+        //newPhoto.setUserName(this.creatorName);
         newPhoto.setChallengeName(this.challengeTitle);
         newPhoto.setChallengeId(this.challengeID);
         System.out.println("this CHALLENGE ID =-----" + this.challengeID);
