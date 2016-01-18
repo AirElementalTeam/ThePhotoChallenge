@@ -257,8 +257,6 @@ public class ApprovePhotoFragment extends android.app.Fragment implements Google
         }
     }
 
-
-
     public Photo getPhoto() {
         return photo;
     }

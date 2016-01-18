@@ -81,12 +81,45 @@ public class AsyncChallengeInteractor {
         Firebase refAllPhotos = firebase.getRefAllPhotos();
         Firebase refUserPhotos = firebase.refUserPhotos();
         Firebase refChallengePhotos = new Firebase(String.format(Path.TO_CURRENT_CHALLENGE_PHOTOS, photo.getChallengeId(), photo.getUserID()));
+        Firebase refChallenges = firebase.getRefChallanges();
         Random generator = new Random();
         photo.setId(photo.getChallengeId() + Constants.DASH + photo.getUserID() + Math.abs(generator.nextInt()));
         refAllPhotos.child(photo.getId()).setValue(photo);
         refUserPhotos.child(photo.getId()).setValue(photo);
         refChallengePhotos.child(photo.getId()).setValue(photo);
-        listener.onSuccess();
+        //TODO: increase photo count in challenge
+        updateChallengePhotosCount(firebase, listener, photo.getChallengeId());
+    }
+
+    public void updateChallengePhotosCount(final FirebaseAdapter firebase, final IOnTaskFinishedListener listener, final String challengeId) {
+        firebase.refUserChallenges().child(challengeId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot1) {
+                Challenge challenge = dataSnapshot1.getValue(Challenge.class);
+                int photosCount = challenge.getPhotosCount();
+                photosCount += 1;
+                challenge.setPhotosCount(photosCount);
+                dataSnapshot1.getRef().setValue(challenge);
+                firebase.getRefChallanges().child(challengeId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Challenge challenge = dataSnapshot.getValue(Challenge.class);
+                        int photosCount = challenge.getPhotosCount();
+                        photosCount += 1;
+                        challenge.setPhotosCount(photosCount);
+                        dataSnapshot.getRef().setValue(challenge);
+                        listener.onSuccess();
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                    }
+                });
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+            }
+        });
     }
 
     public void getPhotoInfo(FirebaseAdapter firebaseAdapter, final IOnTaskFinishedListener listener, final String photoId) {
