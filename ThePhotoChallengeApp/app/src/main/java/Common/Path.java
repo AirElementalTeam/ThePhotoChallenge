@@ -13,11 +13,12 @@ public class Path {
     public static final String TO_PHOTOS_BY_CHALLENGES = TO_PHOTOS + Constants.SLASH + Constants.PHOTOS_BY_CHALLENGE;
     public static final String TO_PHOTOS_BY_USERS = TO_PHOTOS + Constants.SLASH + Constants.PHOTOS_BY_USER;
 
-    //placeholder1 - challengeID placeholder2 - creatorUID
-    public static final String TO_CURRENT_CHALLENGE_PHOTOS = TO_PHOTOS_BY_CHALLENGES + Constants.SLASH + Constants.PLACEHOLDER + Constants.DASH + Constants.PLACEHOLDER;
+    //placeholder1 - challengeID
+    public static final String TO_CURRENT_CHALLENGE_PHOTOS = TO_PHOTOS_BY_CHALLENGES + Constants.SLASH + Constants.PLACEHOLDER + Constants.DASH + Constants.PHOTOS;
 
     //placeholder - userUID
     public static final String TO_USER_PHOTOS = TO_PHOTOS_BY_USERS + Constants.SLASH + Constants.PLACEHOLDER + Constants.DASH + Constants.PHOTOS;
+
     public static final String TO_FRIENDS = Constants.FIREBASE_PATH + Constants.SLASH + Constants.FRIENDS;
     public static final String TO_FRIEND_REQUESTS_RECEIVED = TO_USERS + Constants.SLASH + Constants.PLACEHOLDER + Constants.SLASH + Constants.FRIEND_REQUESTS_RECEIVED;
     public static final String TO_FRIEND_REQUESTS_SEND = TO_USERS + Constants.SLASH + Constants.PLACEHOLDER + Constants.SLASH + Constants.FRIEND_REQUESTS_SEND;

@@ -10,6 +10,8 @@ import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendReq
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnFriendRequestListener;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.models.Challenge;
+import com.telerik.airelementalteam.thephotochallengeapp.models.Photo;
+import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.ApprovePhotoPresenter;
 
 import Common.Constants;
 import Common.Path;
@@ -23,6 +25,7 @@ public class FirebaseAdapter {
     private Firebase refUsersByEmail;
     private Firebase refChallenges;
     private Firebase refPhotos;
+    private Firebase refAllPhotos;
 
     private AsyncAuthInteractor authInteractor;
     private AsyncFriendshipInteractor friendshipInteractor;
@@ -34,6 +37,7 @@ public class FirebaseAdapter {
         this.refUsersByEmail = new Firebase(Path.TO_USERS_BY_EMAIL);
         this.refChallenges = new Firebase(Path.TO_CHALLENGES);
         this.refPhotos = new Firebase(Path.TO_PHOTOS);
+        this.refAllPhotos = new Firebase(Path.TO_ALL_PHOTOS);
         this.authInteractor = new AsyncAuthInteractor();
         this.friendshipInteractor = new AsyncFriendshipInteractor();
         this.challengeInteractor = new AsyncChallengeInteractor();
@@ -61,6 +65,20 @@ public class FirebaseAdapter {
 
     public Firebase getRefPhotos() {
         return refPhotos;
+    }
+
+    public Firebase refUserFriends() {
+        String path = String.format(Path.TO_USER_FRIENDS, currentUserUID());
+        return new Firebase(path);
+    }
+
+    public Firebase refUserChallenges() {
+        String path = String.format(Path.TO_CHALLENGES_BY_USER, currentUserUID());
+        return  new Firebase(path);
+    }
+
+    public Firebase refUserPhotos(){
+        return new Firebase(String.format(Path.TO_USER_PHOTOS, currentUserUID()));
     }
 
     // authentication methods
@@ -109,15 +127,7 @@ public class FirebaseAdapter {
         friendshipInteractor.asyncMakeFriends(this, listener, authUID, uid);
     }
 
-    public Firebase refUserFriends() {
-        String path = String.format(Path.TO_USER_FRIENDS, currentUserUID());
-        return new Firebase(path);
-    }
 
-    public Firebase refUserChallenges() {
-        String path = String.format(Path.TO_CHALLENGES_BY_USER, currentUserUID());
-        return  new Firebase(path);
-    }
 
     public void createNewChallenge(Challenge newChallenge, IOnTaskFinishedListener listener) {
         challengeInteractor.saveNewChallenge(this, listener, newChallenge);
@@ -125,5 +135,17 @@ public class FirebaseAdapter {
 
     public void getChallengeInfo(String challengeID, IOnTaskFinishedListener listener) {
         challengeInteractor.getChallengeInfo(this, listener, challengeID);
+    }
+
+    public void savePhoto(Photo photo, IOnTaskFinishedListener listener) {
+        challengeInteractor.savePhoto(this, listener, photo);
+    }
+
+    public Firebase getRefAllPhotos() {
+        return refAllPhotos;
+    }
+
+    public void setRefAllPhotos(Firebase refAllPhotos) {
+        this.refAllPhotos = refAllPhotos;
     }
 }

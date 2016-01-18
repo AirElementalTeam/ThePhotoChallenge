@@ -7,9 +7,13 @@ import com.firebase.client.ValueEventListener;
 import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
 import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.models.Challenge;
+import com.telerik.airelementalteam.thephotochallengeapp.models.Photo;
 import com.telerik.airelementalteam.thephotochallengeapp.models.User;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SingleChallengePresenter;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SingleChallengeFragment;
+
+import Common.Constants;
+import Common.Path;
 
 public class AsyncChallengeInteractor {
 
@@ -68,5 +72,16 @@ public class AsyncChallengeInteractor {
         });
 
 
+    }
+
+    public void savePhoto(FirebaseAdapter firebase, IOnTaskFinishedListener listener, Photo photo) {
+        Firebase refAllPhotos = firebase.getRefAllPhotos();
+        Firebase refUserPhotos = firebase.refUserPhotos();
+        Firebase refChallengePhotos = new Firebase(String.format(Path.TO_CURRENT_CHALLENGE_PHOTOS, photo.getChallengeId(), photo.getUserID()));
+        photo.setId(photo.getChallengeId() + Constants.DASH + photo.getUserID());
+        refAllPhotos.child(photo.getId()).setValue(photo);
+        refUserPhotos.child(photo.getId()).setValue(photo);
+        refChallengePhotos.child(photo.getId()).setValue(photo);
+        listener.onSuccess();
     }
 }

@@ -136,7 +136,7 @@ public class ApprovePhotoFragment extends android.app.Fragment implements Google
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_approve_photo, container, false);
-        presenter = new ApprovePhotoPresenter(getActivity(), this);
+        presenter = new ApprovePhotoPresenter(getActivity());
 
         locationDialog = new AlertDialog.Builder(getActivity()).create();
         locationDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {

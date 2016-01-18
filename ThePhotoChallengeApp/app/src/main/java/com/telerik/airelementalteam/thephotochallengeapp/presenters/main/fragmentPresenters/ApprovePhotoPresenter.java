@@ -1,41 +1,31 @@
 package com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.location.Location;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.telerik.airelementalteam.thephotochallengeapp.R;
+import com.telerik.airelementalteam.thephotochallengeapp.data.FirebaseAdapter;
+import com.telerik.airelementalteam.thephotochallengeapp.interfaces.IOnTaskFinishedListener;
 import com.telerik.airelementalteam.thephotochallengeapp.models.Photo;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.ApprovePhotoFragment;
 import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SingleChallengeFragment;
-import com.telerik.airelementalteam.thephotochallengeapp.views.fragments.SinglePhotoFragment;
 
-public class ApprovePhotoPresenter {
+public class ApprovePhotoPresenter implements IOnTaskFinishedListener{
 
-    private static int REQUEST_CODE_RECOVER_PLAY_SERVICES = 200;
 
     private Activity activity;
-    private ApprovePhotoFragment fragment;
+    private FirebaseAdapter firebase;
 
-    private GoogleApiClient googleApiClient;
-    private Location gastLocation;
-    private LocationRequest locationRequest;
-
-    public ApprovePhotoPresenter(Activity activity, ApprovePhotoFragment fragment) {
+    public ApprovePhotoPresenter(Activity activity) {
         this.activity = activity;
-        this.fragment = fragment;
-
-    }
-
-    public void takeLocation(Photo photo) {
+        this.firebase = new FirebaseAdapter();
     }
 
     public void onApprovedPhoto(Photo photo) {
+        firebase.savePhoto(photo, this);
         //save photo to db
         //on success navigate to single photo view
     }
@@ -50,4 +40,14 @@ public class ApprovePhotoPresenter {
 
     }
 
+    @Override
+    public void onSuccess() {
+        System.out.println("Saved the photo");
+
+    }
+
+    @Override
+    public void onError() {
+
+    }
 }
