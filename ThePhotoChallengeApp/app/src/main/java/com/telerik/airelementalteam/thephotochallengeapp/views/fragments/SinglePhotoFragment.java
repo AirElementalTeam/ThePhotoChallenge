@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -145,6 +146,9 @@ public class SinglePhotoFragment extends android.app.Fragment {
             tapped = !tapped;
             if (tapped) {
                 System.out.print("tapped");
+                AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
+                anim.setDuration(1000);
+                bigHeart.startAnimation(anim);
 
 
 
