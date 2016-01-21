@@ -172,4 +172,8 @@ public class FirebaseAdapter {
     public void getFriendshipState(IOnTaskFinishedListener listener, String uid) {
         authInteractor.getFriendshipState(this, listener, uid);
     }
+
+    public void updateLike(IOnTaskFinishedListener listener, String photoId) {
+        challengeInteractor.updateLike(this, listener, photoId);
+    }
 }

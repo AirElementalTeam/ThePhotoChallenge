@@ -14,9 +14,12 @@ import android.widget.TextView;
 
 import com.telerik.airelementalteam.thephotochallengeapp.R;
 import com.telerik.airelementalteam.thephotochallengeapp.presenters.main.fragmentPresenters.SingleChallengePresenter;
+import com.telerik.airelementalteam.thephotochallengeapp.views.custom.OnSwipeTouchListener;
 
 import java.io.File;
 import java.util.List;
+
+import butterknife.OnTouch;
 
 public class SingleChallengeFragment extends android.app.Fragment {
 
@@ -61,6 +64,20 @@ public class SingleChallengeFragment extends android.app.Fragment {
         presenter.getChallengeInfo(this.getChallengeID());
         presenter.populatePhotosGrid(photosGrid);
 
+        takePhotoButton.setOnTouchListener(new OnSwipeTouchListener(this.getActivity().getApplicationContext()) {
+
+            public void onTouchDown() {
+                presenter.startCamera();
+            }
+            public void onSwipeLeft() {
+                System.out.println("Left");
+                //TODO: 3D swipe animation to change the button to an access gallery button
+            }
+            public void onSwipeRight() {
+                System.out.println("Right");
+            }
+        });
+
         takePhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +95,6 @@ public class SingleChallengeFragment extends android.app.Fragment {
                 transaction.replace(R.id.fragmentContainer, fragment);
                 transaction.addToBackStack("SingleChallengeFragment");
                 transaction.commit();
-
             }
         });
 

@@ -52,6 +52,14 @@ public class SinglePhotoFragment extends android.app.Fragment {
         this.presenter = new SinglePhotoPresenter(getActivity(), this);
         presenter.getPhotoInfo(getPhotoId());
 
+        likesIcon.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                presenter.newLike(photoId);
+                return false;
+            }
+        });
+
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -143,20 +151,15 @@ public class SinglePhotoFragment extends android.app.Fragment {
             //System.out.print("tapped");
             likesIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_heart_red));
 
+            presenter.newLike(photoId);
+
             tapped = !tapped;
             if (tapped) {
-                System.out.print("tapped");
                 AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
                 anim.setDuration(1000);
                 bigHeart.startAnimation(anim);
-
-
-
             } else {
-                System.out.print(" not tapped");
-
-
-
+                return false;
             }
             return true;
         }

@@ -37,6 +37,12 @@ public class SinglePhotoPresenter implements IOnTaskFinishedListener {
         firebase.getPhotoInfo(this, photoId);
     }
 
+
+    public void newLike(String photoId) {
+        firebase.updateLike(this, photoId);
+    }
+
+
     @Override
     public void onSuccess() {
         byte[] photoBytes = Base64.decode(this.base64, Base64.DEFAULT);
@@ -46,7 +52,7 @@ public class SinglePhotoPresenter implements IOnTaskFinishedListener {
         this.fragment.getChallengeTheme().setText(this.theme);
         this.fragment.getUserName().setText(this.userName);
         this.fragment.getViewsCount().setText(this.views);
-        this.fragment.getLikesCount().setText(this.likes);
+        this.fragment.getLikesCount().setText("1");
         this.fragment.getLocation().setText(this.location);
     }
 

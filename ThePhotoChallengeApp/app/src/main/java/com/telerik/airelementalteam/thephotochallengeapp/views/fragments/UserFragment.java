@@ -1,9 +1,11 @@
 package com.telerik.airelementalteam.thephotochallengeapp.views.fragments;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,7 @@ public class UserFragment extends Fragment implements IOnChildrenListener {
                              Bundle savedInstanceState) {
         presenter = new UserPresenter(this.getActivity(), this);
         View view = inflater.inflate(R.layout.fragment_user, container, false);
+
         TextView nameText = (TextView) view.findViewById(R.id.friend_item_name);
         TextView emailText = (TextView) view.findViewById(R.id.friend_item_email);
         //System.out.println(this.name);

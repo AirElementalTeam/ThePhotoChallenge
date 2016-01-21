@@ -215,4 +215,35 @@ public class AsyncChallengeInteractor {
             }
         });
     }
+
+    public void updateLike(final FirebaseAdapter firebase, IOnTaskFinishedListener listener, final String photoId) {
+        firebase.getRefAllPhotos().child(photoId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Photo photo = dataSnapshot.getValue(Photo.class);
+                int likes = photo.getLikes();
+                likes++;
+                photo.setLikes(likes);
+                dataSnapshot.getRef().setValue(photo);
+                String challengeID = photo.getChallengeId();
+                firebase.getRefToCurrentChallengePhotos(challengeID).child(photoId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+    }
 }
